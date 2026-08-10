@@ -162,14 +162,13 @@ export function PaginaArtigo({ artigo }: { artigo: Artigo }) {
                 <source media="(max-width: 720px)" srcSet="/midia/conteudo-juridico-720.webp" />
                 <img
                   src="/midia/conteudo-juridico.webp"
-                  alt="Pedro Montalvão durante gravação de conteúdo jurídico em estúdio"
+                  alt="Pedro Montalvão"
                   width={1376}
                   height={768}
                   fetchPriority="high"
                   decoding="async"
                 />
               </picture>
-              <figcaption>Pedro Montalvão durante gravação de conteúdo jurídico</figcaption>
             </figure>
           </div>
         </header>
@@ -198,9 +197,8 @@ export function PaginaArtigo({ artigo }: { artigo: Artigo }) {
                       {SITE.oab ? ` — ${oabFormatada()}` : ''}
                     </strong>
                     <p>
-                      Advogado em Cuiabá, com atuação em Direito do Consumidor, Trabalhista,
-                      Previdenciário e de Família. Este conteúdo é informativo, apresenta regras
-                      gerais e não substitui a análise individual do seu caso. Atualizado em{' '}
+                      Advogado inscrito na OAB/MT. Este conteúdo apresenta regras gerais e não
+                      substitui a análise de uma situação específica. Atualizado em{' '}
                       {dataLegivel(artigo.atualizadoEm)}.
                     </p>
                   </div>

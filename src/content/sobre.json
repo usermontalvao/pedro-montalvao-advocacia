@@ -1,13 +1,13 @@
 {
   "seoTitle": "Pedro Rodrigues Montalvão Neto | OAB/MT 30.021",
-  "seoDescription": "Conheça Pedro Rodrigues Montalvão Neto, OAB/MT 30.021: advogado em Cuiabá, graduado pela UNIC e pós-graduado em Direito e Processo do Trabalho.",
+  "seoDescription": "Conheça Pedro Rodrigues Montalvão Neto, advogado inscrito na OAB de Mato Grosso sob o nº 30.021.",
   "h1": "Pedro Rodrigues Montalvão Neto",
-  "subtitulo": "Advogado em Cuiabá, OAB/MT 30.021, com atendimento presencial e online nas áreas Trabalhista, Previdenciária, do Consumidor e de Família.",
-  "sobreTitulo": "Formação local. Atuação sem fronteiras.",
+  "subtitulo": "Advogado inscrito na OAB de Mato Grosso sob o nº 30.021.",
+  "sobreTitulo": "Sobre o advogado",
   "sobre": [
-    "Pedro Rodrigues Montalvão Neto nasceu em Cuiabá, graduou-se em Direito pela Universidade de Cuiabá — UNIC — e é inscrito na Ordem dos Advogados do Brasil, Seccional Mato Grosso, sob o nº 30.021.",
-    "É pós-graduado em Direito e Processo do Trabalho. Sua atuação também abrange demandas previdenciárias, relações de consumo e questões de família, sempre condicionada à análise dos fatos, dos documentos, dos prazos e da viabilidade jurídica.",
-    "Na condução do trabalho, o ponto de partida é compreender o contexto, organizar as informações relevantes e explicar com clareza os caminhos possíveis. O formato do atendimento é definido conforme as características de cada demanda."
+    "Pedro Montalvão atua em questões trabalhistas, previdenciárias, de consumo e de família.",
+    "O trabalho começa pela compreensão dos fatos e pela organização dos documentos. Depois, são apresentados os caminhos possíveis, os riscos e as etapas de cada alternativa.",
+    "O atendimento pode ser presencial ou online, conforme a natureza da demanda."
   ],
   "trabalhoTitulo": "Como a análise é conduzida",
   "trabalho": [
@@ -28,8 +28,8 @@
       "texto": "Quando há contratação, serviço, responsabilidades, comunicação e honorários são definidos antes do início da atuação."
     }
   ],
-  "escritorioTitulo": "Estrutura para atendimento presencial e digital.",
-  "escritorioTexto": "O escritório reúne estrutura para reuniões presenciais, atendimento remoto e organização digital de documentos. O formato é definido de acordo com o contexto, a localização e as necessidades de cada atendimento.",
+  "escritorioTitulo": "Atendimento presencial e online",
+  "escritorioTexto": "Reuniões e documentos podem ser tratados presencialmente ou por meios digitais. O formato é definido no primeiro contato.",
   "ctaTitulo": "Informações sobre atendimento",
   "ctaTexto": "Utilize os canais oficiais para informar a área, a cidade e um resumo do que precisa ser analisado."
 }

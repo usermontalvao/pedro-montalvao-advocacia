@@ -15,7 +15,7 @@ export function Rodape() {
         <Revelar className="rodape__chamada">
           <div>
             <span className="olho">Informações sobre atendimento</span>
-            <h2>Clareza para o próximo passo.</h2>
+            <h2>Canais de atendimento.</h2>
           </div>
           <Link
             className="botao botao--claro"
@@ -31,8 +31,7 @@ export function Rodape() {
           <div className="rodape__identidade">
             <Marca tom="claro" altura={52} />
             <p>
-              Atendimento jurídico presencial e online, com análise individual, comunicação
-              direta e informação compreensível.
+              Atendimento presencial ou online, conforme o caso.
             </p>
             <span className="rodape__oab">{oabFormatada()}</span>
           </div>

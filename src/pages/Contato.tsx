@@ -18,10 +18,10 @@ export function Contato() {
 
           <div style={{ maxWidth: '760px' }}>
             <span className="olho">Canais oficiais</span>
-            <h1>Entre em contato com o escritório</h1>
+            <h1>Canais de atendimento</h1>
             <p className="chamada">
-              Envie uma mensagem pelos canais oficiais para receber as orientações iniciais de
-              atendimento. O retorno é feito dentro do horário de atendimento.
+              Escolha um canal e envie um resumo da situação. O retorno ocorre no horário de
+              atendimento.
             </p>
 
             <div className="grupo-botoes">
@@ -126,7 +126,7 @@ export function Contato() {
         <div className="envolucro localizacao__grade">
           <Revelar className="localizacao__texto">
             <span className="olho">Localização</span>
-            <h2>Atendimento presencial com agendamento.</h2>
+            <h2>Atendimento presencial em Cuiabá</h2>
             <p>
               O escritório mantém atendimento presencial em Cuiabá. Antes do deslocamento,
               confirme a disponibilidade pelos canais oficiais.

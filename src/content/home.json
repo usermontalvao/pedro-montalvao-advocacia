@@ -1,10 +1,10 @@
 {
-  "seoTitle": "Advogado em Cuiabá e Atendimento Online | Pedro Montalvão",
-  "seoDescription": "Pedro Montalvão, OAB/MT 30.021. Advocacia em Cuiabá nas áreas Trabalhista, Previdenciária, do Consumidor e de Família, com atendimento online em todo o Brasil.",
+  "seoTitle": "Pedro Montalvão Advocacia | Cuiabá",
+  "seoDescription": "Pedro Montalvão, OAB/MT 30.021. Atuação em Direito Trabalhista, Previdenciário, do Consumidor e de Família, com atendimento presencial e online.",
   "heroOlho": "Pedro Montalvão Advocacia · OAB/MT 30.021",
   "heroTitulo": "Clareza para decidir.<br /><em>Responsabilidade para conduzir.</em>",
-  "heroTexto": "Questões jurídicas exigem contexto, escuta e critério. O escritório conduz cada atendimento de forma direta, com análise individual e comunicação compreensível do início ao próximo passo.",
-  "heroMicrocopy": "Atendimento presencial e online, conforme a natureza e as necessidades de cada caso.",
+  "heroTexto": "Análise dos fatos, dos documentos e dos caminhos possíveis. Sem respostas prontas.",
+  "heroMicrocopy": "Atendimento presencial ou online, conforme o caso.",
   "provas": [
     { "numero": "OAB/MT", "rotulo": "30.021" },
     { "numero": "Direto", "rotulo": "atendimento com o advogado" },
@@ -18,8 +18,8 @@
     "Nem toda situação precisa virar processo. Quando há alternativas administrativas, negociação ou providências preventivas, elas também fazem parte da orientação."
   ],
   "areasOlho": "Atuação jurídica",
-  "areasTitulo": "Quatro frentes. Uma condução direta.",
-  "areasTexto": "Cada página abaixo explica o que é analisado, quais documentos costumam ser relevantes e quando a orientação jurídica pode ser necessária.",
+  "areasTitulo": "Áreas de atuação",
+  "areasTexto": "Conheça os temas analisados e os documentos que podem ser relevantes.",
   "processoOlho": "Do primeiro relato ao próximo passo",
   "processoTitulo": "Clareza antes de qualquer decisão",
   "passos": [
@@ -60,6 +60,6 @@
     }
   ],
   "ctaTitulo": "Canais oficiais de atendimento",
-  "ctaTexto": "Apresente a situação de forma breve para receber as orientações iniciais sobre documentos, disponibilidade e formato do atendimento.",
+  "ctaTexto": "Informe a área e resuma o que aconteceu. O escritório indicará os próximos dados necessários.",
   "ctaMicrocopy": "O contato não cria relação advogado-cliente, não interrompe prazos e não representa promessa de resultado."
 }

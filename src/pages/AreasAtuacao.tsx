@@ -22,13 +22,12 @@ export function AreasAtuacao() {
           <div className="areas-pagina__abertura">
             <div className="areas-pagina__texto">
               <span className="olho">Áreas de atuação</span>
-              <h1>O ponto de partida é o que aconteceu.</h1>
+              <h1>Áreas de atuação</h1>
               <p className="chamada">
-                Escolha o tema mais próximo da sua situação para conhecer as questões analisadas,
-                os documentos que podem ser relevantes e os limites de uma orientação geral.
+                Escolha uma área para conhecer os temas e os documentos que podem ser relevantes.
               </p>
               <Link className="botao botao--claro" para="/contato-advogado-cuiaba/">
-                Ver canais de atendimento
+                Canais de atendimento
                 <IconeSeta />
               </Link>
             </div>
@@ -60,11 +59,8 @@ export function AreasAtuacao() {
         <div className="envolucro">
           <Revelar>
             <div className="cabeca-secao">
-              <span className="olho">Explore cada frente</span>
-              <h2>Quatro áreas. Diferentes contextos.</h2>
-              <p className="chamada">
-                Passe pelas opções para visualizar os principais assuntos de cada página.
-              </p>
+              <span className="olho">Atuação jurídica</span>
+              <h2>Escolha uma área</h2>
             </div>
           </Revelar>
 
@@ -127,17 +123,16 @@ export function AreasAtuacao() {
         <div className="envolucro">
           <div className="areas-pagina__orientacao-grade">
             <Revelar>
-              <span className="olho">Antes de escolher</span>
-              <h2>Uma situação pode envolver mais de uma área.</h2>
+              <span className="olho">Enquadramento</span>
+              <h2>Uma situação pode envolver áreas diferentes.</h2>
             </Revelar>
             <Revelar atraso={70}>
               <p className="chamada">
-                A classificação inicial serve para organizar o contato. O enquadramento jurídico
-                depende dos fatos, dos documentos e da relação existente entre as pessoas ou
-                instituições envolvidas.
+                A área é definida a partir dos fatos, dos documentos e da relação entre as pessoas
+                ou instituições envolvidas.
               </p>
               <Link className="cartao__link" para="/contato-advogado-cuiaba/">
-                Consultar os canais oficiais
+                Canais de atendimento
                 <IconeSeta tamanho={15} />
               </Link>
             </Revelar>
@@ -146,8 +141,8 @@ export function AreasAtuacao() {
       </section>
 
       <SecaoCta
-        titulo="Não encontrou uma opção exata?"
-        texto="Utilize a página de contato para informar o contexto. O primeiro retorno ajuda a identificar a área relacionada e os documentos iniciais."
+        titulo="Outra questão?"
+        texto="Resuma o que aconteceu. O escritório indicará as informações necessárias para o primeiro contato."
         botao="Ver canais de atendimento"
         destino="/contato-advogado-cuiaba/"
         secundario={false}

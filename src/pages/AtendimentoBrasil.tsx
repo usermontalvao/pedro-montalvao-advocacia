@@ -65,11 +65,10 @@ export function AtendimentoBrasil() {
 
           <div className="heroi__texto-largo">
             <span className="olho">Atendimento jurídico online</span>
-            <h1>Orientação próxima, mesmo à distância.</h1>
+            <h1>Atendimento online</h1>
             <p className="chamada">
-              Reuniões, documentos e acompanhamento podem acontecer por meios digitais, mantendo
-              comunicação direta e análise individual. A possibilidade de atuação é confirmada de
-              acordo com a natureza e a competência de cada caso.
+              Reuniões e documentos podem ser tratados por meios digitais. A viabilidade é
+              confirmada após o primeiro contato.
             </p>
             <div className="grupo-botoes">
               <a
@@ -98,11 +97,10 @@ export function AtendimentoBrasil() {
       <section className="secao" id="como-funciona">
         <div className="envolucro">
           <Revelar className="cabeca-secao">
-            <span className="olho">Distância sem ruído</span>
-            <h2>O atendimento muda de canal.<br />O cuidado não muda.</h2>
+            <span className="olho">Etapas</span>
+            <h2>Como funciona</h2>
             <p className="chamada">
-              A tecnologia organiza a conversa e os arquivos. A análise continua sendo feita por
-              uma pessoa, com contexto, critérios e responsabilidade profissional.
+              O canal muda. A análise dos fatos e dos documentos continua a mesma.
             </p>
           </Revelar>
 
@@ -155,10 +153,10 @@ export function AtendimentoBrasil() {
         <div className="envolucro">
           <Revelar className="cobertura__cabeca">
             <span className="olho">Cobertura de atendimento</span>
-            <h2>26 estados.<br />1 Distrito Federal.</h2>
+            <h2>Atendimento em todas as regiões</h2>
             <p>
-              O atendimento online pode ser solicitado de todas as regiões. A possibilidade de
-              atuação é confirmada após a análise da matéria e da competência do caso.
+              A possibilidade de atuação depende da matéria, da competência e dos atos que possam
+              exigir presença física.
             </p>
           </Revelar>
 
@@ -176,8 +174,8 @@ export function AtendimentoBrasil() {
       <section className="secao secao--creme">
         <div className="envolucro">
           <Revelar className="cabeca-secao">
-            <span className="olho">Áreas analisadas à distância</span>
-            <h2>Informação específica para cada matéria.</h2>
+            <span className="olho">Atuação jurídica</span>
+            <h2>Áreas de atuação</h2>
           </Revelar>
           <div className="grade grade--4">
             {areas.map((area, indice) => (
@@ -201,7 +199,7 @@ export function AtendimentoBrasil() {
         <div className="envolucro contato-grade">
           <Revelar>
             <span className="olho">Perguntas frequentes</span>
-            <h2>Atendimento online, sem atalhos.</h2>
+            <h2>Perguntas sobre atendimento online</h2>
             <p className="chamada">
               O formato digital amplia o acesso, mas cada demanda continua sujeita a documentos,
               prazos, regras territoriais e análise de viabilidade.
@@ -214,8 +212,8 @@ export function AtendimentoBrasil() {
       </section>
 
       <SecaoCta
-        titulo="Informações sobre atendimento online"
-        texto="Informe a área, a cidade e o estado relacionados à situação para que o escritório indique os dados necessários à análise inicial."
+        titulo="Atendimento online"
+        texto="Informe a área, a cidade e o estado relacionados à situação."
         microcopy="O contato é informativo e não garante aceitação da demanda, ajuizamento de ação ou resultado."
         botao="Solicitar informações"
         mensagem="Olá. Gostaria de receber informações sobre o atendimento jurídico online."

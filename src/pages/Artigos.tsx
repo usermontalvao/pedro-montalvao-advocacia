@@ -5,7 +5,7 @@ import { Revelar } from '../components/Revelar';
 import { Blocos, type Bloco } from '../components/Blocos';
 import { IndiceArtigo, Compartilhar } from '../components/IndiceArtigo';
 import { SecaoCta } from '../components/SecaoCta';
-import { PreTriagemFlutuante } from '../components/PreTriagemFlutuante';
+import { AcoesFlutuantes } from '../components/AcoesFlutuantes';
 import artigos from '../content/artigos.json';
 import areas from '../content/areas.json';
 
@@ -253,10 +253,8 @@ export function PaginaArtigo({ artigo }: { artigo: Artigo }) {
         </section>
       )}
 
-      <PreTriagemFlutuante
-        artigoTitulo={artigo.titulo}
-        artigoSlug={artigo.slug}
-        categoria={artigo.categoria}
+      <AcoesFlutuantes
+        mensagem={primeiraChamada?.mensagem || `Olá. Li o artigo “${artigo.titulo}” no site e gostaria de falar com o advogado.`}
       />
     </>
   );

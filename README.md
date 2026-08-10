@@ -62,13 +62,25 @@ public/midia/    as imagens já otimizadas
 
 ## Publicar um artigo novo
 
-Acrescente um item em `src/content/artigos.json` seguindo o que já existe. O
-artigo entra sozinho na listagem, no sitemap, nos dados estruturados e ganha
-sua própria página — nenhum código precisa ser tocado.
+Antes de editar, leia **`docs/MANUAL_DE_ARTIGOS.md`**. Ele é o padrão obrigatório
+de conteúdo, SEO, jurisprudência, links internos e botão direto para WhatsApp.
+O arquivo **`AGENTS.md`** faz qualquer IA do repositório consultar esse manual.
+
+Acrescente um item em `src/content/artigos.json` seguindo o manual. O artigo
+entra sozinho na listagem, no sitemap, nos dados estruturados e ganha sua
+própria página — nenhum código precisa ser tocado.
 
 Blocos disponíveis no corpo do texto: `p`, `h2`, `h3`, `ul`, `ol`, `destaque`,
 `lei` (citação de norma), `faq` e `cta` (caixa de WhatsApp no meio do texto).
 Dentro dos textos funcionam `**negrito**` e `[link](/destino/)`.
+
+Antes de publicar, rode:
+
+```bash
+npm run test:artigos
+npm run typecheck
+npm run build
+```
 
 ## Trocar as fotos
 
@@ -79,25 +91,14 @@ Coloque os arquivos novos e ajuste a lista `FOTOS` em
 npm run midias
 ```
 
-## Contatos e pré-triagem do site
+## Contatos do site
 
 O formulário grava o contato em JSON no `localStorage` do próprio visitante e
 abre o WhatsApp do escritório com o resumo já escrito.
 
-Os artigos também carregam um atendimento inicial guiado. Primeiro, alternativas
-fixas qualificam área, situação, período, provas, urgência e objetivo. Só depois
-do consentimento as respostas seguem para a IA, que faz perguntas complementares
-e organiza um radar factual para conferência humana. A mensagem do WhatsApp leva
-o histórico, pontos de atenção, documentos e links de pesquisa em portais oficiais.
-
-A integração segura fica em `public/api/pre-triagem.php`, que é copiado para
-`dist/api/` e executado pela hospedagem PHP. Configure `DEEPSEEK_API_KEY` como
-variável do ambiente da hospedagem. A chave nunca deve ser escrita em arquivos
-públicos nem em código do navegador. A IA não consulta jurisprudência em tempo
-real e não avalia viabilidade jurídica; ela apenas sugere termos para a pesquisa
-que o profissional fará nas fontes oficiais. Em hospedagem puramente estática,
-o widget continua oferecendo o WhatsApp, mas a etapa automatizada ficará
-indisponível.
+Nos artigos, o botão flutuante abre diretamente o WhatsApp do escritório com uma
+mensagem que identifica o conteúdo de origem. Não há formulário, chatbot ou etapa
+intermediária antes da conversa no canal oficial.
 
 ## Vídeo de fundo
 

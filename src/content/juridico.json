@@ -15,22 +15,8 @@
         "t": "ul",
         "itens": [
           "Dados que você informa voluntariamente no formulário de contato: nome, telefone ou WhatsApp, e-mail, área relacionada à dúvida e a mensagem escrita por você;",
-          "Dados informados voluntariamente no atendimento inicial dos artigos: nome, telefone, assunto escolhido, alternativas marcadas e relato escrito;",
           "Dados que você envia ao iniciar uma conversa pelo WhatsApp, por sua própria iniciativa."
         ]
-      },
-      {
-        "t": "destaque",
-        "texto": "**Nome e telefone não são enviados à inteligência artificial.** Esses dados permanecem no navegador e seguem ao escritório apenas quando você abre a mensagem preparada no WhatsApp. As alternativas marcadas e o texto complementar são processados pelo serviço automatizado somente após seu consentimento específico, apresentado ao fim da qualificação inicial."
-      },
-      { "t": "h2", "texto": "Pré-triagem automatizada" },
-      {
-        "t": "p",
-        "texto": "Nos artigos, o visitante pode optar por uma organização inicial com inteligência artificial fornecida pela DeepSeek. Antes desse processamento, perguntas de alternativas fixas ajudam a qualificar o assunto. Após o consentimento, o serviço recebe o assunto, o contexto do artigo e as respostas marcadas ou escritas para formular perguntas complementares, gerar um resumo factual e sugerir termos para pesquisa posterior em fontes oficiais. Esse tratamento pode envolver processamento internacional em infraestrutura localizada fora do Brasil. Não use a ferramenta para enviar senhas, dados bancários, números completos de documentos, informações médicas detalhadas ou outros dados sensíveis desnecessários."
-      },
-      {
-        "t": "p",
-        "texto": "A organização é opcional, automatizada e não fornece parecer jurídico. A inteligência artificial não pesquisa jurisprudência em tempo real: eventuais termos e links de pesquisa apenas ajudam a equipe a iniciar uma conferência nos portais oficiais. O resumo produzido pode conter erros e sempre precisa ser conferido pelo visitante e pela equipe antes de qualquer decisão. O site aplica limites técnicos de uso para reduzir abuso do serviço, sem criar cadastro do visitante."
       },
       { "t": "h2", "texto": "Para que os dados são usados" },
       {
@@ -38,14 +24,13 @@
         "itens": [
           "Retornar o contato solicitado;",
           "Realizar a análise inicial da situação apresentada;",
-          "Organizar o relato por meio da pré-triagem automatizada, quando expressamente autorizada;",
           "Cumprir obrigações legais e regulamentares aplicáveis à advocacia."
         ]
       },
       { "t": "h2", "texto": "Compartilhamento" },
       {
         "t": "p",
-        "texto": "Os dados não são vendidos nem cedidos para fins comerciais. O compartilhamento ocorre apenas quando necessário ao funcionamento escolhido pelo visitante — como o provedor de inteligência artificial para processar o relato e o provedor de mensageria para abrir a comunicação — ou quando exigido por autoridade competente."
+        "texto": "Os dados não são vendidos nem cedidos para fins comerciais. O compartilhamento ocorre apenas quando necessário ao funcionamento escolhido pelo visitante — como o provedor de mensageria ao abrir uma comunicação pelo WhatsApp — ou quando exigido por autoridade competente."
       },
       { "t": "h2", "texto": "Sigilo profissional" },
       {
@@ -90,11 +75,6 @@
       {
         "t": "p",
         "texto": "O acesso ao site, o envio de mensagem pelo formulário ou o contato pelo WhatsApp **não formalizam a contratação** de serviços advocatícios e não criam automaticamente relação advogado-cliente. A atuação profissional começa após a análise de viabilidade, a definição do serviço e a formalização do contrato."
-      },
-      { "t": "h2", "texto": "Pré-triagem com inteligência artificial" },
-      {
-        "t": "p",
-        "texto": "A organização automatizada disponível nos artigos serve apenas para qualificar e estruturar o relato antes do contato. Suas perguntas, resumos, indicadores factuais e termos sugeridos para pesquisa podem conter imprecisões e não constituem consulta, pesquisa jurisprudencial concluída, parecer, recomendação jurídica, avaliação de viabilidade ou promessa de resultado. Informações urgentes, documentos, prazos e precedentes devem ser confirmados diretamente por profissional habilitado em fontes oficiais."
       },
       { "t": "h2", "texto": "Prazos" },
       {

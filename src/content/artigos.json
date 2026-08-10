@@ -1,29 +1,29 @@
 [
   {
     "slug": "encerramento-de-conta-bancaria-sem-aviso-previo-30-dias",
-    "titulo": "Encerramento de conta bancária sem aviso prévio de 30 dias: o que diz a regra e quando se discute dano moral",
-    "seoTitle": "Banco encerrou a conta sem aviso prévio? Prazo de 30 dias",
-    "seoDescription": "O banco pode encerrar a conta, mas precisa avisar antes — a referência é de 30 dias. Veja quando isso vira dano moral e o que fazer nos primeiros dias.",
-    "resumo": "O banco pode encerrar a conta por desinteresse comercial, mas não pode fazer isso no escuro. Entenda de onde vem o prazo de 30 dias, por que a falta de comunicação prévia muda a discussão e em quais situações os tribunais reconhecem dano moral.",
+    "titulo": "Conta bloqueada no mesmo dia do aviso de encerramento: saldo retido, prazo de 30 dias e dano moral",
+    "seoTitle": "Conta bloqueada no aviso de encerramento: seus direitos",
+    "seoDescription": "Entenda o que muda quando a conta é bloqueada no mesmo dia do aviso, há saldo retido e a instituição invoca uma restrição de segurança no Pix.",
+    "resumo": "Receber um aviso de encerramento para dali a 30 dias não resolve o problema quando a conta já está bloqueada e o saldo ficou inacessível. Entenda a diferença entre conta de pagamento e conta de depósito, o papel do DICT, a prova exigida e os efeitos da devolução posterior do dinheiro.",
     "categoria": "Direito do Consumidor",
     "area": "advogado-consumidor-cuiaba",
     "publicadoEm": "2026-08-09",
-    "atualizadoEm": "2026-08-09",
-    "tempoLeitura": 11,
-    "palavraChave": "encerramento de conta bancária sem aviso prévio",
+    "atualizadoEm": "2026-08-10",
+    "tempoLeitura": 14,
+    "palavraChave": "conta bloqueada no mesmo dia do aviso de encerramento",
     "destaque": true,
     "blocos": [
       {
         "t": "p",
-        "texto": "Você tenta pagar uma conta e a transferência não sai. Tenta de novo pelo aplicativo e aparece um aviso genérico. Liga para a central e ouve a frase que ninguém espera: **a conta foi encerrada**. Nenhuma carta, nenhum e-mail, nenhuma ligação antes disso — e, quase sempre, nenhuma explicação sobre o motivo."
+        "texto": "Você recebe uma mensagem dizendo que a conta será encerrada em até 30 dias. À primeira vista, parece que existe tempo para transferir o dinheiro e reorganizar os pagamentos. Mas, ao abrir o aplicativo, descobre que a conta **já está bloqueada** e que o saldo não pode ser movimentado."
       },
       {
         "t": "p",
-        "texto": "Essa situação é mais comum do que parece, atinge pessoas físicas e empresas e costuma acontecer no pior momento possível: com salário a receber, boletos vencendo, fornecedores esperando e o dinheiro preso. A pergunta que chega ao escritório é sempre a mesma: **o banco podia fazer isso?**"
+        "texto": "Esse cenário é diferente da simples falta de aviso. Houve uma comunicação, mas ela chegou simultaneamente à restrição. A pergunta deixa de ser apenas se a instituição podia encerrar a relação e passa a incluir outras: **o aviso foi realmente prévio, o bloqueio tinha fundamento demonstrável e o que aconteceu com o saldo?**"
       },
       {
         "t": "p",
-        "texto": "A resposta curta é: o banco pode encerrar a relação, mas não pode encerrar sem avisar. É exatamente aí que mora a diferença entre um encerramento legítimo e um encerramento que gera responsabilidade."
+        "texto": "A resposta exige separar o encerramento contratual, o bloqueio de segurança, a eventual restrição no Pix e a disponibilização do saldo. Medidas diferentes podem ocorrer no mesmo dia, mas cada uma precisa ser compreendida conforme sua finalidade, seu fundamento e a norma aplicável."
       },
       {
         "t": "h2",
@@ -32,7 +32,7 @@
       },
       {
         "t": "p",
-        "texto": "Pode. O contrato de conta de depósito é um contrato de prestação de serviço por prazo indeterminado, e nenhuma das partes é obrigada a permanecer nele para sempre. Assim como o correntista pode pedir o encerramento quando quiser, a instituição financeira também pode manifestar o desinteresse em continuar a relação."
+        "texto": "Em regra, a instituição pode encerrar uma relação contratual por prazo indeterminado, observadas as normas aplicáveis ao tipo de conta, o contrato, a boa-fé e os deveres de informação. Isso não significa liberdade para bloquear todos os serviços sem fundamento, reter indefinidamente o saldo ou confundir comunicação de encerramento com comunicação de uma restrição já efetivada."
       },
       {
         "t": "p",
@@ -45,7 +45,7 @@
       },
       {
         "t": "p",
-        "texto": "Note a palavra que sustenta tudo: **notificada**. A vontade de encerrar só produz efeito depois de comunicada a quem está do outro lado. Encerrar a conta e comunicar depois — ou nunca — não é exercício regular de um direito; é romper o contrato sem cumprir a condição que a própria lei impõe para rompê-lo."
+        "texto": "A notificação permite que a outra parte conheça a intenção de encerrar. Quando o acesso já está suspenso no instante em que a mensagem chega, é preciso separar dois atos: **a comunicação do futuro encerramento** e **o bloqueio imediatamente imposto**. Cada um precisa de fundamento, informação adequada e documentação compatível com sua natureza."
       },
       {
         "t": "h2",
@@ -54,19 +54,53 @@
       },
       {
         "t": "p",
-        "texto": "A regulamentação bancária brasileira sempre tratou o encerramento de conta como um procedimento com etapas, e não como um botão que se aperta. Atualmente, a abertura, a manutenção e o encerramento das contas de depósito são disciplinados pela **Resolução CMN nº 4.753, de 26 de setembro de 2019**, do Conselho Monetário Nacional."
+        "texto": "A primeira providência é identificar qual produto foi bloqueado. **Conta de pagamento** é disciplinada pela [Resolução BCB nº 96/2021](https://www.bcb.gov.br/estabilidadefinanceira/exibenormativo?numero=96&tipo=Resolu%C3%A7%C3%A3o+BCB). **Conta de depósito** segue a [Resolução CMN nº 4.753/2019](https://www.bcb.gov.br/estabilidadefinanceira/exibenormativo?numero=4753&tipo=RESOLU%C3%87%C3%83O). As duas normas tratam o encerramento como procedimento, mas não são intercambiáveis."
       },
       {
         "t": "p",
-        "texto": "Essa norma prevê que o contrato deve estabelecer as condições de encerramento por iniciativa de qualquer das partes e que o encerramento por iniciativa da instituição depende de **comunicação prévia ao cliente**, com prazo de referência de **30 dias**. É desse conjunto — regulamentação do CMN somada ao contrato assinado na abertura da conta — que sai o prazo citado em praticamente toda discussão sobre o tema."
+        "texto": "Para contas de pagamento, o art. 12 da Resolução BCB nº 96/2021 exige comunicação da intenção de rescindir, transferência do saldo remanescente ou disponibilização para retirada, informações sobre o prazo das providências — limitado a 30 dias corridos a partir da comunicação — e aviso sobre a data do encerramento. A norma não transforma toda restrição em ilícito nem cria uma indenização automática; ela organiza o procedimento e protege o destino do saldo."
       },
       {
         "t": "destaque",
-        "texto": "**O ponto central não é o número 30.** É a existência de um intervalo razoável entre o aviso e o efeito, para que o correntista consiga transferir salário, redirecionar débitos automáticos, avisar clientes, sacar o saldo e abrir conta em outra instituição. Um encerramento comunicado no mesmo dia esvazia essa proteção mesmo quando o banco alega ter avisado."
+        "texto": "**O prazo de 30 dias não deve ser lido como uma carência automática para movimentar livremente a conta em qualquer situação.** O ponto decisivo é saber qual medida foi adotada, por qual motivo, quando o titular foi informado, se havia hipótese regulatória de bloqueio e como a instituição disponibilizou o saldo."
       },
       {
         "t": "p",
-        "texto": "Vale registrar uma distinção que costuma ser confundida: **encerramento não é bloqueio**. Bloqueios temporários por suspeita de fraude, ordem judicial ou exigência de recadastramento seguem outra lógica e outros prazos. O que se discute aqui é o rompimento definitivo do vínculo."
+        "texto": "Vale registrar a distinção: **encerramento não é bloqueio**. O encerramento extingue a relação contratual; o bloqueio restringe movimentações e pode decorrer, por exemplo, de mecanismo de segurança do Pix, ordem judicial ou verificação cadastral. Um aviso de encerramento futuro não explica sozinho por que a conta inteira já estava indisponível."
+      },
+      {
+        "t": "h2",
+        "texto": "Aviso simultâneo ao bloqueio: por que isso muda a análise",
+        "id": "aviso-simultaneo-bloqueio"
+      },
+      {
+        "t": "p",
+        "texto": "Imagine que a mensagem informe o encerramento por “desinteresse comercial” em até 30 dias, mas o acesso já esteja bloqueado quando o aviso chega. A comunicação pode registrar a intenção de encerrar no futuro, porém não demonstra, sozinha, por que a restrição imediata foi aplicada nem quais serviços foram atingidos."
+      },
+      {
+        "t": "p",
+        "texto": "Se a instituição afirmar que o bloqueio foi preventivo e decorreu de apontamento de fraude no DICT, a análise não termina com essa justificativa genérica. É necessário verificar a existência da marcação, sua origem, a data, a abrangência da restrição, a comunicação entregue ao titular e o destino dado ao saldo."
+      },
+      {
+        "t": "destaque",
+        "texto": "Um aviso de encerramento futuro e um bloqueio já efetivado não são a mesma providência. A instituição deve conseguir explicar o fundamento e o alcance de cada medida, sem confundir o prazo operacional do encerramento com a justificativa de uma restrição de segurança."
+      },
+      {
+        "t": "h2",
+        "texto": "O que é o DICT e quando uma marcação de fraude importa",
+        "id": "dict-marcacao-fraude"
+      },
+      {
+        "t": "p",
+        "texto": "O DICT é o Diretório de Identificadores de Contas Transacionais do Pix. Ele reúne dados de chaves e também suporta notificações e marcações relacionadas a suspeitas de fraude. De acordo com a [orientação oficial do Banco Central sobre marcação de chave Pix](https://bcb.gov.br/meubc/faqs/p/marcacaode-chave-pix), uma marcação ativa pode impor restrições de envio e recebimento de Pix e levar a instituição a impedir movimentações, ressalvadas as devoluções pelo MED."
+      },
+      {
+        "t": "p",
+        "texto": "Isso significa que mencionar o DICT não torna o bloqueio automaticamente abusivo. Por outro lado, a mera expressão “apontamento de fraude”, desacompanhada de elementos verificáveis, também não encerra a discussão. Em juízo, podem ser relevantes o relatório ou registro externo, a instituição que originou a marcação, a transação relacionada, a data, as comunicações e as medidas oferecidas ao cliente para contestar eventual erro."
+      },
+      {
+        "t": "p",
+        "texto": "Também é necessário separar **restrição do Pix** de **indisponibilidade integral da conta**. A justificativa e o alcance técnico de cada providência devem aparecer nos documentos. Se o banco invoca um mecanismo regulatório, cabe examinar se a medida aplicada corresponde ao mecanismo citado."
       },
       {
         "t": "h2",
@@ -101,7 +135,7 @@
       },
       {
         "t": "p",
-        "texto": "O dano moral não decorre da simples irregularidade formal. Ele depende de **repercussão concreta** na vida da pessoa ou na atividade da empresa. A falta de comunicação prévia é o que caracteriza a conduta indevida; o que se examina em seguida são as consequências que essa conduta produziu."
+        "texto": "O dano moral não decorre automaticamente da simples existência de bloqueio, encerramento ou irregularidade procedimental. O exame costuma considerar o fundamento da medida, a qualidade da informação, o tempo de indisponibilidade, o valor e a natureza do saldo, as tentativas de solução, a imputação de fraude e as consequências concretas na vida da pessoa ou na atividade da empresa."
       },
       {
         "t": "p",
@@ -115,7 +149,7 @@
         "t": "ul",
         "itens": [
           "Conta pouco movimentada, sem saldo relevante e sem débitos vinculados;",
-          "Aviso enviado com antecedência e comprovado pelo banco, ainda que o cliente não o tenha lido;",
+          "Restrição de segurança documentada, informada e limitada ao mecanismo aplicável;",
           "Encerramento que não impediu nenhum pagamento, recebimento ou compromisso;",
           "Aborrecimento existente, mas sem desdobramento fora da esfera do incômodo."
         ]
@@ -132,7 +166,8 @@
           "Nome inscrito em cadastro de inadimplentes por dívida que só venceu porque o pagamento não pôde ser feito;",
           "Empresa ou profissional que perdeu recebimentos, ficou sem meio de cobrança ou teve de explicar a situação a clientes e fornecedores;",
           "Constrangimento público — cartão recusado, compra cancelada, pagamento negado diante de terceiros;",
-          "Recusa do banco em informar o motivo, somada à peregrinação por agências e centrais sem solução."
+          "Recusa do banco em prestar informação verificável, somada à peregrinação por agências e centrais sem solução;",
+          "Atribuição de envolvimento em fraude sem apresentação de suporte probatório compatível."
         ]
       },
       {
@@ -146,14 +181,27 @@
       },
       {
         "t": "destaque",
-        "texto": "Resumindo o critério que costuma ser aplicado: **encerrar é lícito, encerrar em silêncio não é**, e o valor da reparação acompanha o tamanho do prejuízo demonstrado — não o tamanho da indignação."
+        "texto": "Resumindo: a instituição pode ter fundamento legítimo para restringir ou encerrar a conta, especialmente diante de mecanismo antifraude efetivamente demonstrado. A responsabilidade passa pela prova do motivo, pela comunicação, pela proporcionalidade da medida, pelo destino do saldo e pela repercussão concreta."
+      },
+      {
+        "t": "h2",
+        "texto": "A devolução posterior do saldo encerra a discussão?",
+        "id": "devolucao-posterior-saldo"
+      },
+      {
+        "t": "p",
+        "texto": "Quando o saldo é devolvido depois do bloqueio, a restituição recompõe o patrimônio e pode tornar desnecessário um pedido urgente de liberação daquele mesmo valor. Mas ela não apaga automaticamente o período de indisponibilidade nem resolve, por si só, a discussão sobre informação, fundamento da medida e eventual dano extrapatrimonial."
+      },
+      {
+        "t": "p",
+        "texto": "Da mesma forma, a devolução não garante indenização. O juízo ainda precisa examinar se houve falha, qual foi a duração e o impacto da privação, se existia marcação legítima, se o consumidor contribuiu para a situação e quais consequências foram provadas. A restituição posterior é um fato importante, mas não uma resposta automática para todas as pretensões."
       },
       {
         "t": "cta",
-        "titulo": "Sua conta foi encerrada e você não foi avisado?",
-        "texto": "Envie um resumo do que aconteceu e as datas. A análise inicial indica se o caso comporta pedido de restabelecimento, de indenização ou apenas de regularização.",
-        "botao": "Informações pelo WhatsApp",
-        "mensagem": "Olá. Meu banco encerrou minha conta sem aviso prévio e gostaria de uma análise do caso."
+        "titulo": "Ficou com alguma dúvida?",
+        "texto": "Fale agora mesmo com um especialista.",
+        "botao": "Falar pelo WhatsApp",
+        "mensagem": "Olá. Li o artigo sobre conta bloqueada no mesmo dia do aviso de encerramento e gostaria de falar com o advogado sobre o meu caso."
       },
       {
         "t": "h2",
@@ -162,7 +210,23 @@
       },
       {
         "t": "p",
-        "texto": "O enquadramento muda o tamanho do problema e, com ele, a discussão."
+        "texto": "O enquadramento muda a norma aplicável, o funcionamento do produto e a dimensão do problema. Antes de discutir prazo ou bloqueio, confira no contrato e nos extratos se o produto é conta de depósito, conta de pagamento, conta salário ou conta vinculada a benefício."
+      },
+      {
+        "t": "h3",
+        "texto": "Conta de pagamento"
+      },
+      {
+        "t": "p",
+        "texto": "É comum em instituições de pagamento e carteiras digitais. O encerramento segue a Resolução BCB nº 96/2021. A instituição deve tratar a comunicação, o prazo das providências, o saldo e a data de encerramento conforme o art. 12, sem prejuízo das regras de segurança e das hipóteses de encerramento obrigatório."
+      },
+      {
+        "t": "h3",
+        "texto": "Conta de depósito"
+      },
+      {
+        "t": "p",
+        "texto": "É mantida por instituição financeira e segue a Resolução CMN nº 4.753/2019. A norma também disciplina comunicação, destinação do saldo e procedimentos de encerramento. O nome comercial “conta digital” não basta para definir a categoria jurídica do produto."
       },
       {
         "t": "h3",
@@ -194,7 +258,7 @@
       },
       {
         "t": "p",
-        "texto": "A ausência de agência física não reduz o dever de comunicação. Aviso só dentro do aplicativo, sem confirmação de recebimento, é um dos pontos mais frágeis da defesa das instituições digitais — sobretudo quando o acesso ao próprio aplicativo é cortado junto com a conta."
+        "texto": "A ausência de agência física não reduz o dever de informação. Comunicação dentro do aplicativo pode ser válida, mas sua eficácia depende do conteúdo, da entrega e da possibilidade de acesso. Quando o aplicativo é bloqueado junto com a conta, é importante guardar e-mail, notificação, captura de tela e protocolo que permitam reconstruir a sequência dos atos."
       },
       {
         "t": "h2",
@@ -208,10 +272,12 @@
       {
         "t": "ol",
         "itens": [
-          "**Registre protocolo formal** junto ao banco pedindo, por escrito, o motivo do encerramento e a data em que ele ocorreu. Anote número, data, hora e nome do atendente.",
+          "**Registre protocolo formal** pedindo, por escrito, o motivo do bloqueio, o fundamento do encerramento e as datas de cada medida. Anote número, data, hora e nome do atendente.",
           "**Peça o extrato completo** e o comprovante do saldo na data do encerramento. Salve em PDF, não apenas em captura de tela.",
           "**Guarde as telas de erro**: transferência recusada, cartão negado, aplicativo bloqueado, mensagem de conta inexistente.",
-          "**Liste o que deixou de acontecer**: boletos devolvidos, débitos automáticos não pagos, salário retido, Pix devolvido, compromissos perdidos.",
+          "**Liste o que deixou de acontecer**: boletos devolvidos, débitos automáticos não pagos, salário retido, Pix devolvido e compromissos perdidos. Guarde o documento de cada consequência.",
+          "**Se o banco mencionar DICT ou fraude**, solicite identificação da ocorrência, data, instituição de origem, transação relacionada e canal para contestação, resguardados os dados de terceiros e as limitações legais.",
+          "**Informe outra conta de sua titularidade** para receber o saldo e guarde o protocolo, o comprovante da indicação e a data da efetiva devolução.",
           "**Procure a ouvidoria do banco** — a resposta da ouvidoria, ou a ausência dela, é documento relevante.",
           "**Registre reclamação no Banco Central** pelo canal de atendimento ao cidadão e guarde o número.",
           "**Abra conta em outra instituição** o quanto antes, para reduzir o prejuízo e demonstrar boa-fé.",
@@ -234,17 +300,17 @@
       {
         "t": "ul",
         "itens": [
-          "**Liberação imediata do saldo** retido, quando o dinheiro está preso;",
+          "**Transferência ou disponibilização imediata do saldo** retido, quando o dinheiro está inacessível;",
           "**Restabelecimento da conta**, quando ainda há interesse na relação e o encerramento foi irregular — em situações urgentes, por meio de tutela de urgência;",
           "**Retirada da negativação** decorrente de dívida que só venceu por causa do encerramento;",
           "**Indenização por danos materiais**, com prova do que foi efetivamente perdido;",
           "**Indenização por danos morais**, quando houve repercussão além do mero aborrecimento;",
-          "**Exibição de documentos**, para obter o contrato e a prova de que a comunicação prévia foi (ou não foi) enviada."
+          "**Exibição de documentos**, para obter o contrato, as comunicações e os elementos que sustentam a restrição alegada, observados sigilo, proteção de terceiros e regras probatórias."
         ]
       },
       {
         "t": "p",
-        "texto": "Um detalhe processual que costuma pesar a favor do consumidor: **a prova de que houve comunicação prévia é do banco**, não sua. Cabe à instituição demonstrar quando avisou, por qual canal e com qual antecedência. A ausência dessa prova é, com frequência, o ponto que define o resultado."
+        "texto": "Em uma disputa, o consumidor deve apresentar o que estiver ao seu alcance: mensagens recebidas, telas, extratos, protocolos e consequências. A instituição, por sua vez, é quem normalmente detém logs de envio, registros da marcação, políticas internas e histórico técnico do bloqueio. A distribuição ou inversão do ônus da prova depende da decisão judicial e não dispensa nenhuma das partes de preservar os documentos disponíveis."
       },
       {
         "t": "h2",
@@ -269,19 +335,27 @@
         "itens": [
           {
             "pergunta": "O banco é obrigado a informar o motivo do encerramento?",
-            "resposta": "A instituição pode encerrar a relação por desinteresse comercial, sem necessariamente detalhar razões internas de política de risco. O que não pode faltar é a comunicação prévia do encerramento. A recusa em prestar qualquer informação, somada à ausência de aviso, costuma reforçar a caracterização da conduta abusiva."
+            "resposta": "A resposta depende do tipo de conta e do fundamento invocado. A Resolução BCB nº 96/2021 exige que a comunicação informe os motivos quando a rescisão decorrer das hipóteses regulatórias indicadas pela própria norma ou por outra regra vigente. Mesmo quando houver desinteresse comercial, a instituição precisa cumprir o procedimento aplicável e informar o que acontecerá com o saldo e com os serviços vinculados."
           },
           {
             "pergunta": "Recebi um aviso só pelo aplicativo. Isso vale como comunicação prévia?",
-            "resposta": "Pode valer, desde que a instituição comprove o envio, o canal utilizado e a antecedência. O problema aparece quando o aviso é genérico, quando não há registro de entrega ou quando o acesso ao aplicativo foi encerrado junto com a conta, impedindo o próprio cliente de recuperar a mensagem."
+            "resposta": "Pode valer, conforme o contrato e a regulamentação, desde que seja possível demonstrar o envio, o conteúdo e o momento da comunicação. Se o bloqueio já existia quando o aviso chegou, a mensagem pode comprovar a intenção de encerrar, mas não explica automaticamente a restrição que já estava em vigor."
           },
           {
-            "pergunta": "E se eu estiver com o nome negativado ou com restrição interna?",
-            "resposta": "Restrições existentes não autorizam o encerramento sem aviso. Elas podem justificar o desinteresse do banco em manter a relação, mas o procedimento continua sendo o mesmo: comunicar antes e permitir que o cliente se organize."
+            "pergunta": "Uma marcação no DICT permite bloquear a conta?",
+            "resposta": "Uma marcação ativa relacionada a suspeita de fraude pode impor restrições no ambiente Pix e justificar medidas de segurança. O caso concreto exige conferir se a marcação existia, sua origem e abrangência, quais movimentações foram impedidas, como o titular foi informado e se o saldo recebeu o tratamento previsto nas normas aplicáveis."
           },
           {
             "pergunta": "Meu salário caiu na conta encerrada. O dinheiro se perde?",
-            "resposta": "Não. O saldo continua sendo seu e deve ser disponibilizado. Quando o valor fica inacessível e compromete despesas essenciais, a urgência do caso costuma justificar medida judicial específica para liberação."
+            "resposta": "O encerramento não transfere a propriedade do saldo para a instituição. A regulamentação prevê transferência para conta indicada pelo titular ou disponibilização para retirada. Se o dinheiro permanecer inacessível, documente a origem do valor, informe outra conta de sua titularidade e registre os protocolos. A necessidade de medida urgente depende do risco e das provas."
+          },
+          {
+            "pergunta": "O banco devolveu o saldo depois. Ainda pode existir discussão?",
+            "resposta": "Pode, porque a devolução recompõe o valor patrimonial, mas não responde sozinha se o bloqueio foi legítimo, se a comunicação foi adequada ou se houve consequência indenizável. Também não significa que haverá dano moral: duração, fundamento, impacto e provas continuam relevantes."
+          },
+          {
+            "pergunta": "Prints de telas internas provam fraude?",
+            "resposta": "Eles podem integrar o conjunto probatório, mas sua força depende de contexto, origem, integridade, datas e correspondência com outros registros. O valor de cada documento é analisado no processo e não existe uma conclusão automática válida para todos os casos."
           },
           {
             "pergunta": "Vale a pena reclamar no Banco Central ou no Procon antes?",
@@ -301,20 +375,21 @@
       {
         "t": "ul",
         "itens": [
-          "O banco **pode** encerrar a conta por iniciativa própria;",
-          "O encerramento depende de **comunicação prévia**, com o prazo de referência de 30 dias previsto na regulamentação e no contrato;",
-          "A falta de aviso caracteriza a irregularidade, mas o **dano moral depende da repercussão concreta**;",
-          "Devolução de pagamentos, salário inacessível, negativação e prejuízo à atividade econômica são os cenários mais reconhecidos;",
-          "A prova da comunicação prévia é **ônus do banco**;",
-          "Protocolos, extratos e telas de erro guardados nos primeiros dias valem mais do que qualquer argumento depois."
+          "Identifique se o produto é **conta de pagamento** ou **conta de depósito** antes de escolher a norma;",
+          "Aviso de encerramento e bloqueio são atos diferentes e precisam ser analisados separadamente;",
+          "O prazo regulatório de até 30 dias organiza as providências do encerramento, mas não garante movimentação irrestrita diante de toda hipótese de segurança;",
+          "Uma marcação ativa no DICT pode justificar restrições, mas sua existência, origem e alcance precisam aparecer no conjunto probatório;",
+          "A devolução posterior do saldo recompõe o patrimônio, sem apagar automaticamente a discussão anterior e sem garantir dano moral;",
+          "Dano moral depende de fundamento, duração, informação, valor retido, consequências e provas;",
+          "Protocolos, extratos, mensagens, registros da marcação e comprovantes da devolução organizam a linha do tempo."
         ]
       },
       {
         "t": "cta",
-        "titulo": "Traga os documentos e receba uma análise objetiva",
-        "texto": "Conte o que aconteceu, informe as datas e reúna o que já tiver em mãos. O primeiro passo é entender se a questão pede regularização, negociação ou medida judicial.",
-        "botao": "Informações pelo WhatsApp",
-        "mensagem": "Olá. Li o artigo sobre encerramento de conta bancária sem aviso prévio e gostaria de uma análise do meu caso."
+        "titulo": "Ficou com alguma dúvida?",
+        "texto": "Fale agora mesmo com um especialista.",
+        "botao": "Falar pelo WhatsApp",
+        "mensagem": "Olá. Li o artigo sobre conta bloqueada no mesmo dia do aviso de encerramento e gostaria de falar com o advogado sobre o meu caso."
       }
     ]
   }

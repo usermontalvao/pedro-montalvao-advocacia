@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0e0e10" />
+    <meta name="author" content="Pedro Montalvão Advocacia" />
+    <meta name="geo.region" content="BR-MT" />
+    <meta name="geo.placename" content="Cuiabá" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icone-192.png" />
+    <link rel="apple-touch-icon" href="/icone-180.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!--
+      As fontes vêm do Google Fonts com preconnect e display=swap: o texto
+      aparece imediatamente com a fonte do sistema e é trocado quando a fonte
+      chega, sem bloquear a primeira pintura.
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;650&display=swap"
+      rel="stylesheet"
+    />
+
+    <!--
+      A abertura roda em todo carregamento da página. Como a navegação entre
+      as páginas é feita sem recarregar, ela aparece na entrada do visitante e
+      não volta a interromper enquanto ele circula pelo site.
+    -->
+
+    <!-- Título e meta tags reais são escritos por rota no build (prerender). -->
+    <title>Pedro Montalvão Advocacia — Advogado em Cuiabá</title>
+    <!--cabeca-->
+  </head>
+  <body>
+    <a
+      href="#conteudo"
+      style="
+        position: absolute;
+        left: -9999px;
+        top: 0;
+        background: #c9a86a;
+        color: #0e0e10;
+        padding: 0.8rem 1.2rem;
+        z-index: 200;
+      "
+      onfocus="this.style.left='1rem'"
+      onblur="this.style.left='-9999px'"
+      >Ir para o conteúdo</a
+    >
+    <!-- Cortina de abertura: puro CSS, sai sozinha. Ver "Abertura" no global.css. -->
+    <div class="abertura" aria-hidden="true">
+      <div class="abertura__marca">
+        <span class="abertura__nome">Pedro <b>Montalvão</b></span>
+        <span class="abertura__filete"></span>
+        <span class="abertura__apoio">Advocacia</span>
+      </div>
+    </div>
+
+    <div id="raiz"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

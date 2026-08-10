@@ -1,0 +1,31 @@
+{
+  "name": "pedro-montalvao-advocacia-site",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Site institucional Pedro Montalvão Advocacia — Vite + React, conteúdo local em JSON, páginas pré-renderizadas para SEO.",
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run build:client && npm run build:server && npm run prerender",
+    "build:client": "vite build --outDir dist",
+    "build:server": "vite build --ssr src/entry-server.tsx --outDir .ssr-build",
+    "prerender": "node scripts/prerender.mjs",
+    "preview": "vite preview --outDir dist",
+    "midias": "node scripts/optimize-media.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "lenis": "^1.3.26",
+    "motion": "^13.0.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.0.4",
+    "sharp": "^0.35.2",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.0"
+  }
+}

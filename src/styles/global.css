@@ -1,0 +1,2678 @@
+/* ==========================================================================
+   Pedro Montalvão Advocacia — sistema visual
+   Grafite profundo + dourado da marca. Tipografia serifada de alto contraste
+   no display, sem serifa no texto corrido. Um arquivo só: o site é pequeno e
+   um CSS único evita requisição extra na primeira pintura.
+   ========================================================================== */
+
+:root {
+  /* Cores tiradas do próprio logotipo (o dourado do monograma PM). */
+  --tinta: #0e0e10;
+  --tinta-2: #16161a;
+  --tinta-3: #1f1f24;
+  --papel: #fbf9f5;
+  --papel-2: #f4f0e9;
+  --dourado: #c9a86a;
+  --dourado-claro: #e8d4a6;
+  --dourado-escuro: #8f7238;
+  --texto: #1a1a1d;
+  --texto-suave: #55524c;
+  --texto-claro: #f0ece4;
+  --texto-claro-suave: #a9a49a;
+  --linha: #e2dcd1;
+  --linha-escura: #2c2c33;
+  --verde-zap: #25d366;
+
+  --largura: 1180px;
+  --largura-texto: 720px;
+  --raio: 4px;
+  --raio-g: 18px;
+
+  --serif: 'Fraunces', 'Spectral', Georgia, 'Times New Roman', serif;
+  --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /*
+    Fonte exclusiva do logotipo. Cinzel é uma romana inscricional — o
+    desenho das capitais gravadas em pedra, que é a referência visual de
+    instituição e de tribunal. A serifada do resto do site (Fraunces) tem
+    contraste alto demais em caixa alta e puxa para o editorial de moda.
+  */
+  --marca: 'Cinzel', 'Trajan Pro', 'Optima', Georgia, serif;
+
+  --sombra: 0 1px 2px rgba(14, 14, 16, 0.04), 0 8px 28px rgba(14, 14, 16, 0.07);
+  --sombra-alta: 0 2px 6px rgba(14, 14, 16, 0.08), 0 24px 60px rgba(14, 14, 16, 0.16);
+  --transicao: 280ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--papel);
+  color: var(--texto);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.72;
+  font-feature-settings: 'kern' 1, 'liga' 1;
+  -webkit-font-smoothing: antialiased;
+  /*
+    `clip` em vez de `hidden`: os dois contêm o estouro horizontal, mas
+    `hidden` transforma o corpo num contêiner de rolagem próprio — o que
+    quebra `position: sticky` e confunde a biblioteca de rolagem suave.
+  */
+  overflow-x: clip;
+}
+
+/*
+  `height: auto` não é detalhe. Os atributos width/height das <img> existem para
+  reservar espaço e evitar o pulo do layout, mas o navegador os aplica como
+  altura real: sem esta linha, uma foto de 1500px de altura estica a seção
+  inteira e empurra o texto do herói para fora da tela.
+*/
+img,
+picture,
+svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--serif);
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.018em;
+  margin: 0 0 0.5em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: clamp(2.4rem, 5.6vw, 4.15rem);
+  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 120;
+}
+h2 {
+  font-size: clamp(1.9rem, 3.9vw, 2.85rem);
+  font-variation-settings: 'opsz' 60;
+}
+h3 {
+  font-size: clamp(1.22rem, 2.1vw, 1.5rem);
+  letter-spacing: -0.01em;
+}
+h4 {
+  font-size: 1.08rem;
+}
+
+p {
+  margin: 0 0 1.15em;
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  padding-left: 1.15rem;
+}
+
+::selection {
+  background: var(--dourado);
+  color: var(--tinta);
+}
+
+:focus-visible {
+  outline: 2px solid var(--dourado);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* --------------------------------------------------------------- estrutura */
+
+.envolucro {
+  width: 100%;
+  max-width: var(--largura);
+  margin-inline: auto;
+  padding-inline: clamp(1.15rem, 5vw, 2.5rem);
+}
+
+.secao {
+  padding-block: clamp(4rem, 9vw, 7.5rem);
+  position: relative;
+}
+
+.secao--escura {
+  background: var(--tinta);
+  color: var(--texto-claro);
+}
+
+.secao--creme {
+  background: var(--papel-2);
+}
+
+.secao--fina {
+  padding-block: clamp(2.75rem, 5vw, 4rem);
+}
+
+/* Grão sutil sobre os blocos escuros: tira o aspecto de "cor chapada". */
+.secao--escura::before,
+.heroi::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.4;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='r'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23r)' opacity='0.35'/%3E%3C/svg%3E");
+}
+
+.secao--escura h1,
+.secao--escura h2,
+.secao--escura h3 {
+  color: var(--texto-claro);
+}
+
+/* ------------------------------------------------------------- tipografia */
+
+.olho {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.19em;
+  text-transform: uppercase;
+  color: var(--dourado-escuro);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.1rem;
+}
+
+.olho::before {
+  content: '';
+  width: 26px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.7;
+}
+
+.secao--escura .olho,
+.heroi .olho {
+  color: var(--dourado);
+}
+
+.chamada {
+  font-size: clamp(1.05rem, 1.9vw, 1.24rem);
+  line-height: 1.62;
+  color: var(--texto-suave);
+  max-width: 62ch;
+}
+
+.secao--escura .chamada,
+.heroi .chamada {
+  color: var(--texto-claro-suave);
+}
+
+.cabeca-secao {
+  max-width: 780px;
+  margin-bottom: clamp(2.4rem, 5vw, 3.6rem);
+}
+
+.cabeca-secao--centro {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.cabeca-secao--centro .olho {
+  justify-content: center;
+}
+
+.cabeca-secao--centro .chamada {
+  margin-inline: auto;
+}
+
+/* ---------------------------------------------------------------- botões */
+
+.botao {
+  --cor-fundo: var(--tinta);
+  --cor-texto: var(--papel);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 1.02rem 1.85rem;
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  font-family: var(--sans);
+  font-size: 0.94rem;
+  font-weight: 600;
+  letter-spacing: 0.012em;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--transicao), box-shadow var(--transicao), background var(--transicao),
+    color var(--transicao), border-color var(--transicao);
+  text-align: center;
+}
+
+.botao:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-alta);
+}
+
+.botao:active {
+  transform: translateY(0);
+}
+
+/* Brilho que atravessa o botão no hover — só nos CTAs principais. */
+.botao--zap::after,
+.botao--dourado::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.42), transparent);
+  transform: skewX(-18deg);
+  transition: left 620ms ease;
+}
+
+.botao--zap:hover::after,
+.botao--dourado:hover::after {
+  left: 130%;
+}
+
+.botao--zap {
+  --cor-fundo: linear-gradient(135deg, #1fbe5b, #25d366);
+  --cor-texto: #04270f;
+  box-shadow: 0 10px 30px rgba(37, 211, 102, 0.28);
+}
+
+.botao--dourado {
+  --cor-fundo: linear-gradient(135deg, var(--dourado-escuro), var(--dourado) 45%, var(--dourado-claro));
+  --cor-texto: #241b06;
+  box-shadow: 0 10px 30px rgba(201, 168, 106, 0.26);
+}
+
+.botao--contorno {
+  --cor-fundo: transparent;
+  --cor-texto: var(--texto);
+  border-color: var(--linha);
+}
+
+.botao--contorno:hover {
+  border-color: var(--tinta);
+}
+
+.secao--escura .botao--contorno,
+.heroi .botao--contorno {
+  --cor-texto: var(--texto-claro);
+  border-color: rgba(232, 212, 166, 0.34);
+}
+
+.secao--escura .botao--contorno:hover,
+.heroi .botao--contorno:hover {
+  border-color: var(--dourado);
+  background: rgba(201, 168, 106, 0.1);
+}
+
+.grupo-botoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: 2rem;
+}
+
+.microtexto {
+  font-size: 0.83rem;
+  line-height: 1.6;
+  color: var(--texto-suave);
+  margin-top: 1.1rem;
+  max-width: 56ch;
+}
+
+.secao--escura .microtexto,
+.heroi .microtexto {
+  color: var(--texto-claro-suave);
+}
+
+/* ------------------------------------------------------------- cabeçalho */
+
+.cabecalho {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 90;
+  transition: background var(--transicao), box-shadow var(--transicao), padding var(--transicao),
+    border-color var(--transicao);
+  padding-block: 1.15rem;
+  border-bottom: 1px solid transparent;
+}
+
+.cabecalho__interno {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.cabecalho--fixo {
+  background: rgba(14, 14, 16, 0.9);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  border-bottom-color: var(--linha-escura);
+  padding-block: 0.7rem;
+}
+
+.cabecalho__marca img {
+  height: 42px;
+  width: auto;
+  transition: height var(--transicao);
+}
+
+.cabecalho--fixo .cabecalho__marca img {
+  height: 34px;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.menu__item {
+  /* "Áreas de atuação" é um <button>: precisa perder o visual nativo. */
+  appearance: none;
+  background: none;
+  border: 0;
+  font-family: inherit;
+  cursor: pointer;
+  position: relative;
+  padding: 0.55rem 0.85rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--texto-claro);
+  border-radius: 999px;
+  transition: color var(--transicao), background var(--transicao);
+  white-space: nowrap;
+}
+
+.menu__item:hover {
+  color: var(--dourado-claro);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.menu__item--ativo {
+  color: var(--dourado);
+}
+
+.menu__item--ativo::after {
+  content: '';
+  position: absolute;
+  left: 0.85rem;
+  right: 0.85rem;
+  bottom: 0.28rem;
+  height: 1px;
+  background: var(--dourado);
+}
+
+/* Submenu de áreas de atuação */
+.menu__grupo {
+  position: relative;
+}
+
+.menu__painel {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 50%;
+  transform: translateX(-50%) translateY(-6px);
+  min-width: 290px;
+  background: var(--tinta-2);
+  border: 1px solid var(--linha-escura);
+  border-radius: 14px;
+  padding: 0.55rem;
+  box-shadow: var(--sombra-alta);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 200ms ease, transform 200ms ease, visibility 200ms;
+}
+
+.menu__grupo:hover .menu__painel,
+.menu__grupo:focus-within .menu__painel {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.menu__painel a {
+  display: block;
+  padding: 0.62rem 0.85rem;
+  border-radius: 9px;
+  font-size: 0.9rem;
+  color: var(--texto-claro);
+  transition: background var(--transicao), color var(--transicao);
+}
+
+.menu__painel a small {
+  display: block;
+  font-size: 0.76rem;
+  color: var(--texto-claro-suave);
+  margin-top: 0.1rem;
+}
+
+.menu__painel a:hover {
+  background: rgba(201, 168, 106, 0.12);
+  color: var(--dourado-claro);
+}
+
+.cabecalho__acao {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.cabecalho .botao {
+  padding: 0.72rem 1.25rem;
+  font-size: 0.87rem;
+}
+
+.hamburguer {
+  display: none;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--linha-escura);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  cursor: pointer;
+  padding: 0;
+  place-items: center;
+}
+
+.hamburguer span {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background: var(--texto-claro);
+  margin: 3px auto;
+  transition: transform var(--transicao), opacity var(--transicao);
+}
+
+.hamburguer[aria-expanded='true'] span:nth-child(1) {
+  transform: translateY(4.5px) rotate(45deg);
+}
+.hamburguer[aria-expanded='true'] span:nth-child(2) {
+  opacity: 0;
+}
+.hamburguer[aria-expanded='true'] span:nth-child(3) {
+  transform: translateY(-4.5px) rotate(-45deg);
+}
+
+.menu-movel {
+  position: fixed;
+  inset: 0;
+  background: var(--tinta);
+  z-index: 89;
+  padding: 6.5rem 1.5rem 2rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  animation: surgir 260ms ease both;
+}
+
+.menu-movel a {
+  padding: 1.05rem 0.5rem;
+  border-bottom: 1px solid var(--linha-escura);
+  color: var(--texto-claro);
+  font-family: var(--serif);
+  font-size: 1.32rem;
+}
+
+.menu-movel a:last-of-type {
+  border-bottom: 0;
+}
+
+.menu-movel .botao {
+  margin-top: 1.5rem;
+}
+
+/* ------------------------------------------------------------------ herói */
+
+.heroi {
+  position: relative;
+  background: var(--tinta);
+  color: var(--texto-claro);
+  padding-block: clamp(8rem, 15vw, 11rem) clamp(4rem, 8vw, 6.5rem);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Brilho dourado difuso no canto — dá profundidade sem pesar. */
+.heroi__luz {
+  position: absolute;
+  z-index: -1;
+  width: 70vw;
+  height: 70vw;
+  max-width: 900px;
+  max-height: 900px;
+  right: -18%;
+  top: -28%;
+  background: radial-gradient(circle, rgba(201, 168, 106, 0.22), rgba(201, 168, 106, 0) 62%);
+  pointer-events: none;
+}
+
+.heroi__luz--baixo {
+  right: auto;
+  left: -22%;
+  top: auto;
+  bottom: -30%;
+  background: radial-gradient(circle, rgba(201, 168, 106, 0.11), rgba(201, 168, 106, 0) 62%);
+}
+
+.heroi__grade {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+.heroi h1 {
+  margin-bottom: 1.3rem;
+}
+
+.heroi h1 em {
+  font-style: normal;
+  background: linear-gradient(120deg, var(--dourado-claro), var(--dourado) 45%, var(--dourado-escuro));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.heroi__retrato {
+  position: relative;
+}
+
+.heroi__retrato img {
+  width: 100%;
+  border-radius: var(--raio-g);
+  object-fit: cover;
+  object-position: center 18%;
+  aspect-ratio: 4 / 5;
+  /*
+    A foto foi feita num plenário cheio: sem tratamento, o fundo disputa
+    atenção com o texto. Dessaturar de leve e escurecer aproxima a imagem da
+    paleta do site e devolve o protagonismo ao rosto.
+  */
+  filter: saturate(0.86) contrast(1.06) brightness(0.93);
+}
+
+/* Véu escuro subindo do rodapé da foto: assenta a imagem no fundo grafite. */
+.heroi__retrato::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--raio-g);
+  pointer-events: none;
+  background: linear-gradient(
+      to top,
+      rgba(14, 14, 16, 0.82) 0%,
+      rgba(14, 14, 16, 0.22) 34%,
+      rgba(14, 14, 16, 0) 62%
+    ),
+    linear-gradient(to right, rgba(14, 14, 16, 0.35), rgba(14, 14, 16, 0) 38%);
+}
+
+/* Moldura dourada deslocada atrás da foto. */
+.heroi__retrato::before {
+  content: '';
+  position: absolute;
+  inset: 18px -18px -18px 18px;
+  border: 1px solid rgba(201, 168, 106, 0.45);
+  border-radius: var(--raio-g);
+  z-index: -1;
+}
+
+.selo {
+  position: absolute;
+  z-index: 2; /* acima do véu escuro da foto */
+  left: -14px;
+  bottom: 26px;
+  background: rgba(22, 22, 26, 0.92);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(201, 168, 106, 0.34);
+  border-radius: 14px;
+  padding: 0.85rem 1.15rem;
+  box-shadow: var(--sombra-alta);
+  max-width: 232px;
+}
+
+.selo strong {
+  display: block;
+  font-family: var(--serif);
+  font-size: 1.02rem;
+  color: var(--dourado-claro);
+}
+
+.selo span {
+  font-size: 0.76rem;
+  color: var(--texto-claro-suave);
+  line-height: 1.45;
+  display: block;
+}
+
+/* Faixa de credibilidade abaixo do herói */
+.faixa-provas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+  margin-top: clamp(3rem, 6vw, 4.5rem);
+  padding-top: 2.2rem;
+  border-top: 1px solid var(--linha-escura);
+}
+
+.prova {
+  padding-left: 1.1rem;
+  border-left: 1px solid var(--linha-escura);
+}
+
+.prova strong {
+  display: block;
+  font-family: var(--serif);
+  font-size: 1.72rem;
+  color: var(--dourado);
+  line-height: 1.1;
+  margin-bottom: 0.3rem;
+}
+
+.prova span {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--texto-claro-suave);
+  display: block;
+  max-width: 30ch;
+}
+
+/* ------------------------------------------------------------------ cards */
+
+.grade {
+  display: grid;
+  gap: 1.4rem;
+}
+
+.grade--2 {
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+}
+
+.grade--3 {
+  grid-template-columns: repeat(auto-fit, minmax(285px, 1fr));
+}
+
+.grade--4 {
+  grid-template-columns: repeat(auto-fit, minmax(235px, 1fr));
+}
+
+.cartao {
+  background: #fff;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio-g);
+  padding: clamp(1.5rem, 3vw, 2.1rem);
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--transicao), box-shadow var(--transicao), border-color var(--transicao);
+  display: flex;
+  flex-direction: column;
+}
+
+.cartao::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--dourado-escuro), var(--dourado), var(--dourado-claro));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 420ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.cartao:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sombra);
+  border-color: rgba(201, 168, 106, 0.5);
+}
+
+.cartao:hover::after {
+  transform: scaleX(1);
+}
+
+.cartao h3 {
+  margin-bottom: 0.55rem;
+}
+
+.cartao p {
+  color: var(--texto-suave);
+  font-size: 0.95rem;
+  margin-bottom: 1.1rem;
+}
+
+.cartao__link {
+  margin-top: auto;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--dourado-escuro);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: gap var(--transicao);
+}
+
+.cartao:hover .cartao__link {
+  gap: 0.75rem;
+}
+
+.cartao__icone {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(140deg, rgba(201, 168, 106, 0.18), rgba(201, 168, 106, 0.05));
+  border: 1px solid rgba(201, 168, 106, 0.32);
+  color: var(--dourado-escuro);
+  margin-bottom: 1.15rem;
+}
+
+.secao--escura .cartao {
+  background: var(--tinta-2);
+  border-color: var(--linha-escura);
+}
+
+.secao--escura .cartao p {
+  color: var(--texto-claro-suave);
+}
+
+.secao--escura .cartao__link {
+  color: var(--dourado);
+}
+
+/* Lista de temas atendidos (cards menores, densos) */
+.lista-temas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1px;
+  background: var(--linha);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio-g);
+  overflow: hidden;
+}
+
+.tema {
+  background: var(--papel);
+  padding: 1.6rem;
+  transition: background var(--transicao);
+}
+
+.tema:hover {
+  background: #fff;
+}
+
+.tema h3 {
+  font-size: 1.08rem;
+  margin-bottom: 0.35rem;
+}
+
+.tema p {
+  font-size: 0.9rem;
+  color: var(--texto-suave);
+  margin: 0;
+}
+
+/* ------------------------------------------------------------- passo a passo */
+
+.passos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(1.6rem, 4vw, 3rem);
+  counter-reset: passo;
+}
+
+.passo {
+  position: relative;
+  padding-top: 2.6rem;
+}
+
+.passo::before {
+  counter-increment: passo;
+  content: '0' counter(passo);
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-family: var(--serif);
+  font-size: 2.4rem;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--dourado);
+  opacity: 0.85;
+}
+
+.passo h3 {
+  margin-bottom: 0.5rem;
+}
+
+.passo p {
+  color: var(--texto-suave);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.secao--escura .passo p {
+  color: var(--texto-claro-suave);
+}
+
+/* -------------------------------------------------------------------- FAQ */
+
+.faq {
+  border-top: 1px solid var(--linha);
+}
+
+.faq__item {
+  border-bottom: 1px solid var(--linha);
+}
+
+.faq__pergunta {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--serif);
+  font-size: clamp(1.05rem, 1.9vw, 1.24rem);
+  font-weight: 500;
+  color: var(--texto);
+  line-height: 1.35;
+}
+
+.faq__sinal {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid var(--linha);
+  display: grid;
+  place-items: center;
+  transition: transform var(--transicao), background var(--transicao), border-color var(--transicao);
+  color: var(--dourado-escuro);
+}
+
+.faq__pergunta[aria-expanded='true'] .faq__sinal {
+  transform: rotate(45deg);
+  background: var(--dourado);
+  border-color: var(--dourado);
+  color: var(--tinta);
+}
+
+.faq__resposta {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 320ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.faq__resposta[data-aberta='true'] {
+  grid-template-rows: 1fr;
+}
+
+.faq__resposta > div {
+  overflow: hidden;
+}
+
+.faq__resposta p {
+  color: var(--texto-suave);
+  padding-bottom: 1.5rem;
+  margin: 0;
+  max-width: 70ch;
+}
+
+/* -------------------------------------------------------------- formulário */
+
+.formulario {
+  display: grid;
+  gap: 1.05rem;
+}
+
+.campo {
+  display: grid;
+  gap: 0.42rem;
+}
+
+.campo label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--texto);
+  background: #fff;
+  border: 1px solid var(--linha);
+  border-radius: 10px;
+  padding: 0.88rem 1rem;
+  transition: border-color var(--transicao), box-shadow var(--transicao);
+  width: 100%;
+}
+
+.campo textarea {
+  min-height: 132px;
+  resize: vertical;
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+  outline: none;
+  border-color: var(--dourado);
+  box-shadow: 0 0 0 3px rgba(201, 168, 106, 0.18);
+}
+
+.campo--duplo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.05rem;
+}
+
+.consentimento {
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+  line-height: 1.55;
+}
+
+.consentimento input {
+  margin-top: 0.25rem;
+  accent-color: var(--dourado-escuro);
+  width: 17px;
+  height: 17px;
+  flex: none;
+}
+
+.consentimento a {
+  color: var(--dourado-escuro);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.aviso-form {
+  padding: 1rem 1.15rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  border: 1px solid;
+}
+
+.aviso-form--ok {
+  background: rgba(37, 211, 102, 0.08);
+  border-color: rgba(37, 211, 102, 0.42);
+  color: #10592c;
+}
+
+.aviso-form--erro {
+  background: rgba(190, 60, 40, 0.07);
+  border-color: rgba(190, 60, 40, 0.35);
+  color: #8c2c1c;
+}
+
+/* ----------------------------------------------------------------- artigo */
+
+.artigo {
+  max-width: var(--largura-texto);
+  margin-inline: auto;
+  font-size: 1.08rem;
+  line-height: 1.82;
+}
+
+.artigo h2 {
+  font-size: clamp(1.6rem, 3vw, 2.05rem);
+  margin-top: 2.8rem;
+  margin-bottom: 0.9rem;
+  scroll-margin-top: 100px;
+}
+
+.artigo h3 {
+  font-size: 1.24rem;
+  margin-top: 2rem;
+  margin-bottom: 0.6rem;
+  scroll-margin-top: 100px;
+}
+
+.artigo p {
+  color: #2c2a27;
+}
+
+.artigo ul,
+.artigo ol {
+  color: #2c2a27;
+  padding-left: 1.3rem;
+  margin-bottom: 1.3rem;
+}
+
+.artigo li {
+  margin-bottom: 0.55rem;
+}
+
+.artigo li::marker {
+  color: var(--dourado-escuro);
+}
+
+.artigo strong {
+  color: var(--texto);
+  font-weight: 650;
+}
+
+.artigo a {
+  color: var(--dourado-escuro);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.destaque {
+  border-left: 3px solid var(--dourado);
+  background: linear-gradient(90deg, rgba(201, 168, 106, 0.09), rgba(201, 168, 106, 0));
+  padding: 1.3rem 1.5rem;
+  margin: 2rem 0;
+  border-radius: 0 12px 12px 0;
+}
+
+.destaque p:last-child {
+  margin-bottom: 0;
+}
+
+.destaque strong {
+  color: var(--dourado-escuro);
+}
+
+.citacao-lei {
+  font-family: var(--serif);
+  font-size: 1.06rem;
+  font-style: italic;
+  color: var(--texto-suave);
+  border-left: 2px solid var(--linha);
+  padding-left: 1.3rem;
+  margin: 1.8rem 0;
+}
+
+.citacao-lei cite {
+  display: block;
+  font-family: var(--sans);
+  font-style: normal;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--dourado-escuro);
+  margin-top: 0.7rem;
+}
+
+.sumario {
+  background: var(--papel-2);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio-g);
+  padding: 1.5rem 1.7rem;
+  margin-bottom: 2.5rem;
+}
+
+.sumario strong {
+  display: block;
+  font-size: 0.76rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dourado-escuro);
+  margin-bottom: 0.85rem;
+}
+
+.sumario ol {
+  margin: 0;
+  padding-left: 1.15rem;
+  font-size: 0.95rem;
+}
+
+.sumario li {
+  margin-bottom: 0.4rem;
+}
+
+.sumario a:hover {
+  color: var(--dourado-escuro);
+  text-decoration: underline;
+}
+
+.artigo-cabeca {
+  max-width: var(--largura-texto);
+  margin-inline: auto;
+}
+
+.artigo-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem 1.4rem;
+  font-size: 0.84rem;
+  color: var(--texto-claro-suave);
+  margin-top: 1.6rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--linha-escura);
+}
+
+.migalhas {
+  font-size: 0.8rem;
+  color: var(--texto-claro-suave);
+  margin-bottom: 1.5rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.migalhas a:hover {
+  color: var(--dourado);
+}
+
+/* Caixa de conversão dentro do artigo */
+.caixa-cta {
+  background: var(--tinta);
+  color: var(--texto-claro);
+  border-radius: var(--raio-g);
+  padding: clamp(1.7rem, 4vw, 2.4rem);
+  margin: 2.8rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.caixa-cta::before {
+  content: '';
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  right: -110px;
+  top: -140px;
+  background: radial-gradient(circle, rgba(201, 168, 106, 0.28), transparent 65%);
+}
+
+.caixa-cta h3 {
+  color: var(--texto-claro);
+  margin-bottom: 0.6rem;
+  position: relative;
+}
+
+.caixa-cta p {
+  color: var(--texto-claro-suave);
+  font-size: 0.98rem;
+  position: relative;
+  margin-bottom: 1.4rem;
+}
+
+.caixa-cta .botao {
+  position: relative;
+}
+
+/* Lista de artigos */
+.artigo-cartao {
+  display: grid;
+  gap: 0.7rem;
+  padding: 1.75rem 0;
+  border-bottom: 1px solid var(--linha);
+  transition: padding-left var(--transicao);
+}
+
+.artigo-cartao:hover {
+  padding-left: 0.6rem;
+}
+
+.artigo-cartao h3 {
+  margin: 0;
+  transition: color var(--transicao);
+}
+
+.artigo-cartao:hover h3 {
+  color: var(--dourado-escuro);
+}
+
+.artigo-cartao p {
+  margin: 0;
+  color: var(--texto-suave);
+  font-size: 0.96rem;
+  max-width: 72ch;
+}
+
+.etiqueta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--dourado-escuro);
+  background: rgba(201, 168, 106, 0.12);
+  border: 1px solid rgba(201, 168, 106, 0.3);
+  padding: 0.32rem 0.72rem;
+  border-radius: 999px;
+}
+
+.secao--escura .etiqueta,
+.heroi .etiqueta {
+  color: var(--dourado-claro);
+  background: rgba(201, 168, 106, 0.14);
+}
+
+/* ---------------------------------------------------------------- contato */
+
+.contato-grade {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+}
+
+.canal {
+  display: flex;
+  gap: 1rem;
+  padding: 1.3rem 0;
+  border-bottom: 1px solid var(--linha);
+}
+
+.canal:last-child {
+  border-bottom: 0;
+}
+
+.canal__icone {
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  background: rgba(201, 168, 106, 0.13);
+  border: 1px solid rgba(201, 168, 106, 0.3);
+  color: var(--dourado-escuro);
+}
+
+.canal strong {
+  display: block;
+  font-size: 0.76rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+  margin-bottom: 0.15rem;
+}
+
+.canal span,
+.canal a {
+  font-size: 1.02rem;
+  color: var(--texto);
+}
+
+.canal a:hover {
+  color: var(--dourado-escuro);
+}
+
+.painel-form {
+  background: #fff;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio-g);
+  padding: clamp(1.6rem, 3.5vw, 2.4rem);
+  box-shadow: var(--sombra);
+}
+
+/* ------------------------------------------------------------------ rodapé */
+
+.rodape {
+  background: var(--tinta);
+  color: var(--texto-claro-suave);
+  padding-block: clamp(3.5rem, 7vw, 5rem) 2rem;
+  font-size: 0.92rem;
+  position: relative;
+}
+
+.rodape__grade {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1.1fr;
+  gap: 2.5rem;
+  padding-bottom: 2.8rem;
+  border-bottom: 1px solid var(--linha-escura);
+}
+
+.rodape img {
+  height: 44px;
+  width: auto;
+  margin-bottom: 1.2rem;
+}
+
+.rodape h4 {
+  font-family: var(--sans);
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dourado);
+  margin-bottom: 1.1rem;
+}
+
+.rodape ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.62rem;
+}
+
+.rodape a:hover {
+  color: var(--dourado-claro);
+}
+
+.rodape__base {
+  padding-top: 1.8rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  color: #6f6a61;
+}
+
+.rodape__aviso {
+  font-size: 0.82rem;
+  line-height: 1.65;
+  color: #6f6a61;
+  max-width: 78ch;
+  margin-top: 1.6rem;
+}
+
+/* --------------------------------------------------- WhatsApp flutuante */
+
+.zap-flutuante {
+  position: fixed;
+  right: clamp(1rem, 3vw, 1.9rem);
+  bottom: clamp(1rem, 3vw, 1.9rem);
+  z-index: 95;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.35rem 0.85rem 0.9rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #1fbe5b, #25d366);
+  color: #04270f;
+  font-weight: 650;
+  font-size: 0.93rem;
+  box-shadow: 0 12px 34px rgba(37, 211, 102, 0.35);
+  transition: transform var(--transicao), box-shadow var(--transicao);
+  animation: entrar-zap 500ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.zap-flutuante:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 18px 44px rgba(37, 211, 102, 0.45);
+}
+
+.zap-flutuante__aro {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.zap-flutuante__aro::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  animation: pulsar 2.4s ease-out infinite;
+}
+
+@keyframes pulsar {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.9;
+  }
+  70% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes entrar-zap {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+@keyframes surgir {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Barra fixa de ação no celular */
+.barra-movel {
+  display: none;
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 94;
+  background: rgba(14, 14, 16, 0.96);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--linha-escura);
+  padding: 0.6rem 0.75rem calc(0.6rem + env(safe-area-inset-bottom));
+  gap: 0.55rem;
+}
+
+.barra-movel .botao {
+  flex: 1;
+  padding: 0.88rem 0.6rem;
+  font-size: 0.88rem;
+}
+
+/* ------------------------------------------------------- revelar ao rolar */
+
+.revelar {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 720ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 720ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.revelar[data-visivel='true'] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .revelar {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ------------------------------------------------------------ responsivo */
+
+@media (max-width: 1080px) {
+  .menu {
+    display: none;
+  }
+  .hamburguer {
+    display: grid;
+  }
+  .cabecalho__acao .botao {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .heroi__grade {
+    grid-template-columns: 1fr;
+  }
+  .heroi__retrato {
+    max-width: 420px;
+    margin-inline: auto;
+    order: -1;
+  }
+  .heroi__retrato img {
+    aspect-ratio: 3 / 2;
+    object-position: center 22%;
+  }
+  .contato-grade {
+    grid-template-columns: 1fr;
+  }
+  .rodape__grade {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    font-size: 16.5px;
+  }
+  .campo--duplo {
+    grid-template-columns: 1fr;
+  }
+  .rodape__grade {
+    grid-template-columns: 1fr;
+  }
+  .grupo-botoes .botao {
+    width: 100%;
+  }
+  .zap-flutuante {
+    display: none;
+  }
+  .barra-movel {
+    display: flex;
+  }
+  body {
+    padding-bottom: 76px;
+  }
+  .selo {
+    left: 8px;
+    bottom: 10px;
+    max-width: 200px;
+  }
+}
+
+/* ==========================================================================
+   Marca — logotipo tipográfico
+   ========================================================================== */
+
+.marca {
+  display: inline-grid;
+  justify-items: center;
+  gap: calc(var(--marca-altura) * 0.13);
+  line-height: 1;
+  user-select: none;
+}
+
+.marca__nome {
+  font-family: var(--marca);
+  font-weight: 500;
+  font-size: calc(var(--marca-altura) * 0.46);
+  letter-spacing: 0.085em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+/* O sobrenome é o que identifica: ganha um peso a mais. */
+.marca__sobrenome {
+  font-weight: 700;
+}
+
+.marca__base {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: calc(var(--marca-altura) * 0.16);
+  width: 100%;
+}
+
+.marca__filete {
+  height: 1px;
+  background: currentColor;
+  opacity: 0.55;
+}
+
+.marca__apoio {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: calc(var(--marca-altura) * 0.155);
+  letter-spacing: 0.44em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  /* A entreletra sobra à direita da última letra; compensar recentra o bloco. */
+  text-indent: 0.44em;
+}
+
+.marca--claro .marca__nome {
+  color: var(--texto-claro);
+}
+.marca--claro .marca__base {
+  color: var(--dourado);
+}
+
+.marca--escuro .marca__nome {
+  color: var(--texto);
+}
+.marca--escuro .marca__base {
+  color: var(--dourado-escuro);
+}
+
+/* ==========================================================================
+   Movimento
+   ========================================================================== */
+
+.magnetico {
+  display: inline-flex;
+  transition: transform 420ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: transform;
+}
+
+.progresso-leitura {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--dourado-escuro), var(--dourado), var(--dourado-claro));
+  z-index: 99;
+}
+
+/* ==========================================================================
+   Artigo — layout editorial
+   ========================================================================== */
+
+.artigo-heroi {
+  position: relative;
+  background: var(--tinta);
+  color: var(--texto-claro);
+  padding-block: clamp(7.5rem, 13vw, 10rem) clamp(3rem, 6vw, 4.5rem);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.artigo-heroi__luz {
+  position: absolute;
+  z-index: -1;
+  inset: -40% -10% auto auto;
+  width: 62vw;
+  height: 62vw;
+  max-width: 820px;
+  max-height: 820px;
+  background: radial-gradient(circle, rgba(201, 168, 106, 0.2), transparent 62%);
+}
+
+.artigo-heroi h1 {
+  font-size: clamp(2.05rem, 4.4vw, 3.5rem);
+  max-width: 20ch;
+  margin-block: 1.1rem 1.2rem;
+}
+
+.artigo-heroi .chamada {
+  max-width: 58ch;
+}
+
+/* Ficha do autor no topo do artigo */
+.assinatura {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: 2.2rem;
+  padding-top: 1.7rem;
+  border-top: 1px solid var(--linha-escura);
+  flex-wrap: wrap;
+}
+
+.assinatura__foto {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 12%;
+  border: 1px solid rgba(201, 168, 106, 0.45);
+  flex: none;
+}
+
+.assinatura__quem {
+  font-size: 0.92rem;
+  color: var(--texto-claro);
+  line-height: 1.35;
+}
+
+.assinatura__quem span {
+  display: block;
+  font-size: 0.79rem;
+  color: var(--texto-claro-suave);
+  margin-top: 0.12rem;
+}
+
+.assinatura__dados {
+  margin-left: auto;
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.79rem;
+  color: var(--texto-claro-suave);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Corpo em duas colunas: índice fixo + texto */
+.artigo-corpo {
+  display: grid;
+  grid-template-columns: 232px minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: start;
+}
+
+.indice-fixo {
+  position: sticky;
+  top: 104px;
+  font-size: 0.88rem;
+  border-left: 1px solid var(--linha);
+  padding-left: 1.15rem;
+}
+
+.indice-fixo strong {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dourado-escuro);
+  margin-bottom: 1rem;
+}
+
+.indice-fixo ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.1rem;
+  counter-reset: indice;
+}
+
+.indice-fixo a {
+  display: block;
+  padding: 0.42rem 0;
+  color: var(--texto-suave);
+  line-height: 1.4;
+  border-left: 2px solid transparent;
+  margin-left: -1.15rem;
+  padding-left: 1.15rem;
+  transition: color var(--transicao), border-color var(--transicao);
+}
+
+.indice-fixo a:hover {
+  color: var(--texto);
+}
+
+.indice-fixo a[data-atual='true'] {
+  color: var(--dourado-escuro);
+  border-left-color: var(--dourado);
+  font-weight: 600;
+}
+
+.indice-fixo__acao {
+  margin-top: 1.5rem;
+  padding-top: 1.3rem;
+  border-top: 1px solid var(--linha);
+}
+
+.indice-fixo__acao p {
+  font-size: 0.83rem;
+  color: var(--texto-suave);
+  margin-bottom: 0.8rem;
+}
+
+.indice-fixo__acao .botao {
+  width: 100%;
+  padding: 0.78rem 1rem;
+  font-size: 0.85rem;
+}
+
+/* Capitular na abertura do texto */
+.artigo > p:first-of-type::first-letter {
+  float: left;
+  font-family: var(--serif);
+  font-size: 3.9em;
+  line-height: 0.82;
+  padding: 0.06em 0.12em 0 0;
+  color: var(--dourado-escuro);
+  font-weight: 500;
+}
+
+.artigo h2 {
+  position: relative;
+  padding-top: 1.1rem;
+}
+
+/* Fio dourado curto abrindo cada capítulo */
+.artigo h2::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 46px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--dourado-escuro), var(--dourado-claro));
+}
+
+.citacao-lei {
+  position: relative;
+  padding: 1.6rem 1.6rem 1.6rem 3.4rem;
+  border-left: 2px solid var(--dourado);
+  background: linear-gradient(100deg, rgba(201, 168, 106, 0.08), rgba(201, 168, 106, 0));
+  border-radius: 0 14px 14px 0;
+  margin-inline: 0;
+}
+
+.citacao-lei::before {
+  content: '“';
+  position: absolute;
+  left: 1rem;
+  top: 0.45rem;
+  font-family: var(--serif);
+  font-size: 3.4rem;
+  line-height: 1;
+  color: var(--dourado);
+  opacity: 0.55;
+}
+
+.artigo-rodape {
+  margin-top: 3.2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--linha);
+  display: flex;
+  gap: 1.1rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.artigo-rodape img {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 12%;
+  border: 1px solid rgba(201, 168, 106, 0.5);
+  flex: none;
+}
+
+.artigo-rodape div {
+  flex: 1 1 260px;
+}
+
+.artigo-rodape strong {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.artigo-rodape p {
+  font-size: 0.9rem;
+  color: var(--texto-suave);
+  margin: 0;
+}
+
+.compartilhar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 2.4rem;
+  font-size: 0.83rem;
+  color: var(--texto-suave);
+  flex-wrap: wrap;
+}
+
+.compartilhar button,
+.compartilhar a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.95rem;
+  border: 1px solid var(--linha);
+  border-radius: 999px;
+  background: #fff;
+  font: inherit;
+  color: var(--texto);
+  cursor: pointer;
+  transition: border-color var(--transicao), background var(--transicao), transform var(--transicao);
+}
+
+.compartilhar button:hover,
+.compartilhar a:hover {
+  border-color: var(--dourado);
+  background: rgba(201, 168, 106, 0.08);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 1000px) {
+  .artigo-corpo {
+    grid-template-columns: 1fr;
+  }
+  .indice-fixo {
+    position: static;
+    border-left: 0;
+    border: 1px solid var(--linha);
+    border-radius: var(--raio-g);
+    padding: 1.4rem 1.5rem;
+    background: var(--papel-2);
+  }
+  .indice-fixo a {
+    margin-left: 0;
+    padding-left: 0.7rem;
+    border-left-width: 2px;
+  }
+  .assinatura__dados {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* Capa do artigo em destaque na listagem */
+.capa-artigo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 200px;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: center;
+  background: var(--tinta);
+  color: var(--texto-claro);
+  border-radius: var(--raio-g);
+  padding: clamp(1.8rem, 4vw, 3.2rem);
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--transicao), box-shadow var(--transicao);
+}
+
+.capa-artigo::before {
+  content: '';
+  position: absolute;
+  inset: -50% -20% auto auto;
+  width: 460px;
+  height: 460px;
+  background: radial-gradient(circle, rgba(201, 168, 106, 0.26), transparent 62%);
+  pointer-events: none;
+}
+
+.capa-artigo:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sombra-alta);
+}
+
+.capa-artigo__texto {
+  position: relative;
+}
+
+.capa-artigo h2 {
+  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+  margin: 1rem 0 0.8rem;
+  color: var(--texto-claro);
+  max-width: 24ch;
+}
+
+.capa-artigo p {
+  color: var(--texto-claro-suave);
+  max-width: 60ch;
+  margin-bottom: 1.3rem;
+}
+
+.capa-artigo .cartao__link {
+  color: var(--dourado);
+}
+
+.capa-artigo:hover .cartao__link {
+  gap: 0.75rem;
+}
+
+.capa-artigo__marca {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border: 1px solid rgba(201, 168, 106, 0.32);
+  border-radius: 50%;
+}
+
+.capa-artigo__marca span {
+  font-family: var(--serif);
+  font-size: 2.1rem;
+  color: var(--dourado);
+}
+
+@media (max-width: 860px) {
+  .capa-artigo {
+    grid-template-columns: 1fr;
+  }
+  .capa-artigo__marca {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   Abertura — o nome se compondo
+   --------------------------------------------------------------------------
+   Feita 100% em CSS, de propósito. Uma abertura controlada por JavaScript
+   depende do pacote carregar para sumir: se algo falha, o visitante fica
+   preso numa tela cheia. Aqui a cortina se retira sozinha, no tempo da
+   animação, mesmo que nenhum script rode. O conteúdo já está no HTML por
+   baixo dela — o rastreador do Google nunca vê uma cortina.
+   ========================================================================== */
+
+.abertura {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  background: var(--tinta);
+  animation: abertura-sair 700ms cubic-bezier(0.76, 0, 0.24, 1) 1450ms forwards;
+  pointer-events: none;
+}
+
+.abertura::before {
+  content: '';
+  position: absolute;
+  width: 70vmin;
+  height: 70vmin;
+  background: radial-gradient(circle, rgba(201, 168, 106, 0.16), transparent 62%);
+  animation: abertura-brilho 1300ms ease-out both;
+}
+
+.abertura__marca {
+  position: relative;
+  text-align: center;
+  padding-inline: 1.5rem;
+}
+
+.abertura__nome {
+  display: block;
+  font-family: var(--marca);
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: clamp(1.7rem, 6vw, 3.6rem);
+  line-height: 1.1;
+  color: var(--texto-claro);
+  /* Entreletra fechando: o nome parece se assentar no lugar. */
+  letter-spacing: 0.42em;
+  opacity: 0;
+  animation: abertura-nome 1050ms cubic-bezier(0.22, 0.61, 0.36, 1) 120ms forwards;
+}
+
+.abertura__nome b {
+  font-weight: 700;
+}
+
+.abertura__filete {
+  display: block;
+  height: 1px;
+  width: min(70vw, 380px);
+  margin: 1.5rem auto 0;
+  background: linear-gradient(90deg, transparent, var(--dourado), transparent);
+  transform: scaleX(0);
+  animation: abertura-filete 700ms cubic-bezier(0.4, 0, 0.2, 1) 780ms forwards;
+}
+
+.abertura__apoio {
+  display: block;
+  margin-top: 1.1rem;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.62em;
+  text-transform: uppercase;
+  text-indent: 0.62em;
+  color: var(--dourado);
+  opacity: 0;
+  animation: abertura-apoio 640ms ease-out 1080ms forwards;
+  filter: brightness(1.15);
+}
+
+@keyframes abertura-nome {
+  from {
+    opacity: 0;
+    letter-spacing: 0.42em;
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    letter-spacing: 0.13em;
+    filter: blur(0);
+  }
+}
+
+@keyframes abertura-filete {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes abertura-apoio {
+  to {
+    opacity: 1;
+    letter-spacing: 0.44em;
+    text-indent: 0.44em;
+  }
+}
+
+@keyframes abertura-brilho {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes abertura-sair {
+  to {
+    opacity: 0;
+    transform: translateY(-2%);
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .abertura {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   Blocos cinematográficos
+   --------------------------------------------------------------------------
+   A régua aqui é diferente da de uma página comum: cada bloco ocupa a tela
+   inteira, tem imagem de fundo com movimento próprio e o texto entra em cima.
+   O véu escuro não é enfeite — é o que garante contraste de leitura sobre
+   qualquer foto, inclusive as claras.
+   ========================================================================== */
+
+.heroi-cine {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  align-items: end;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--tinta);
+  color: var(--texto-claro);
+  padding-block: 7rem clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.heroi-cine__fundo,
+.cinema__fundo {
+  position: absolute;
+  inset: -6% 0;
+  z-index: -2;
+}
+
+.heroi-cine__fundo img,
+.cinema__fundo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.8) contrast(1.05) brightness(0.82);
+}
+
+/*
+  Três camadas de véu: uma escurece a base (onde fica o texto), outra fecha a
+  lateral esquerda, e a terceira acende um dourado difuso no alto. Juntas
+  transformam uma foto de celular em plano de fundo de cinema.
+*/
+.heroi-cine__veu,
+.cinema__veu {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(to top, rgba(14, 14, 16, 0.97) 4%, rgba(14, 14, 16, 0.6) 46%, rgba(14, 14, 16, 0.45) 100%),
+    linear-gradient(
+      to right,
+      rgba(14, 14, 16, 0.97) 0%,
+      rgba(14, 14, 16, 0.9) 26%,
+      rgba(14, 14, 16, 0.5) 58%,
+      rgba(14, 14, 16, 0.66) 100%
+    ),
+    radial-gradient(56% 46% at 82% 10%, rgba(201, 168, 106, 0.22), transparent 70%);
+}
+
+.heroi-cine__conteudo {
+  position: relative;
+  width: 100%;
+}
+
+.heroi-cine h1 {
+  font-size: clamp(2.6rem, 7vw, 5.4rem);
+  line-height: 1.02;
+  max-width: 16ch;
+  margin-bottom: 1.4rem;
+}
+
+.heroi-cine .chamada {
+  max-width: 52ch;
+  color: #d7d2c8;
+}
+
+/* Seta de "role a página" no rodapé do herói */
+.rolar-cue {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: clamp(2rem, 5vw, 3.4rem);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--texto-claro-suave);
+}
+
+.rolar-cue span {
+  display: block;
+  width: 1px;
+  height: 42px;
+  background: linear-gradient(to bottom, var(--dourado), transparent);
+  animation: descer 2.1s ease-in-out infinite;
+}
+
+@keyframes descer {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+    transform-origin: top;
+    opacity: 0.4;
+  }
+  50% {
+    transform: scaleY(1);
+    transform-origin: top;
+    opacity: 1;
+  }
+}
+
+.cinema {
+  position: relative;
+  min-height: 92svh;
+  display: grid;
+  align-items: center;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--tinta);
+  color: var(--texto-claro);
+  padding-block: clamp(4rem, 9vw, 7rem);
+}
+
+.cinema__conteudo {
+  position: relative;
+  width: 100%;
+}
+
+.cinema h2 {
+  color: var(--texto-claro);
+  max-width: 18ch;
+}
+
+/* ------------------------------------------- frase que acende ao rolar */
+
+.iluminado {
+  font-family: var(--serif);
+  font-size: clamp(1.65rem, 3.9vw, 3.05rem);
+  line-height: 1.24;
+  letter-spacing: -0.015em;
+  color: var(--texto-claro);
+  max-width: 20ch;
+  margin: 0;
+}
+
+.iluminado__palavra {
+  display: inline-block;
+}
+
+.iluminado--destaque .iluminado__palavra:nth-last-child(-n + 3) {
+  color: var(--dourado);
+}
+
+/* ----------------------------------------------- lista de áreas (linhas) */
+
+.areas-cine {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: start;
+}
+
+.areas-cine__titulo {
+  position: sticky;
+  top: 118px;
+}
+
+.area-linha {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: clamp(1rem, 3vw, 2.2rem);
+  align-items: center;
+  padding: clamp(1.5rem, 3.4vw, 2.4rem) 0;
+  border-top: 1px solid var(--linha-escura);
+  position: relative;
+  transition: padding-left var(--transicao);
+}
+
+.area-linha:last-child {
+  border-bottom: 1px solid var(--linha-escura);
+}
+
+/* Preenchimento dourado que sobe por trás da linha no hover */
+.area-linha::before {
+  content: '';
+  position: absolute;
+  inset: 0 -1.5rem;
+  background: linear-gradient(90deg, rgba(201, 168, 106, 0.12), transparent 70%);
+  opacity: 0;
+  transition: opacity var(--transicao);
+  pointer-events: none;
+}
+
+.area-linha:hover::before {
+  opacity: 1;
+}
+
+.area-linha:hover {
+  padding-left: 1.1rem;
+}
+
+.area-linha__num {
+  font-family: var(--marca);
+  font-size: 0.86rem;
+  letter-spacing: 0.1em;
+  color: var(--dourado);
+  opacity: 0.75;
+  align-self: start;
+  padding-top: 0.35rem;
+}
+
+.area-linha h3 {
+  font-size: clamp(1.35rem, 2.9vw, 2.05rem);
+  color: var(--texto-claro);
+  margin-bottom: 0.5rem;
+  transition: color var(--transicao);
+}
+
+.area-linha:hover h3 {
+  color: var(--dourado-claro);
+}
+
+.area-linha p {
+  color: var(--texto-claro-suave);
+  font-size: 0.96rem;
+  max-width: 62ch;
+  margin: 0;
+}
+
+.area-linha__seta {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--linha-escura);
+  display: grid;
+  place-items: center;
+  color: var(--dourado);
+  flex: none;
+  transition: background var(--transicao), border-color var(--transicao), transform var(--transicao);
+}
+
+.area-linha:hover .area-linha__seta {
+  background: var(--dourado);
+  border-color: var(--dourado);
+  color: var(--tinta);
+  transform: translateX(4px);
+}
+
+/* ------------------------------------------------- trilha das etapas */
+
+.trilha {
+  position: relative;
+  padding-left: clamp(2.2rem, 5vw, 3.6rem);
+}
+
+.trilha__fio {
+  position: absolute;
+  left: 8px;
+  top: 6px;
+  bottom: 6px;
+  width: 1px;
+  background: var(--linha-escura);
+}
+
+.trilha__fio-cheio {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--dourado-claro), var(--dourado), var(--dourado-escuro));
+  transform-origin: top;
+}
+
+.etapa {
+  position: relative;
+  padding-block: clamp(1.6rem, 4vw, 2.8rem);
+}
+
+.etapa::before {
+  content: '';
+  position: absolute;
+  left: calc(-1 * clamp(2.2rem, 5vw, 3.6rem) + 4px);
+  top: calc(clamp(1.6rem, 4vw, 2.8rem) + 0.55rem);
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--dourado);
+  box-shadow: 0 0 0 5px rgba(201, 168, 106, 0.16);
+}
+
+.etapa__ordem {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dourado);
+  display: block;
+  margin-bottom: 0.6rem;
+}
+
+.etapa h3 {
+  color: var(--texto-claro);
+  margin-bottom: 0.5rem;
+}
+
+.etapa p {
+  color: var(--texto-claro-suave);
+  max-width: 64ch;
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .areas-cine {
+    grid-template-columns: 1fr;
+  }
+  .areas-cine__titulo {
+    position: static;
+  }
+  .area-linha {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .area-linha__seta {
+    display: none;
+  }
+  .cinema {
+    min-height: auto;
+  }
+  .iluminado {
+    max-width: 100%;
+  }
+}
+
+/* O contêiner de parallax precisa repassar a altura para a imagem. */
+.parallax__interno {
+  width: 100%;
+  height: 100%;
+}
+
+/*
+  Os blocos cinematográficos são escuros como `.heroi`, então herdam as mesmas
+  regras de contraste. Sem isto, o botão de contorno sai com texto escuro sobre
+  a foto e simplesmente não se lê.
+*/
+.heroi-cine .olho,
+.cinema .olho {
+  color: var(--dourado);
+}
+
+.heroi-cine .chamada,
+.cinema .chamada {
+  color: #d7d2c8;
+}
+
+.heroi-cine .microtexto,
+.cinema .microtexto {
+  color: var(--texto-claro-suave);
+}
+
+.heroi-cine .botao--contorno,
+.cinema .botao--contorno {
+  --cor-texto: var(--texto-claro);
+  border-color: rgba(232, 212, 166, 0.42);
+  background: rgba(14, 14, 16, 0.35);
+  backdrop-filter: blur(6px);
+}
+
+.heroi-cine .botao--contorno:hover,
+.cinema .botao--contorno:hover {
+  border-color: var(--dourado);
+  background: rgba(201, 168, 106, 0.16);
+}
+
+.heroi-cine .etiqueta,
+.cinema .etiqueta {
+  color: var(--dourado-claro);
+  background: rgba(201, 168, 106, 0.14);
+}
+
+/* Grão também sobre o herói cinematográfico. */
+.heroi-cine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.35;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='r'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23r)' opacity='0.35'/%3E%3C/svg%3E");
+}
+
+/*
+  A foto da fachada já é escura; o véu calibrado para o retrato do herói
+  apagava a imagem por completo. Aqui ele afina, e o brilho da foto sobe —
+  o visitante precisa reconhecer a placa do escritório.
+*/
+.cinema__fundo img {
+  filter: saturate(0.9) contrast(1.06) brightness(1.02);
+}
+
+.cinema__veu {
+  background:
+    linear-gradient(to top, rgba(14, 14, 16, 0.92) 2%, rgba(14, 14, 16, 0.4) 48%, rgba(14, 14, 16, 0.3) 100%),
+    linear-gradient(
+      to right,
+      rgba(14, 14, 16, 0.93) 0%,
+      rgba(14, 14, 16, 0.74) 32%,
+      rgba(14, 14, 16, 0.28) 66%,
+      rgba(14, 14, 16, 0.45) 100%
+    ),
+    radial-gradient(56% 46% at 80% 12%, rgba(201, 168, 106, 0.16), transparent 70%);
+}
+
+/*
+  Herói dividido: o retrato institucional tem o advogado à esquerda do quadro,
+  então empurrar a foto para a metade direita é o que deixa o texto respirar
+  sem cair em cima dele. A borda esquerda da imagem é dissolvida por máscara
+  — em vez de um corte reto, a foto nasce de dentro do grafite.
+*/
+.heroi-cine--dividido .heroi-cine__fundo {
+  inset: -4% 0 -4% 34%;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 26%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 26%);
+}
+
+.heroi-cine--dividido .heroi-cine__veu {
+  background:
+    linear-gradient(to top, rgba(14, 14, 16, 0.9) 2%, rgba(14, 14, 16, 0.28) 46%, rgba(14, 14, 16, 0.3) 100%),
+    linear-gradient(
+      to right,
+      rgba(14, 14, 16, 0.97) 30%,
+      rgba(14, 14, 16, 0.62) 46%,
+      rgba(14, 14, 16, 0.15) 68%,
+      rgba(14, 14, 16, 0.42) 100%
+    ),
+    radial-gradient(50% 44% at 84% 14%, rgba(201, 168, 106, 0.2), transparent 70%);
+}
+
+.heroi-cine--dividido .heroi-cine__conteudo {
+  max-width: 100%;
+}
+
+/* O título tem de terminar antes de o retrato começar. */
+.heroi-cine--dividido h1 {
+  max-width: 11ch;
+  font-size: clamp(2.4rem, 5.4vw, 4.4rem);
+}
+
+.heroi-cine--dividido .chamada,
+.heroi-cine--dividido .microtexto {
+  max-width: 46ch;
+}
+
+@media (max-width: 900px) {
+  /* No celular não há espaço para dividir: a foto volta a ocupar o fundo. */
+  .heroi-cine--dividido .heroi-cine__fundo {
+    inset: -6% 0;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .heroi-cine--dividido .heroi-cine__veu {
+    background:
+      linear-gradient(to top, rgba(14, 14, 16, 0.96) 6%, rgba(14, 14, 16, 0.62) 48%, rgba(14, 14, 16, 0.5) 100%),
+      linear-gradient(to right, rgba(14, 14, 16, 0.86), rgba(14, 14, 16, 0.6));
+  }
+  .heroi-cine--dividido h1 {
+    max-width: 100%;
+  }
+}
+
+/* Vídeo de fundo: entra por cima do cartaz só depois que começa a tocar. */
+.cinema__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 900ms ease;
+  filter: saturate(0.82) contrast(1.05) brightness(0.9);
+}
+
+.cinema__video[data-tocando='true'] {
+  opacity: 1;
+}
+
+.cinema--video .cinema__veu {
+  background:
+    linear-gradient(to top, rgba(14, 14, 16, 0.94) 2%, rgba(14, 14, 16, 0.5) 50%, rgba(14, 14, 16, 0.4) 100%),
+    linear-gradient(
+      to right,
+      rgba(14, 14, 16, 0.95) 0%,
+      rgba(14, 14, 16, 0.78) 38%,
+      rgba(14, 14, 16, 0.42) 72%,
+      rgba(14, 14, 16, 0.58) 100%
+    );
+}

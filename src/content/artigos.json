@@ -1,0 +1,263 @@
+[
+  {
+    "slug": "encerramento-de-conta-bancaria-sem-aviso-previo-30-dias",
+    "titulo": "Encerramento de conta bancária sem aviso prévio de 30 dias: o que diz a regra e quando se discute dano moral",
+    "seoTitle": "Banco encerrou a conta sem aviso prévio de 30 dias? Entenda o dano moral",
+    "seoDescription": "O banco pode encerrar sua conta, mas precisa comunicar antes — o prazo de referência é de 30 dias. Veja quando o encerramento abrupto é discutido como dano moral e o que fazer nos primeiros dias.",
+    "resumo": "O banco pode encerrar a conta por desinteresse comercial, mas não pode fazer isso no escuro. Entenda de onde vem o prazo de 30 dias, por que a falta de comunicação prévia muda a discussão e em quais situações os tribunais reconhecem dano moral.",
+    "categoria": "Direito do Consumidor",
+    "area": "advogado-consumidor-cuiaba",
+    "publicadoEm": "2026-08-09",
+    "atualizadoEm": "2026-08-09",
+    "tempoLeitura": 11,
+    "palavraChave": "encerramento de conta bancária sem aviso prévio",
+    "destaque": true,
+    "blocos": [
+      {
+        "t": "p",
+        "texto": "Você tenta pagar uma conta e a transferência não sai. Tenta de novo pelo aplicativo e aparece um aviso genérico. Liga para a central e ouve a frase que ninguém espera: **a conta foi encerrada**. Nenhuma carta, nenhum e-mail, nenhuma ligação antes disso — e, quase sempre, nenhuma explicação sobre o motivo."
+      },
+      {
+        "t": "p",
+        "texto": "Essa situação é mais comum do que parece, atinge pessoas físicas e empresas e costuma acontecer no pior momento possível: com salário a receber, boletos vencendo, fornecedores esperando e o dinheiro preso. A pergunta que chega ao escritório é sempre a mesma: **o banco podia fazer isso?**"
+      },
+      {
+        "t": "p",
+        "texto": "A resposta curta é: o banco pode encerrar a relação, mas não pode encerrar sem avisar. É exatamente aí que mora a diferença entre um encerramento legítimo e um encerramento que gera responsabilidade."
+      },
+      { "t": "h2", "texto": "O banco pode encerrar a conta por conta própria?", "id": "pode-encerrar" },
+      {
+        "t": "p",
+        "texto": "Pode. O contrato de conta de depósito é um contrato de prestação de serviço por prazo indeterminado, e nenhuma das partes é obrigada a permanecer nele para sempre. Assim como o correntista pode pedir o encerramento quando quiser, a instituição financeira também pode manifestar o desinteresse em continuar a relação."
+      },
+      {
+        "t": "p",
+        "texto": "O que o direito exige é a **forma** dessa saída. O Código Civil trata do assunto de maneira direta ao disciplinar a resilição unilateral:"
+      },
+      {
+        "t": "lei",
+        "texto": "A resilição unilateral, nos casos em que a lei expressa ou implicitamente o permita, opera mediante denúncia notificada à outra parte.",
+        "fonte": "Código Civil, art. 473"
+      },
+      {
+        "t": "p",
+        "texto": "Note a palavra que sustenta tudo: **notificada**. A vontade de encerrar só produz efeito depois de comunicada a quem está do outro lado. Encerrar a conta e comunicar depois — ou nunca — não é exercício regular de um direito; é romper o contrato sem cumprir a condição que a própria lei impõe para rompê-lo."
+      },
+      { "t": "h2", "texto": "De onde vem o prazo de 30 dias", "id": "prazo-30-dias" },
+      {
+        "t": "p",
+        "texto": "A regulamentação bancária brasileira sempre tratou o encerramento de conta como um procedimento com etapas, e não como um botão que se aperta. Atualmente, a abertura, a manutenção e o encerramento das contas de depósito são disciplinados pela **Resolução CMN nº 4.753, de 26 de setembro de 2019**, do Conselho Monetário Nacional."
+      },
+      {
+        "t": "p",
+        "texto": "Essa norma prevê que o contrato deve estabelecer as condições de encerramento por iniciativa de qualquer das partes e que o encerramento por iniciativa da instituição depende de **comunicação prévia ao cliente**, com prazo de referência de **30 dias**. É desse conjunto — regulamentação do CMN somada ao contrato assinado na abertura da conta — que sai o prazo citado em praticamente toda discussão sobre o tema."
+      },
+      {
+        "t": "destaque",
+        "texto": "**O ponto central não é o número 30.** É a existência de um intervalo razoável entre o aviso e o efeito, para que o correntista consiga transferir salário, redirecionar débitos automáticos, avisar clientes, sacar o saldo e abrir conta em outra instituição. Um encerramento comunicado no mesmo dia esvazia essa proteção mesmo quando o banco alega ter avisado."
+      },
+      {
+        "t": "p",
+        "texto": "Vale registrar uma distinção que costuma ser confundida: **encerramento não é bloqueio**. Bloqueios temporários por suspeita de fraude, ordem judicial ou exigência de recadastramento seguem outra lógica e outros prazos. O que se discute aqui é o rompimento definitivo do vínculo."
+      },
+      { "t": "h2", "texto": "Por que o Código de Defesa do Consumidor entra na conversa", "id": "cdc" },
+      {
+        "t": "p",
+        "texto": "Bancos prestam serviço ao consumidor, e isso não é uma tese em disputa — é entendimento sumulado:"
+      },
+      {
+        "t": "lei",
+        "texto": "O Código de Defesa do Consumidor é aplicável às instituições financeiras.",
+        "fonte": "Súmula 297 do Superior Tribunal de Justiça"
+      },
+      {
+        "t": "p",
+        "texto": "Com o CDC aplicado à relação, alguns deveres deixam de ser cortesia e passam a ser obrigação. Entre eles, o direito à **informação adequada e clara** sobre os serviços contratados e a **proteção contra práticas abusivas** (art. 6º), além da vedação a práticas que coloquem o consumidor em desvantagem exagerada (arts. 39 e 51)."
+      },
+      {
+        "t": "p",
+        "texto": "Há ainda um argumento que aparece com frequência nas decisões judiciais: contratos bancários de longa duração funcionam como **contratos cativos**, em que o consumidor organiza a própria vida financeira em torno daquela instituição — salário, débitos automáticos, investimentos, limite, cartão, recebimentos. Romper esse arranjo de um dia para o outro produz um estrago que vai muito além do inconveniente."
+      },
+      { "t": "h2", "texto": "Encerrar sem aviso gera dano moral automaticamente?", "id": "dano-moral" },
+      {
+        "t": "p",
+        "texto": "Não. E desconfie de quem promete isso na primeira mensagem."
+      },
+      {
+        "t": "p",
+        "texto": "O dano moral não decorre da simples irregularidade formal. Ele depende de **repercussão concreta** na vida da pessoa ou na atividade da empresa. A falta de comunicação prévia é o que caracteriza a conduta indevida; o que se examina em seguida são as consequências que essa conduta produziu."
+      },
+      {
+        "t": "p",
+        "texto": "Na prática, os casos costumam se dividir em dois grupos."
+      },
+      { "t": "h3", "texto": "Situações em que a discussão tende a ser apenas de irregularidade" },
+      {
+        "t": "ul",
+        "itens": [
+          "Conta pouco movimentada, sem saldo relevante e sem débitos vinculados;",
+          "Aviso enviado com antecedência e comprovado pelo banco, ainda que o cliente não o tenha lido;",
+          "Encerramento que não impediu nenhum pagamento, recebimento ou compromisso;",
+          "Aborrecimento existente, mas sem desdobramento fora da esfera do incômodo."
+        ]
+      },
+      { "t": "h3", "texto": "Situações em que o dano moral costuma ser reconhecido" },
+      {
+        "t": "ul",
+        "itens": [
+          "Devolução de cheques, boletos, débitos automáticos ou Pix por conta encerrada sem aviso;",
+          "Salário, aposentadoria ou benefício depositado em conta já encerrada, com o dinheiro inacessível;",
+          "Nome inscrito em cadastro de inadimplentes por dívida que só venceu porque o pagamento não pôde ser feito;",
+          "Empresa ou profissional que perdeu recebimentos, ficou sem meio de cobrança ou teve de explicar a situação a clientes e fornecedores;",
+          "Constrangimento público — cartão recusado, compra cancelada, pagamento negado diante de terceiros;",
+          "Recusa do banco em informar o motivo, somada à peregrinação por agências e centrais sem solução."
+        ]
+      },
+      {
+        "t": "p",
+        "texto": "Há inclusive um reforço sumulado para uma das hipóteses acima:"
+      },
+      {
+        "t": "lei",
+        "texto": "A simples devolução indevida de cheque caracteriza dano moral.",
+        "fonte": "Súmula 388 do Superior Tribunal de Justiça"
+      },
+      {
+        "t": "destaque",
+        "texto": "Resumindo o critério que costuma ser aplicado: **encerrar é lícito, encerrar em silêncio não é**, e o valor da reparação acompanha o tamanho do prejuízo demonstrado — não o tamanho da indignação."
+      },
+      {
+        "t": "cta",
+        "titulo": "Sua conta foi encerrada e você não foi avisado?",
+        "texto": "Envie um resumo do que aconteceu e as datas. A análise inicial indica se o caso comporta pedido de restabelecimento, de indenização ou apenas de regularização.",
+        "botao": "Falar agora pelo WhatsApp",
+        "mensagem": "Olá. Meu banco encerrou minha conta sem aviso prévio e gostaria de uma análise do caso."
+      },
+      { "t": "h2", "texto": "Pessoa física, MEI, empresa e conta salário: as diferenças importam", "id": "tipos-de-conta" },
+      {
+        "t": "p",
+        "texto": "O enquadramento muda o tamanho do problema e, com ele, a discussão."
+      },
+      { "t": "h3", "texto": "Pessoa física" },
+      {
+        "t": "p",
+        "texto": "É o cenário mais comum. O impacto costuma aparecer em débitos automáticos, recebimento de salário e pagamentos do dia a dia. A proteção do CDC se aplica de forma direta."
+      },
+      { "t": "h3", "texto": "MEI, autônomo e pequena empresa" },
+      {
+        "t": "p",
+        "texto": "Aqui o prejuízo raramente é só moral. Sem conta, não há emissão de boleto, não há recebimento por Pix institucional, não há folha, não há pagamento de fornecedor. Além do abalo à imagem — que pode ser reconhecido também para a pessoa jurídica —, costuma haver **dano material demonstrável**, o que exige guardar contratos perdidos, cobranças frustradas e mensagens de clientes."
+      },
+      { "t": "h3", "texto": "Conta salário e conta de benefício" },
+      {
+        "t": "p",
+        "texto": "São contas com finalidade específica: receber remuneração ou benefício previdenciário. O encerramento abrupto atinge a subsistência, e é justamente por isso que esses casos costumam ser tratados com mais rigor. Se houver valor bloqueado, a discussão sobre acesso ao dinheiro tende a ser urgente."
+      },
+      { "t": "h3", "texto": "Conta digital e banco 100% online" },
+      {
+        "t": "p",
+        "texto": "A ausência de agência física não reduz o dever de comunicação. Aviso só dentro do aplicativo, sem confirmação de recebimento, é um dos pontos mais frágeis da defesa das instituições digitais — sobretudo quando o acesso ao próprio aplicativo é cortado junto com a conta."
+      },
+      { "t": "h2", "texto": "O que fazer nos primeiros dias", "id": "o-que-fazer" },
+      {
+        "t": "p",
+        "texto": "A qualidade da prova produzida na primeira semana costuma decidir o caso. Antes de qualquer medida judicial, organize o seguinte:"
+      },
+      {
+        "t": "ol",
+        "itens": [
+          "**Registre protocolo formal** junto ao banco pedindo, por escrito, o motivo do encerramento e a data em que ele ocorreu. Anote número, data, hora e nome do atendente.",
+          "**Peça o extrato completo** e o comprovante do saldo na data do encerramento. Salve em PDF, não apenas em captura de tela.",
+          "**Guarde as telas de erro**: transferência recusada, cartão negado, aplicativo bloqueado, mensagem de conta inexistente.",
+          "**Liste o que deixou de acontecer**: boletos devolvidos, débitos automáticos não pagos, salário retido, Pix devolvido, compromissos perdidos.",
+          "**Procure a ouvidoria do banco** — a resposta da ouvidoria, ou a ausência dela, é documento relevante.",
+          "**Registre reclamação no Banco Central** pelo canal de atendimento ao cidadão e guarde o número.",
+          "**Abra conta em outra instituição** o quanto antes, para reduzir o prejuízo e demonstrar boa-fé.",
+          "**Não assine acordo de quitação ampla** antes de entender o que está sendo encerrado com aquela assinatura."
+        ]
+      },
+      {
+        "t": "destaque",
+        "texto": "**Um cuidado que vale por vários:** nunca envie senha, código de autenticação ou token para ninguém — nem para quem se apresenta como o banco, nem para quem se apresenta como advogado. Nenhuma análise de caso precisa desses dados."
+      },
+      { "t": "h2", "texto": "O que pode ser pedido judicialmente", "id": "o-que-pedir" },
+      {
+        "t": "p",
+        "texto": "Depende do que o encerramento provocou. Os pedidos mais frequentes são:"
+      },
+      {
+        "t": "ul",
+        "itens": [
+          "**Liberação imediata do saldo** retido, quando o dinheiro está preso;",
+          "**Restabelecimento da conta**, quando ainda há interesse na relação e o encerramento foi irregular — em situações urgentes, por meio de tutela de urgência;",
+          "**Retirada da negativação** decorrente de dívida que só venceu por causa do encerramento;",
+          "**Indenização por danos materiais**, com prova do que foi efetivamente perdido;",
+          "**Indenização por danos morais**, quando houve repercussão além do mero aborrecimento;",
+          "**Exibição de documentos**, para obter o contrato e a prova de que a comunicação prévia foi (ou não foi) enviada."
+        ]
+      },
+      {
+        "t": "p",
+        "texto": "Um detalhe processual que costuma pesar a favor do consumidor: **a prova de que houve comunicação prévia é do banco**, não sua. Cabe à instituição demonstrar quando avisou, por qual canal e com qual antecedência. A ausência dessa prova é, com frequência, o ponto que define o resultado."
+      },
+      { "t": "h2", "texto": "Existe prazo para reclamar?", "id": "prazo" },
+      {
+        "t": "p",
+        "texto": "Existe, e ele varia conforme o enquadramento jurídico dado ao caso — reparação civil e responsabilidade por fato do serviço seguem contagens diferentes. Na prática, o tempo também joga contra por outro motivo: extratos antigos somem, protocolos deixam de ser localizados e testemunhas esquecem detalhes."
+      },
+      {
+        "t": "p",
+        "texto": "Se o encerramento aconteceu há algum tempo, não conclua sozinho que já passou o prazo. Reúna o que tiver e leve para análise."
+      },
+      { "t": "h2", "texto": "Perguntas frequentes", "id": "faq" },
+      {
+        "t": "faq",
+        "itens": [
+          {
+            "pergunta": "O banco é obrigado a informar o motivo do encerramento?",
+            "resposta": "A instituição pode encerrar a relação por desinteresse comercial, sem necessariamente detalhar razões internas de política de risco. O que não pode faltar é a comunicação prévia do encerramento. A recusa em prestar qualquer informação, somada à ausência de aviso, costuma reforçar a caracterização da conduta abusiva."
+          },
+          {
+            "pergunta": "Recebi um aviso só pelo aplicativo. Isso vale como comunicação prévia?",
+            "resposta": "Pode valer, desde que a instituição comprove o envio, o canal utilizado e a antecedência. O problema aparece quando o aviso é genérico, quando não há registro de entrega ou quando o acesso ao aplicativo foi encerrado junto com a conta, impedindo o próprio cliente de recuperar a mensagem."
+          },
+          {
+            "pergunta": "E se eu estiver com o nome negativado ou com restrição interna?",
+            "resposta": "Restrições existentes não autorizam o encerramento sem aviso. Elas podem justificar o desinteresse do banco em manter a relação, mas o procedimento continua sendo o mesmo: comunicar antes e permitir que o cliente se organize."
+          },
+          {
+            "pergunta": "Meu salário caiu na conta encerrada. O dinheiro se perde?",
+            "resposta": "Não. O saldo continua sendo seu e deve ser disponibilizado. Quando o valor fica inacessível e compromete despesas essenciais, a urgência do caso costuma justificar medida judicial específica para liberação."
+          },
+          {
+            "pergunta": "Vale a pena reclamar no Banco Central ou no Procon antes?",
+            "resposta": "Vale, por dois motivos: às vezes resolve, e sempre produz prova. O registro documenta a data em que você reclamou e a resposta apresentada pela instituição, o que ajuda na eventual discussão judicial."
+          },
+          {
+            "pergunta": "Quanto se recebe de indenização nesses casos?",
+            "resposta": "Não existe tabela nem valor garantido. A quantia depende da gravidade da conduta, da repercussão comprovada, da situação econômica das partes e do entendimento do juízo. Qualquer promessa de valor antes da análise dos documentos deve ser tratada com desconfiança."
+          }
+        ]
+      },
+      { "t": "h2", "texto": "Em resumo", "id": "resumo" },
+      {
+        "t": "ul",
+        "itens": [
+          "O banco **pode** encerrar a conta por iniciativa própria;",
+          "O encerramento depende de **comunicação prévia**, com o prazo de referência de 30 dias previsto na regulamentação e no contrato;",
+          "A falta de aviso caracteriza a irregularidade, mas o **dano moral depende da repercussão concreta**;",
+          "Devolução de pagamentos, salário inacessível, negativação e prejuízo à atividade econômica são os cenários mais reconhecidos;",
+          "A prova da comunicação prévia é **ônus do banco**;",
+          "Protocolos, extratos e telas de erro guardados nos primeiros dias valem mais do que qualquer argumento depois."
+        ]
+      },
+      {
+        "t": "cta",
+        "titulo": "Traga os documentos e receba uma análise objetiva",
+        "texto": "Conte o que aconteceu, informe as datas e envie o que já tiver em mãos. Você recebe uma orientação clara sobre os caminhos possíveis — inclusive quando o melhor caminho for não entrar com processo nenhum.",
+        "botao": "Enviar meu caso pelo WhatsApp",
+        "mensagem": "Olá. Li o artigo sobre encerramento de conta bancária sem aviso prévio e gostaria de uma análise do meu caso."
+      }
+    ]
+  }
+]

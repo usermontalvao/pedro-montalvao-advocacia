@@ -1,0 +1,68 @@
+{
+  "seoTitle": "Advogado em Cuiabá | Pedro Montalvão Advocacia",
+  "seoDescription": "Advocacia em Cuiabá com atuação em Direito Trabalhista, Previdenciário, do Consumidor e de Família. Atendimento online para todo o Brasil. Fale pelo WhatsApp.",
+  "heroOlho": "Advocacia em Cuiabá · Mato Grosso",
+  "heroTitulo": "Advocacia para orientar e <em>defender seus direitos</em>",
+  "heroTexto": "Atuação jurídica em Direito Trabalhista, Previdenciário, do Consumidor e de Família, com atendimento claro, responsável e adequado às particularidades de cada caso.",
+  "heroMicrocopy": "Atendimento presencial em Cuiabá, demandas em todo o Mato Grosso e atendimento online para clientes de qualquer estado do Brasil.",
+  "seloTitulo": "Atendimento direto",
+  "seloTexto": "Você fala com o advogado responsável pelo seu caso, não com um robô.",
+  "provas": [
+    { "numero": "4", "rotulo": "áreas de atuação com atendimento dedicado" },
+    { "numero": "100%", "rotulo": "dos casos analisados antes de qualquer proposta" },
+    { "numero": "Online", "rotulo": "documentos e conversas à distância, de todo o Brasil" },
+    { "numero": "Sigilo", "rotulo": "profissional em cada etapa do atendimento" }
+  ],
+  "sobreOlho": "O escritório",
+  "sobreTitulo": "Pedro Montalvão Advocacia",
+  "sobreParagrafos": [
+    "Questões jurídicas costumam envolver decisões importantes, prazos e documentos que precisam ser avaliados com atenção. Por isso, o escritório Pedro Montalvão Advocacia oferece orientação individualizada, comunicação acessível e acompanhamento responsável em todas as etapas do atendimento.",
+    "Com sede em Cuiabá, o escritório atua na análise preventiva de situações, em negociações, em procedimentos administrativos e em processos judiciais, conforme as necessidades e as possibilidades jurídicas de cada caso.",
+    "O compromisso é oferecer informações objetivas para que cada cliente compreenda o cenário, os caminhos disponíveis e os próximos passos."
+  ],
+  "areasOlho": "Áreas de atuação",
+  "areasTitulo": "Em que o escritório pode ajudar",
+  "areasTexto": "Cada área tem uma página própria, com os temas atendidos, os documentos que costumam ser necessários e as dúvidas mais frequentes.",
+  "processoOlho": "Como funciona",
+  "processoTitulo": "Atendimento jurídico com clareza em cada etapa",
+  "passos": [
+    {
+      "titulo": "Primeiro contato",
+      "texto": "Você apresenta a situação e informa, de maneira resumida, qual orientação procura. A equipe indica como prosseguir e quais informações iniciais são necessárias."
+    },
+    {
+      "titulo": "Análise do caso",
+      "texto": "Os documentos e os fatos relevantes são examinados para identificar os pontos jurídicos envolvidos, eventuais prazos e os caminhos que podem ser considerados."
+    },
+    {
+      "titulo": "Orientação e acompanhamento",
+      "texto": "Após a análise, você recebe explicações sobre as alternativas aplicáveis ao caso. Se houver contratação, o acompanhamento é realizado com comunicação sobre os atos relevantes."
+    }
+  ],
+  "faqTitulo": "Perguntas frequentes",
+  "faq": [
+    {
+      "pergunta": "Onde fica o escritório Pedro Montalvão Advocacia?",
+      "resposta": "O escritório está localizado na Rua Catorze, Quadra 70, nº 20, bairro Pedra 90, em Cuiabá, Mato Grosso, CEP 78099-070. O atendimento presencial é realizado mediante agendamento."
+    },
+    {
+      "pergunta": "O escritório realiza atendimento online?",
+      "resposta": "Sim. O atendimento pode ser realizado online, permitindo o envio de documentos e a comunicação à distância, inclusive para clientes de outros estados. Quando o caso exigir comparecimento presencial, a equipe informará previamente."
+    },
+    {
+      "pergunta": "Quais documentos devo enviar no primeiro contato?",
+      "resposta": "Os documentos dependem da área e do problema apresentado. No primeiro atendimento, a equipe informará o que é necessário para uma análise adequada. Evite enviar documentos sensíveis antes de confirmar que está falando com um canal oficial do escritório."
+    },
+    {
+      "pergunta": "O primeiro contato já significa que o caso foi aceito?",
+      "resposta": "Não. O envio de mensagens ou documentos não formaliza automaticamente a contratação. A atuação profissional começa após a análise de viabilidade, a definição do serviço e a formalização do contrato."
+    },
+    {
+      "pergunta": "É possível garantir o resultado de um processo?",
+      "resposta": "Não. Todo caso depende de fatos, documentos, provas, normas aplicáveis e decisões de terceiros. A advocacia é uma atividade de meio, e nenhuma atuação responsável pode prometer um resultado específico."
+    }
+  ],
+  "ctaTitulo": "Precisa de orientação jurídica?",
+  "ctaTexto": "Entre em contato para informar sua dúvida e receber as instruções iniciais de atendimento.",
+  "ctaMicrocopy": "As informações enviadas serão utilizadas para retorno e análise inicial. O contato não representa contratação automática de serviços advocatícios."
+}

@@ -57,10 +57,10 @@ export function FormularioContato({ origem = 'site' }: { origem?: string }) {
   if (enviado) {
     return (
       <div className="aviso-form aviso-form--ok" role="status">
-        <strong>Recebemos seus dados.</strong>
+        <strong>Sua mensagem está pronta.</strong>
         <p style={{ margin: '0.5rem 0 0.9rem' }}>
-          O WhatsApp foi aberto em outra aba com o resumo do seu contato. Se ele não abrir,
-          use o botão abaixo — a mensagem continua pronta.
+          O WhatsApp foi aberto com o resumo preenchido. Revise e envie por lá. Se a janela não
+          abrir, use o botão abaixo.
         </p>
         <a
           className="botao botao--zap"
@@ -169,11 +169,11 @@ export function FormularioContato({ origem = 'site' }: { origem?: string }) {
 
       <button type="submit" className="botao botao--zap" data-cta="formulario">
         <IconeWhatsApp tamanho={18} />
-        Enviar solicitação de contato
+        Preparar mensagem no WhatsApp
       </button>
 
       <p className="microtexto" style={{ marginTop: 0 }}>
-        Ao enviar, o WhatsApp do escritório abre com o resumo já escrito.
+        Ao continuar, o WhatsApp do escritório abre com o resumo já escrito.
         {jaContatou ? ' Você já enviou um contato por este site anteriormente.' : ''} Nenhum dado é
         gravado em servidor — as informações ficam no seu navegador até você enviar a mensagem.
       </p>

@@ -1,35 +1,35 @@
 {
   "seoTitle": "Pedro Rodrigues Montalvão Neto | OAB/MT 30.021",
-  "seoDescription": "Conheça Pedro Rodrigues Montalvão Neto, advogado inscrito na OAB de Mato Grosso sob o nº 30.021.",
+  "seoDescription": "Conheça Pedro Rodrigues Montalvão Neto, OAB/MT 30.021, e sua forma de atuar em questões trabalhistas, previdenciárias, de consumo e de família.",
   "h1": "Pedro Rodrigues Montalvão Neto",
-  "subtitulo": "Advogado inscrito na OAB de Mato Grosso sob o nº 30.021.",
-  "sobreTitulo": "Sobre o advogado",
+  "subtitulo": "Atendimento direto, do primeiro relato à condução do caso.",
+  "sobreTitulo": "Uma advocacia próxima por método.",
   "sobre": [
-    "Pedro Montalvão atua em questões trabalhistas, previdenciárias, de consumo e de família.",
-    "O trabalho começa pela compreensão dos fatos e pela organização dos documentos. Depois, são apresentados os caminhos possíveis, os riscos e as etapas de cada alternativa.",
-    "O atendimento pode ser presencial ou online, conforme a natureza da demanda."
+    "Pedro Montalvão é advogado em Cuiabá e atua em questões trabalhistas, previdenciárias, de consumo e de família.",
+    "No escritório, quem traz o problema fala com quem vai conduzi-lo. O trabalho começa pela história completa, passa pelos documentos e só então chega às alternativas possíveis.",
+    "A conversa pode acontecer presencialmente ou online, sem mudar o cuidado com a leitura do caso e com a explicação de cada etapa."
   ],
-  "trabalhoTitulo": "Como a análise é conduzida",
+  "trabalhoTitulo": "O que você pode esperar do trabalho",
   "trabalho": [
     {
-      "titulo": "Ouvir antes de concluir",
-      "texto": "O relato inicial ajuda a reconstruir a sequência dos fatos e a identificar o que ainda precisa ser comprovado."
+      "titulo": "A história antes da tese",
+      "texto": "O relato vem primeiro. É ele que revela a sequência dos fatos e o que ainda precisa ser comprovado."
     },
     {
-      "titulo": "Separar fato de expectativa",
-      "texto": "Documentos, prazos e normas são examinados para distinguir possibilidades jurídicas de resultados que não podem ser antecipados."
+      "titulo": "Fato, prova e prazo",
+      "texto": "Cada elemento é colocado no lugar para separar possibilidade jurídica de expectativa."
     },
     {
-      "titulo": "Explicar sem simplificar demais",
-      "texto": "A orientação é apresentada em linguagem compreensível, sem esconder riscos, etapas ou limitações relevantes."
+      "titulo": "Sem juridiquês",
+      "texto": "Riscos, etapas e limites são explicados em linguagem direta — sem esconder o que importa."
     },
     {
-      "titulo": "Formalizar com transparência",
-      "texto": "Quando há contratação, serviço, responsabilidades, comunicação e honorários são definidos antes do início da atuação."
+      "titulo": "Tudo combinado antes",
+      "texto": "Serviço, responsabilidades, comunicação e honorários são definidos antes do início da atuação."
     }
   ],
-  "escritorioTitulo": "Atendimento presencial e online",
-  "escritorioTexto": "Reuniões e documentos podem ser tratados presencialmente ou por meios digitais. O formato é definido no primeiro contato.",
-  "ctaTitulo": "Informações sobre atendimento",
-  "ctaTexto": "Utilize os canais oficiais para informar a área, a cidade e um resumo do que precisa ser analisado."
+  "escritorioTitulo": "Em Cuiabá. Ou onde você estiver.",
+  "escritorioTexto": "Atendimento presencial com agendamento e reuniões online para outras cidades. O formato é alinhado no primeiro contato.",
+  "ctaTitulo": "Seu primeiro contato pode ser simples.",
+  "ctaTexto": "Informe a área, a cidade e o que aconteceu em poucas linhas."
 }

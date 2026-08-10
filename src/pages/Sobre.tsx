@@ -20,7 +20,7 @@ export function Sobre() {
 
           <div className="heroi__grade">
             <div>
-              <span className="olho">O advogado</span>
+              <span className="olho">Quem conduz o trabalho</span>
               <h1>{conteudo.h1}</h1>
               <p className="chamada">{conteudo.subtitulo}</p>
               {SITE.oab && <p className="microtexto">{oabFormatada()}</p>}
@@ -31,11 +31,11 @@ export function Sobre() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Perfil no LinkedIn
+                  Ver LinkedIn
                   <IconeSeta />
                 </a>
                 <Link className="botao botao--contorno" para="/contato-advogado-cuiaba/">
-                  Canais de atendimento
+                  Formas de atendimento
                   <IconeSeta />
                 </Link>
               </div>
@@ -60,7 +60,7 @@ export function Sobre() {
         <div className="envolucro">
           <div className="contato-grade">
             <Revelar>
-              <span className="olho">Trajetória</span>
+              <span className="olho">Atuação</span>
               <h2>{conteudo.sobreTitulo}</h2>
             </Revelar>
             <Revelar atraso={80}>
@@ -78,7 +78,7 @@ export function Sobre() {
         <div className="envolucro">
           <div className="metodo-linha">
             <Revelar className="metodo-linha__introducao">
-              <span className="olho">Método</span>
+              <span className="olho">Na prática</span>
               <h2>{conteudo.trabalhoTitulo}</h2>
             </Revelar>
             {conteudo.trabalho.map((item, indice) => (
@@ -96,7 +96,7 @@ export function Sobre() {
         <div className="envolucro">
           <div className="contato-grade">
             <Revelar>
-              <span className="olho">Estrutura</span>
+              <span className="olho">Presencial + online</span>
               <h2>{conteudo.escritorioTitulo}</h2>
               <p style={{ color: 'var(--texto-suave)' }}>{conteudo.escritorioTexto}</p>
               <p className="microtexto">{ENDERECO_LINHA}</p>
@@ -128,7 +128,7 @@ export function Sobre() {
                   <h3>{area.nome}</h3>
                   <p>{area.resumoHome}</p>
                   <span className="cartao__link">
-                    Ver página
+                    Conhecer a área
                     <IconeSeta tamanho={15} />
                   </span>
                 </Link>
@@ -141,7 +141,7 @@ export function Sobre() {
       <SecaoCta
         titulo={conteudo.ctaTitulo}
         texto={conteudo.ctaTexto}
-        botao="Ver canais de atendimento"
+        botao="Ver formas de atendimento"
         destino="/contato-advogado-cuiaba/"
         secundario={false}
       />

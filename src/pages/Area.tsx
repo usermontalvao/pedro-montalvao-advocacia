@@ -40,7 +40,7 @@ export function Area({ area }: { area: ConteudoArea }) {
                 <IconeSeta />
               </Link>
               <a className="botao botao--contorno" href="#temas">
-                Ver temas analisados
+                Explorar os temas
                 <IconeSeta />
               </a>
             </div>
@@ -68,7 +68,7 @@ export function Area({ area }: { area: ConteudoArea }) {
         <div className="envolucro">
           <div className="contato-grade">
             <Revelar>
-              <span className="olho">Como o escritório atua</span>
+              <span className="olho">Antes de qualquer medida</span>
               <h2>{area.introTitulo}</h2>
             </Revelar>
             <Revelar atraso={80}>
@@ -87,7 +87,7 @@ export function Area({ area }: { area: ConteudoArea }) {
         <div className="envolucro">
           <Revelar>
             <div className="cabeca-secao">
-              <span className="olho">Temas atendidos</span>
+              <span className="olho">Temas da área</span>
               <h2>{area.temasTitulo}</h2>
             </div>
           </Revelar>
@@ -114,7 +114,7 @@ export function Area({ area }: { area: ConteudoArea }) {
         <div className="envolucro">
           <div className="contato-grade">
             <Revelar>
-              <span className="olho">Momento certo</span>
+              <span className="olho">Quando vale olhar para isso</span>
               <h2>{area.quandoTitulo}</h2>
               {area.quando.map((paragrafo) => (
                 <p key={paragrafo.slice(0, 24)} style={{ color: 'var(--texto-suave)' }}>
@@ -128,7 +128,7 @@ export function Area({ area }: { area: ConteudoArea }) {
                 data-cta="meio-area"
                 style={{ marginTop: '0.8rem' }}
               >
-                Informações sobre atendimento
+                Ver formas de atendimento
                 <IconeSeta />
               </Link>
             </Revelar>
@@ -157,10 +157,7 @@ export function Area({ area }: { area: ConteudoArea }) {
             <Revelar>
               <span className="olho">Perguntas frequentes</span>
               <h2>{area.faqTitulo}</h2>
-              <p className="chamada">
-                Respostas gerais. A orientação aplicável ao seu caso depende dos fatos e dos
-                documentos.
-              </p>
+              <p className="chamada">Respostas gerais. Fatos e documentos podem mudar a orientação.</p>
             </Revelar>
             <Revelar atraso={80}>
               <Faq perguntas={area.faq} idPrefixo={area.slug} />
@@ -202,7 +199,7 @@ export function Area({ area }: { area: ConteudoArea }) {
                   <h3>{item.nome}</h3>
                   <p>{item.resumoHome}</p>
                   <span className="cartao__link">
-                    Ver página
+                    Conhecer a área
                     <IconeSeta tamanho={15} />
                   </span>
                 </Link>

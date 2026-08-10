@@ -22,12 +22,12 @@ export function AreasAtuacao() {
           <div className="areas-pagina__abertura">
             <div className="areas-pagina__texto">
               <span className="olho">Áreas de atuação</span>
-              <h1>Áreas de atuação</h1>
+              <h1>Por onde começar?</h1>
               <p className="chamada">
-                Escolha uma área para conhecer os temas e os documentos que podem ser relevantes.
+                Trabalho, INSS, consumo ou família: escolha o assunto mais próximo.
               </p>
               <Link className="botao botao--claro" para="/contato-advogado-cuiaba/">
-                Canais de atendimento
+                Ver formas de atendimento
                 <IconeSeta />
               </Link>
             </div>
@@ -59,8 +59,8 @@ export function AreasAtuacao() {
         <div className="envolucro">
           <Revelar>
             <div className="cabeca-secao">
-              <span className="olho">Atuação jurídica</span>
-              <h2>Escolha uma área</h2>
+              <span className="olho">Explore os temas</span>
+              <h2>Quatro pontos de partida.</h2>
             </div>
           </Revelar>
 
@@ -110,7 +110,7 @@ export function AreasAtuacao() {
                   ))}
                 </ul>
                 <Link className="botao botao--claro" para={`/${areaAtiva.slug}/`}>
-                  Conhecer esta área
+                  Entrar nesta área
                   <IconeSeta />
                 </Link>
               </div>
@@ -123,16 +123,16 @@ export function AreasAtuacao() {
         <div className="envolucro">
           <div className="areas-pagina__orientacao-grade">
             <Revelar>
-              <span className="olho">Enquadramento</span>
-              <h2>Uma situação pode envolver áreas diferentes.</h2>
+              <span className="olho">Nem sempre é uma coisa só</span>
+              <h2>Um problema pode atravessar áreas diferentes.</h2>
             </Revelar>
             <Revelar atraso={70}>
               <p className="chamada">
-                A área é definida a partir dos fatos, dos documentos e da relação entre as pessoas
-                ou instituições envolvidas.
+                Trabalho, família, consumo ou previdência são pontos de partida. Os fatos mostram
+                onde a questão realmente se encaixa.
               </p>
               <Link className="cartao__link" para="/contato-advogado-cuiaba/">
-                Canais de atendimento
+                Ver formas de atendimento
                 <IconeSeta tamanho={15} />
               </Link>
             </Revelar>
@@ -141,9 +141,9 @@ export function AreasAtuacao() {
       </section>
 
       <SecaoCta
-        titulo="Outra questão?"
-        texto="Resuma o que aconteceu. O escritório indicará as informações necessárias para o primeiro contato."
-        botao="Ver canais de atendimento"
+        titulo="Não encontrou o seu assunto?"
+        texto="Conte o que aconteceu em poucas linhas. O escritório indica por onde começar."
+        botao="Ver formas de atendimento"
         destino="/contato-advogado-cuiaba/"
         secundario={false}
       />

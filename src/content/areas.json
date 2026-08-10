@@ -5,20 +5,20 @@
     "menu": "Trabalhista",
     "icone": "balanca",
     "imagem": "area-trabalhista",
-    "resumoHome": "Verbas rescisórias, horas extras, FGTS, férias, décimo terceiro, adicionais, estabilidade, assédio no trabalho e outras relações entre empregado e empregador.",
+    "resumoHome": "Relações de trabalho antes, durante ou depois do contrato: jornada, pagamentos, rescisão, assédio e estabilidade.",
     "seoTitle": "Advogado Trabalhista em Cuiabá | Pedro Montalvão",
     "seoDescription": "Orientação em Direito Trabalhista sobre rescisão, horas extras, FGTS, adicionais, férias, assédio e relações de trabalho.",
     "h1": "Direito Trabalhista",
-    "subtitulo": "Contratos, pagamentos, jornada, desligamentos e conflitos no trabalho.",
-    "botaoPrincipal": "Ver canais de atendimento",
+    "subtitulo": "Do contrato à rescisão: jornada, pagamentos, prova e prazo.",
+    "botaoPrincipal": "Ver formas de atendimento",
     "mensagemZap": "Olá. Tenho uma dúvida trabalhista e gostaria de informações sobre o atendimento.",
-    "microcopyHero": "Atendimento presencial ou online, conforme o caso.",
-    "introTitulo": "Orientação em Direito do Trabalho",
+    "microcopyHero": "Presencial em Cuiabá ou online.",
+    "introTitulo": "O que aconteceu no trabalho precisa de contexto.",
     "intro": [
-      "Questões trabalhistas podem surgir durante o contrato ou depois do desligamento. A análise considera documentos, provas e prazos.",
-      "Carteira de trabalho, contrato, holerites, extratos, registros de jornada e mensagens podem ajudar a reconstruir o que ocorreu."
+      "Uma questão trabalhista não começa na rescisão. Ela pode estar na jornada, no pagamento, na rotina ou na forma como o vínculo terminou.",
+      "Carteira de trabalho, holerites, extratos, registros de ponto e mensagens ajudam a transformar lembranças em uma linha do tempo verificável."
     ],
-    "temasTitulo": "Questões trabalhistas atendidas",
+    "temasTitulo": "O que pode ser examinado",
     "temas": [
       {
         "titulo": "Rescisão do contrato de trabalho",
@@ -61,12 +61,12 @@
         "texto": "Elaboração e acompanhamento de medidas judiciais quando a via processual for adequada, com orientação sobre audiências, documentos, provas e etapas do processo."
       }
     ],
-    "quandoTitulo": "Quando procurar orientação trabalhista?",
+    "quandoTitulo": "Antes de assinar. Ou antes que o prazo passe.",
     "quando": [
-      "É recomendável buscar orientação assim que surgir uma dúvida relevante sobre o contrato, o pagamento ou o desligamento. Prazos legais podem limitar o período discutido, e a organização antecipada de documentos ajuda a preservar informações importantes.",
-      "Também é possível procurar orientação preventiva, antes de assinar acordos, pedidos de demissão, termos de quitação ou outros documentos que possam produzir efeitos jurídicos."
+      "Dúvidas sobre contrato, pagamento, jornada ou desligamento merecem atenção enquanto documentos e informações ainda estão acessíveis. Prazos legais podem limitar o que será discutido.",
+      "A orientação também pode vir antes de acordos, pedidos de demissão, quitações ou outros documentos com efeitos jurídicos."
     ],
-    "documentosTitulo": "O que separar para a análise inicial",
+    "documentosTitulo": "O que vale ter em mãos",
     "documentos": [
       "Documento de identificação",
       "Carteira de Trabalho física ou digital",
@@ -78,7 +78,7 @@
       "Avisos, e-mails, conversas e outros registros relacionados ao caso",
       "Nome e contato de possíveis testemunhas, quando pertinente"
     ],
-    "documentosNota": "Nem todos os itens serão necessários em toda situação. A equipe orientará quais documentos são úteis para o caso concreto.",
+    "documentosNota": "Não precisa reunir tudo de uma vez. O escritório indica o que realmente importa depois do primeiro relato.",
     "faqTitulo": "Perguntas frequentes sobre Direito Trabalhista",
     "faq": [
       {
@@ -106,9 +106,9 @@
         "resposta": "Sim. A conversa inicial e o envio de documentos podem ocorrer online. Caso seja necessário comparecimento presencial, a equipe informará durante o atendimento."
       }
     ],
-    "ctaTitulo": "Atendimento trabalhista",
-    "ctaTexto": "Informe, de forma resumida, o que ocorreu na relação de trabalho.",
-    "ctaMicrocopy": "Nenhum resultado pode ser garantido. As possibilidades jurídicas dependem da análise dos fatos, documentos e normas aplicáveis."
+    "ctaTitulo": "Comece pela linha do tempo.",
+    "ctaTexto": "Conte quando o vínculo começou, o que mudou e como a relação terminou — se já terminou.",
+    "ctaMicrocopy": "Fatos, provas e prazos definem as possibilidades jurídicas."
   },
   {
     "slug": "advogado-previdenciario-cuiaba",
@@ -116,20 +116,20 @@
     "menu": "Previdenciário",
     "icone": "escudo",
     "imagem": "area-previdenciaria",
-    "resumoHome": "Aposentadorias, benefícios por incapacidade, BPC/LOAS, pensão por morte, salário-maternidade, planejamento previdenciário, revisões e requerimentos no INSS.",
+    "resumoHome": "Histórico contributivo, benefícios e decisões do INSS — do planejamento ao pedido ou à revisão.",
     "seoTitle": "Advogado Previdenciário em Cuiabá | Pedro Montalvão",
     "seoDescription": "Orientação em Direito Previdenciário sobre aposentadorias, BPC/LOAS, incapacidade, pensão, revisões e questões com o INSS.",
     "h1": "Direito Previdenciário",
-    "subtitulo": "Benefícios, contribuições, planejamento e decisões do INSS.",
-    "botaoPrincipal": "Ver canais de atendimento",
+    "subtitulo": "Seu histórico no INSS antes do pedido, da revisão ou do recurso.",
+    "botaoPrincipal": "Ver formas de atendimento",
     "mensagemZap": "Olá. Tenho uma questão previdenciária (INSS) e gostaria de informações sobre o atendimento.",
-    "microcopyHero": "Atendimento presencial ou online, conforme o caso.",
-    "introTitulo": "Orientação previdenciária baseada no histórico de cada pessoa",
+    "microcopyHero": "Presencial em Cuiabá ou online.",
+    "introTitulo": "Seu histórico conta tanto quanto o pedido.",
     "intro": [
-      "A análise previdenciária pode envolver vínculos, salários, atividades especiais, períodos rurais, afastamentos e dados do CNIS.",
-      "O primeiro passo é organizar essas informações, identificar inconsistências e verificar os requisitos do benefício."
+      "Vínculos, salários, atividades especiais, períodos rurais e afastamentos podem mudar a leitura de um benefício.",
+      "Por isso, o trabalho começa no CNIS e nos documentos — antes de escolher a regra ou protocolar o pedido."
     ],
-    "temasTitulo": "Questões previdenciárias atendidas",
+    "temasTitulo": "Onde o histórico previdenciário pesa",
     "temas": [
       {
         "titulo": "Aposentadorias",
@@ -168,12 +168,12 @@
         "texto": "Orientação sobre vínculos, remunerações ou contribuições ausentes ou divergentes no Cadastro Nacional de Informações Sociais, conforme os documentos disponíveis."
       }
     ],
-    "quandoTitulo": "Quando procurar orientação previdenciária?",
+    "quandoTitulo": "Antes ou depois de o INSS decidir.",
     "quando": [
       "Antes de dar entrada em um pedido, quando existe dúvida sobre a regra aplicável, sobre o tempo de contribuição reconhecido ou sobre o melhor momento para requerer o benefício.",
       "Depois de uma decisão do INSS, especialmente em caso de indeferimento, suspensão ou cessação — nessas situações há prazos administrativos que precisam ser observados."
     ],
-    "documentosTitulo": "Documentos que podem ajudar na análise",
+    "documentosTitulo": "O que ajuda a contar esse histórico",
     "documentos": [
       "Documento de identificação e CPF",
       "Carteira de Trabalho",
@@ -184,7 +184,7 @@
       "Laudos, exames, relatórios e atestados médicos, em casos de incapacidade",
       "Documentos de atividade especial, rural ou de serviço público, quando aplicável"
     ],
-    "documentosNota": "A relação é apenas orientativa. Os documentos necessários dependem do benefício e do histórico de cada pessoa.",
+    "documentosNota": "A lista é um ponto de partida. O benefício e o histórico indicam o que mais será necessário.",
     "faqTitulo": "Perguntas frequentes sobre Direito Previdenciário",
     "faq": [
       {
@@ -209,12 +209,12 @@
       },
       {
         "pergunta": "O atendimento previdenciário pode ser online?",
-        "resposta": "Sim. Documentos e informações podem ser enviados pelos canais digitais do escritório. A equipe indicará se alguma etapa presencial for necessária."
+        "resposta": "Sim. Documentos e informações podem ser enviados pelos canais digitais do escritório. O escritório indicará se alguma etapa presencial for necessária."
       }
     ],
-    "ctaTitulo": "Atendimento previdenciário",
-    "ctaTexto": "Informe qual benefício, decisão do INSS ou questão previdenciária precisa ser examinada.",
-    "ctaMicrocopy": "O contato não garante concessão, revisão ou aumento de benefício. Cada situação depende do preenchimento dos requisitos legais."
+    "ctaTitulo": "Comece pelo benefício ou pela decisão.",
+    "ctaTexto": "Informe o que foi pedido ao INSS, quando e qual resposta você recebeu.",
+    "ctaMicrocopy": "Concessão, revisão ou aumento dependem do histórico e dos requisitos legais."
   },
   {
     "slug": "advogado-consumidor-cuiaba",
@@ -222,20 +222,20 @@
     "menu": "Consumidor",
     "icone": "documento",
     "imagem": "area-consumidor",
-    "resumoHome": "Cobrança indevida, negativação, falha na prestação de serviços, problemas com produtos, contratos de consumo, bancos e práticas potencialmente abusivas.",
+    "resumoHome": "Cobranças, contratos, bancos, negativações e falhas que desequilibram a relação de consumo.",
     "seoTitle": "Advogado do Consumidor em Cuiabá | Pedro Montalvão",
     "seoDescription": "Orientação em Direito do Consumidor sobre cobranças, negativação, produtos, serviços, bancos e contratos.",
     "h1": "Direito do Consumidor",
-    "subtitulo": "Cobranças, negativação, contratos e falhas em produtos ou serviços.",
-    "botaoPrincipal": "Ver canais de atendimento",
+    "subtitulo": "O que foi oferecido, o que foi entregue e o que ficou sem solução.",
+    "botaoPrincipal": "Ver formas de atendimento",
     "mensagemZap": "Olá. Tenho um problema de consumo e gostaria de informações sobre o atendimento.",
-    "microcopyHero": "Atendimento presencial ou online, conforme o caso.",
-    "introTitulo": "Direito do Consumidor com análise dos fatos e das provas",
+    "microcopyHero": "Presencial em Cuiabá ou online.",
+    "introTitulo": "O contrato é só uma parte da história.",
     "intro": [
-      "Cobranças, falhas de serviço e negativações precisam ser examinadas com os documentos da relação de consumo.",
-      "Contratos, comprovantes, protocolos e mensagens ajudam a verificar o que foi contratado, cobrado ou informado."
+      "Em uma relação de consumo, promessa, cobrança e entrega precisam conversar entre si. Quando não conversam, o registro do que aconteceu faz diferença.",
+      "Contrato, comprovantes, protocolos e mensagens mostram o que foi oferecido, cobrado, contestado e respondido."
     ],
-    "temasTitulo": "Questões de consumo atendidas",
+    "temasTitulo": "Onde a relação pode ter falhado",
     "temas": [
       {
         "titulo": "Cobrança indevida",
@@ -270,12 +270,12 @@
         "texto": "Avaliação de negativas, cobranças ou falhas relacionadas a contratos de consumo, observadas as regras específicas e a urgência de cada situação."
       }
     ],
-    "quandoTitulo": "Quando procurar orientação em Direito do Consumidor?",
+    "quandoTitulo": "Quando a resposta da empresa não resolve.",
     "quando": [
       "Assim que a tentativa de solução direta com a empresa não avançar, ou quando houver urgência — corte de serviço essencial, negativação iminente ou bloqueio de conta, por exemplo.",
       "Antes de aceitar acordos, termos de quitação ou propostas de fechamento apresentadas pela empresa, para entender o que exatamente está sendo encerrado."
     ],
-    "documentosTitulo": "O que guardar antes de buscar orientação",
+    "documentosTitulo": "Guarde o rastro do problema",
     "documentos": [
       "Contrato, pedido ou comprovante da compra",
       "Nota fiscal e comprovantes de pagamento",
@@ -314,9 +314,9 @@
         "resposta": "A tentativa de solução pode produzir registros importantes e, em muitos casos, resolver o problema mais rapidamente. No entanto, a necessidade e a forma dessa tentativa dependem da situação, especialmente quando existe urgência."
       }
     ],
-    "ctaTitulo": "Atendimento ao consumidor",
-    "ctaTexto": "Resuma o problema e informe quais documentos estão disponíveis.",
-    "ctaMicrocopy": "O envio de documentos não formaliza a contratação e não representa promessa de resultado."
+    "ctaTitulo": "Comece pelo que foi contratado.",
+    "ctaTexto": "Conte o que a empresa prometeu, o que aconteceu e quais respostas você já recebeu.",
+    "ctaMicrocopy": "A mensagem não formaliza contratação nem representa promessa de resultado."
   },
   {
     "slug": "advogado-familia-cuiaba",
@@ -324,20 +324,20 @@
     "menu": "Família",
     "icone": "familia",
     "imagem": "area-familia",
-    "resumoHome": "Divórcio, guarda, convivência familiar, pensão alimentícia, reconhecimento ou dissolução de união estável, partilha de bens e outras questões familiares.",
+    "resumoHome": "Decisões sobre vínculos, cuidado e patrimônio: divórcio, guarda, alimentos, união estável e partilha.",
     "seoTitle": "Advogado de Família em Cuiabá | Pedro Montalvão",
     "seoDescription": "Orientação em Direito de Família sobre divórcio, guarda, convivência, pensão alimentícia, união estável e partilha de bens.",
     "h1": "Direito de Família",
-    "subtitulo": "Divórcio, guarda, convivência, alimentos, união estável e partilha.",
-    "botaoPrincipal": "Ver canais de atendimento",
+    "subtitulo": "Decisões sobre vínculos, cuidado, convivência e patrimônio.",
+    "botaoPrincipal": "Ver formas de atendimento",
     "mensagemZap": "Olá. Tenho uma questão de Direito de Família e gostaria de informações sobre o atendimento.",
-    "microcopyHero": "Atendimento presencial ou online, conforme o caso.",
-    "introTitulo": "Orientação jurídica em momentos que exigem cuidado",
+    "microcopyHero": "Presencial em Cuiabá ou online.",
+    "introTitulo": "Decisões jurídicas em relações que continuam.",
     "intro": [
-      "Questões familiares podem envolver patrimônio, vínculos afetivos e interesses de crianças ou adolescentes.",
-      "A análise identifica as possibilidades de acordo, as medidas judiciais cabíveis e os documentos necessários."
+      "Uma questão de família quase nunca termina no processo. Ela alcança rotina, patrimônio, vínculos afetivos e, muitas vezes, crianças ou adolescentes.",
+      "O papel jurídico é dar forma ao que precisa ser definido: por acordo, por medida judicial ou por prevenção."
     ],
-    "temasTitulo": "Questões de família atendidas",
+    "temasTitulo": "O que pode precisar de definição",
     "temas": [
       {
         "titulo": "Divórcio consensual ou litigioso",
@@ -372,12 +372,12 @@
         "texto": "Atuação quando obrigações definidas em acordo ou decisão judicial não estão sendo cumpridas, observando as medidas adequadas a cada situação."
       }
     ],
-    "quandoTitulo": "Quando procurar orientação familiar?",
+    "quandoTitulo": "Antes que a urgência decida por você.",
     "quando": [
       "Antes de assinar acordos de divórcio, partilha ou alimentos, para compreender os efeitos que eles produzem no futuro.",
       "Quando houver descumprimento de obrigações já definidas, risco ao bem-estar de crianças e adolescentes ou mudança relevante na situação financeira das partes."
     ],
-    "documentosTitulo": "Documentos que podem ser necessários",
+    "documentosTitulo": "O que pode ajudar no primeiro olhar",
     "documentos": [
       "Documento de identificação e CPF",
       "Certidão de casamento ou nascimento",
@@ -388,7 +388,7 @@
       "Acordos ou decisões judiciais anteriores",
       "Mensagens e outros registros relevantes ao caso"
     ],
-    "documentosNota": "A equipe indicará os documentos necessários depois de compreender a situação. Evite expor detalhes íntimos ou dados de menores em canais públicos.",
+    "documentosNota": "O escritório indica o que será necessário depois do primeiro relato. Evite expor detalhes íntimos ou dados de menores em canais públicos.",
     "faqTitulo": "Perguntas frequentes sobre Direito de Família",
     "faq": [
       {
@@ -416,8 +416,8 @@
         "resposta": "Sim. O atendimento jurídico observa o sigilo profissional. Para proteger sua privacidade, envie informações apenas pelos canais oficiais do escritório."
       }
     ],
-    "ctaTitulo": "Atendimento em Direito de Família",
-    "ctaTexto": "Informe, de forma resumida, qual questão familiar precisa ser analisada.",
-    "ctaMicrocopy": "Cada família possui circunstâncias próprias. As alternativas jurídicas são apresentadas somente após a análise individual."
+    "ctaTitulo": "Comece pelo que precisa ser definido.",
+    "ctaTexto": "Conte, sem expor detalhes íntimos, qual decisão ou acordo precisa ser construído.",
+    "ctaMicrocopy": "Cada família tem circunstâncias próprias. A orientação depende de uma leitura individual."
   }
 ]

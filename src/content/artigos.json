@@ -130,7 +130,7 @@
         "t": "cta",
         "titulo": "Sua conta foi encerrada e você não foi avisado?",
         "texto": "Envie um resumo do que aconteceu e as datas. A análise inicial indica se o caso comporta pedido de restabelecimento, de indenização ou apenas de regularização.",
-        "botao": "Falar agora pelo WhatsApp",
+        "botao": "Informações pelo WhatsApp",
         "mensagem": "Olá. Meu banco encerrou minha conta sem aviso prévio e gostaria de uma análise do caso."
       },
       { "t": "h2", "texto": "Pessoa física, MEI, empresa e conta salário: as diferenças importam", "id": "tipos-de-conta" },
@@ -254,8 +254,8 @@
       {
         "t": "cta",
         "titulo": "Traga os documentos e receba uma análise objetiva",
-        "texto": "Conte o que aconteceu, informe as datas e envie o que já tiver em mãos. Você recebe uma orientação clara sobre os caminhos possíveis — inclusive quando o melhor caminho for não entrar com processo nenhum.",
-        "botao": "Enviar meu caso pelo WhatsApp",
+        "texto": "Conte o que aconteceu, informe as datas e reúna o que já tiver em mãos. O primeiro passo é entender se a questão pede regularização, negociação ou medida judicial.",
+        "botao": "Informações pelo WhatsApp",
         "mensagem": "Olá. Li o artigo sobre encerramento de conta bancária sem aviso prévio e gostaria de uma análise do meu caso."
       }
     ]

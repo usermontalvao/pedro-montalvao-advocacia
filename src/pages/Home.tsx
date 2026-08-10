@@ -37,18 +37,18 @@ export function Home() {
                 para="/contato-advogado-cuiaba/"
                 data-cta="heroi"
               >
-                Canais de atendimento
+                Ver formas de atendimento
                 <IconeSeta />
               </Link>
               <Link className="botao botao--transparente" para="/areas-de-atuacao/">
-                Conhecer a atuação
+                Ver áreas de atuação
               </Link>
             </div>
 
             <p className="microtexto">{conteudo.heroMicrocopy}</p>
             <a className="rolar-cue" href="#apresentacao" aria-label="Continuar para a apresentação">
               <span aria-hidden />
-              Conheça o escritório
+              Como trabalhamos
             </a>
           </div>
         </div>
@@ -79,7 +79,7 @@ export function Home() {
             <p key={paragrafo.slice(0, 28)}>{paragrafo}</p>
           ))}
           <Link className="botao botao--transparente" para="/sobre-advogado-cuiaba/">
-            Perfil profissional
+            Conhecer o advogado
             <IconeSeta />
           </Link>
         </Revelar>
@@ -121,21 +121,20 @@ export function Home() {
         cartazPequeno="/midia/sede-atendimento-720.webp"
       >
         <Revelar>
-          <span className="olho">Presencial ou online</span>
+          <span className="olho">Atendimento online</span>
         </Revelar>
         <TextoIluminado
           como="h2"
           className="iluminado--destaque"
-          texto="A proximidade não depende da distância."
+          texto="Perto, mesmo à distância."
         />
         <Revelar atraso={90}>
           <p>
-            Cada atendimento começa pela compreensão do contexto. Reuniões, documentos e
-            acompanhamento podem ocorrer presencialmente ou por meios digitais, mantendo a
-            comunicação direta.
+            Reuniões, documentos e acompanhamento podem acontecer online. Se algum ato exigir
+            presença física, isso é alinhado desde o início.
           </p>
           <Link className="botao botao--claro" para="/advogado-online-brasil/">
-            Entenda como funciona
+            Ver o atendimento online
             <IconeSeta />
           </Link>
         </Revelar>
@@ -175,15 +174,15 @@ export function Home() {
             />
           </Revelar>
           <Revelar className="perfil-destaque__texto" atraso={80}>
-            <span className="olho">Sobre o advogado</span>
+            <span className="olho">Quem conduz</span>
             <h2>Pedro Rodrigues<br />Montalvão Neto</h2>
             <p className="perfil-destaque__oab">OAB/MT 30.021</p>
             <p>
-              Nascido em Cuiabá, atua em questões trabalhistas, previdenciárias, de consumo e de
-              família, com atendimento direto e comunicação em linguagem acessível.
+              Advogado cuiabano, com atuação trabalhista, previdenciária, de consumo e de família.
+              Quem chega ao escritório fala diretamente com quem conduz o trabalho.
             </p>
             <Link className="botao botao--transparente" para="/sobre-advogado-cuiaba/">
-              Conhecer a trajetória
+              Conhecer o advogado
               <IconeSeta />
             </Link>
           </Revelar>
@@ -193,11 +192,10 @@ export function Home() {
       <section className="secao">
         <div className="envolucro">
           <Revelar className="cabeca-secao">
-            <span className="olho">Conteúdo jurídico</span>
-            <h2>Informação para compreender o cenário.</h2>
+            <span className="olho">Para ler com calma</span>
+            <h2>Direito, sem o juridiquês.</h2>
             <p className="chamada">
-              Publicações independentes da análise de um caso concreto, escritas em linguagem
-              direta e sem promessas.
+              Textos para entender regras, limites e providências antes de qualquer decisão.
             </p>
           </Revelar>
 
@@ -205,13 +203,13 @@ export function Home() {
             <Link className="capa-artigo capa-artigo--editorial" para="/artigos/">
               <div className="capa-artigo__texto">
                 <span className="etiqueta">Publicações</span>
-                <h2>Análises jurídicas em linguagem direta.</h2>
+                <h2>Entenda antes de decidir.</h2>
                 <p>
-                  Textos para explicar mudanças normativas, direitos, limites e caminhos possíveis
-                  sem simplificações que distorçam o contexto.
+                  Conteúdo informativo, escrito para transformar termos técnicos em informação
+                  útil — sem promessas nem atalhos.
                 </p>
                 <span className="cartao__link">
-                  Acessar artigos
+                  Ler os artigos
                   <IconeSeta tamanho={16} />
                 </span>
               </div>
@@ -234,11 +232,10 @@ export function Home() {
       <section className="secao secao--creme">
         <div className="envolucro contato-grade">
           <Revelar>
-            <span className="olho">Informações essenciais</span>
+            <span className="olho">Antes do contato</span>
             <h2>{conteudo.faqTitulo}</h2>
             <p className="chamada">
-              O que é possível esclarecer antes de compartilhar documentos ou formalizar o
-              atendimento.
+              Quem atende, como funciona e o que você precisa saber antes de enviar documentos.
             </p>
           </Revelar>
           <Revelar atraso={70}>
@@ -251,7 +248,7 @@ export function Home() {
         titulo={conteudo.ctaTitulo}
         texto={conteudo.ctaTexto}
         microcopy={conteudo.ctaMicrocopy}
-        botao="Solicitar informações"
+        botao="Informações pelo WhatsApp"
       />
     </>
   );

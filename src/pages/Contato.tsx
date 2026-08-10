@@ -17,11 +17,10 @@ export function Contato() {
           </nav>
 
           <div style={{ maxWidth: '760px' }}>
-            <span className="olho">Canais oficiais</span>
-            <h1>Canais de atendimento</h1>
+            <span className="olho">Contato</span>
+            <h1>Fale com o escritório.</h1>
             <p className="chamada">
-              Escolha um canal e envie um resumo da situação. O retorno ocorre no horário de
-              atendimento.
+              Conte o essencial. No retorno, o escritório orienta o que precisa vir depois.
             </p>
 
             <div className="grupo-botoes">
@@ -33,7 +32,7 @@ export function Contato() {
                 data-cta="heroi-contato"
               >
                 <IconeWhatsApp tamanho={18} />
-                Iniciar conversa no WhatsApp
+                Abrir WhatsApp oficial
               </a>
             </div>
           </div>
@@ -44,8 +43,8 @@ export function Contato() {
         <div className="envolucro">
           <div className="contato-grade">
             <Revelar>
-              <span className="olho">Onde nos encontrar</span>
-              <h2>Canais de atendimento</h2>
+              <span className="olho">Você escolhe o canal</span>
+              <h2>Como prefere conversar?</h2>
 
               <div style={{ marginTop: '1.6rem' }}>
                 <div className="canal">
@@ -99,8 +98,7 @@ export function Contato() {
                   <strong>Antes de enviar sua mensagem</strong>
                 </p>
                 <p style={{ fontSize: '0.92rem', marginBottom: '0.6rem' }}>
-                  Descreva a situação de forma breve e informe a área relacionada à dúvida. A equipe
-                  orientará quais documentos podem ser necessários.
+                  Para começar, basta informar a área, a cidade e o que aconteceu em poucas linhas.
                 </p>
                 <p style={{ fontSize: '0.92rem', marginBottom: 0 }}>
                   Não envie senhas, códigos de autenticação, dados bancários completos ou documentos
@@ -111,9 +109,9 @@ export function Contato() {
 
             <Revelar atraso={90}>
               <div className="painel-form">
-                <h2 style={{ fontSize: 'clamp(1.4rem, 2.4vw, 1.8rem)' }}>Formulário de contato</h2>
+                <h2 style={{ fontSize: 'clamp(1.4rem, 2.4vw, 1.8rem)' }}>Deixe o resumo pronto.</h2>
                 <p style={{ color: 'var(--texto-suave)', fontSize: '0.95rem' }}>
-                  Preencha e o WhatsApp abre com o resumo já escrito.
+                  Você preenche. O WhatsApp abre com a mensagem organizada.
                 </p>
                 <FormularioContato origem="página de contato" />
               </div>
@@ -126,10 +124,9 @@ export function Contato() {
         <div className="envolucro localizacao__grade">
           <Revelar className="localizacao__texto">
             <span className="olho">Localização</span>
-            <h2>Atendimento presencial em Cuiabá</h2>
+            <h2>Em Cuiabá, com hora marcada.</h2>
             <p>
-              O escritório mantém atendimento presencial em Cuiabá. Antes do deslocamento,
-              confirme a disponibilidade pelos canais oficiais.
+              Para o atendimento presencial, confirme o horário antes do deslocamento.
             </p>
             <address>{ENDERECO_LINHA}</address>
             <a

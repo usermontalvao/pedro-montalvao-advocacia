@@ -8,7 +8,7 @@ export function SecaoCta({
   titulo,
   texto,
   microcopy,
-  botao = 'Solicitar informações',
+  botao = 'Informações pelo WhatsApp',
   mensagem,
   destino,
   secundario = true,
@@ -26,7 +26,7 @@ export function SecaoCta({
       <div className="envolucro">
         <Revelar>
           <div className="cabeca-secao cabeca-secao--centro" style={{ marginBottom: 0 }}>
-            <span className="olho">Canais oficiais</span>
+            <span className="olho">Contato</span>
             <h2>{titulo}</h2>
             <p className="chamada">{texto}</p>
 
@@ -50,7 +50,7 @@ export function SecaoCta({
               )}
               {secundario && (
                 <Link className="botao botao--transparente" para="/contato-advogado-cuiaba/">
-                  Endereço e outros canais
+                  Outras formas de atendimento
                   <IconeSeta />
                 </Link>
               )}
@@ -59,8 +59,8 @@ export function SecaoCta({
             <p className="microtexto" style={{ marginInline: 'auto' }}>
               {microcopy ??
                 (destino
-                  ? 'A página reúne WhatsApp, e-mail, endereço, horário e formulário de contato. O envio de mensagem não representa contratação automática.'
-                  : `Atendimento pelo WhatsApp ${SITE.telefoneExibicao}. As informações enviadas serão utilizadas para retorno e análise inicial. O contato não representa contratação automática de serviços advocatícios.`)}
+                  ? 'WhatsApp, e-mail, endereço, horário e formulário estão reunidos na página de contato.'
+                  : `WhatsApp oficial: ${SITE.telefoneExibicao}. A mensagem não formaliza contratação.`)}
             </p>
           </div>
         </Revelar>

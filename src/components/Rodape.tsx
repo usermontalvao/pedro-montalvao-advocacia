@@ -14,15 +14,15 @@ export function Rodape() {
       <div className="envolucro rodape__interno">
         <Revelar className="rodape__chamada">
           <div>
-            <span className="olho">Informações sobre atendimento</span>
-            <h2>Canais de atendimento.</h2>
+            <span className="olho">Presencial em Cuiabá · online no Brasil</span>
+            <h2>Contato com o escritório.</h2>
           </div>
           <Link
             className="botao botao--claro"
             para="/contato-advogado-cuiaba/"
             data-cta="rodape-destaque"
           >
-            Canais de atendimento
+            Ver formas de atendimento
             <IconeSeta tamanho={16} />
           </Link>
         </Revelar>
@@ -31,7 +31,7 @@ export function Rodape() {
           <div className="rodape__identidade">
             <Marca tom="claro" altura={52} />
             <p>
-              Atendimento presencial ou online, conforme o caso.
+              Atendimento direto, do primeiro relato à condução.
             </p>
             <span className="rodape__oab">{oabFormatada()}</span>
           </div>

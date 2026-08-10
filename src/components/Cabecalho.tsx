@@ -96,7 +96,7 @@ export function Cabecalho() {
               para="/contato-advogado-cuiaba/"
               data-cta="cabecalho"
             >
-              Atendimento
+              Como falar
               <IconeSeta tamanho={15} />
             </Link>
 
@@ -127,7 +127,7 @@ export function Cabecalho() {
             para="/contato-advogado-cuiaba/"
             data-cta="menu-movel"
           >
-            Canais de atendimento
+            Ver formas de atendimento
             <IconeSeta tamanho={16} />
           </Link>
         </div>

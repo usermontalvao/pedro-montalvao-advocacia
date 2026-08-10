@@ -40,10 +40,10 @@ export function ListaArtigos() {
 
           <div style={{ maxWidth: '780px' }}>
             <span className="olho">Conteúdo jurídico</span>
-            <h1>Artigos para entender o seu direito</h1>
+            <h1>Direito, sem o juridiquês.</h1>
             <p className="chamada">
-              Textos sobre situações que chegam ao escritório todos os dias, em linguagem direta, com
-              indicação das normas aplicáveis e do que fazer antes de qualquer medida.
+              Textos sobre problemas reais, as regras envolvidas e o que vale organizar antes de
+              qualquer medida.
             </p>
           </div>
         </div>
@@ -95,8 +95,8 @@ export function ListaArtigos() {
       )}
 
       <SecaoCta
-        titulo="Informação geral não substitui análise individual"
-        texto="Os canais oficiais podem ser usados para consultar disponibilidade, documentos necessários e formato do atendimento."
+        titulo="Conteúdo informa. O caso concreto exige contexto."
+        texto="Para consultar formato, disponibilidade e documentos iniciais, use os canais oficiais."
       />
     </>
   );
@@ -223,11 +223,10 @@ export function PaginaArtigo({ artigo }: { artigo: Artigo }) {
         <div className="envolucro">
           <div className="contato-grade">
             <Revelar>
-              <span className="olho">Análise individual</span>
-              <h2>Informações sobre atendimento</h2>
+              <span className="olho">Além da leitura</span>
+              <h2>Seu caso não cabe em um artigo.</h2>
               <p className="chamada">
-                O formulário organiza um resumo e abre o canal oficial do escritório. A
-                disponibilidade e os documentos necessários são informados no retorno.
+                Organize o essencial no formulário. A mensagem abre pronta no WhatsApp oficial.
               </p>
               <p className="microtexto">
                 Nenhuma informação é gravada em servidor. Não envie senhas, códigos de autenticação

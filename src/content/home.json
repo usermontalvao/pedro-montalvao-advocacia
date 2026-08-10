@@ -1,42 +1,42 @@
 {
   "seoTitle": "Pedro Montalvão Advocacia | Cuiabá",
-  "seoDescription": "Pedro Montalvão, OAB/MT 30.021. Atuação em Direito Trabalhista, Previdenciário, do Consumidor e de Família, com atendimento presencial e online.",
-  "heroOlho": "Pedro Montalvão Advocacia · OAB/MT 30.021",
-  "heroTitulo": "Clareza para decidir.<br /><em>Responsabilidade para conduzir.</em>",
-  "heroTexto": "Análise dos fatos, dos documentos e dos caminhos possíveis. Sem respostas prontas.",
-  "heroMicrocopy": "Atendimento presencial ou online, conforme o caso.",
+  "seoDescription": "Pedro Montalvão, OAB/MT 30.021. Advocacia trabalhista, previdenciária, do consumidor e de família em Cuiabá, com atendimento online.",
+  "heroOlho": "Pedro Montalvão Advocacia · Cuiabá e online",
+  "heroTitulo": "Primeiro, entender.<br /><em>Depois, agir.</em>",
+  "heroTexto": "Seu caso começa pelos fatos — não por uma resposta pronta.",
+  "heroMicrocopy": "Atendimento direto com o advogado · OAB/MT 30.021",
   "provas": [
     { "numero": "OAB/MT", "rotulo": "30.021" },
-    { "numero": "Direto", "rotulo": "atendimento com o advogado" },
-    { "numero": "Presencial + online", "rotulo": "formatos de atendimento" }
+    { "numero": "Direto", "rotulo": "do relato à condução" },
+    { "numero": "Cuiabá + online", "rotulo": "formas de atendimento" }
   ],
-  "sobreOlho": "A forma de trabalhar",
-  "sobreTitulo": "Seu caso não cabe em uma resposta pronta",
+  "sobreOlho": "Sem respostas prontas",
+  "sobreTitulo": "O trabalho começa antes do processo",
   "sobreParagrafos": [
-    "O problema que chega ao escritório raramente vem organizado. Há datas, documentos, receios e versões diferentes do mesmo fato. O primeiro trabalho é colocar tudo em ordem.",
-    "Pedro Montalvão acompanha pessoalmente a análise, explica o que a lei permite, aponta os riscos e separa o que é urgente do que pode ser planejado.",
-    "Nem toda situação precisa virar processo. Quando há alternativas administrativas, negociação ou providências preventivas, elas também fazem parte da orientação."
+    "Antes de falar em ação, é preciso reconstruir o que aconteceu: datas, documentos, versões e urgências.",
+    "Pedro Montalvão conduz essa leitura pessoalmente e explica, sem rodeios, o que a lei permite, onde estão os riscos e qual decisão faz sentido naquele momento.",
+    "Às vezes, o próximo passo é judicial. Às vezes, é negociar, prevenir ou não seguir adiante. Entender essa diferença também faz parte do trabalho."
   ],
   "areasOlho": "Atuação jurídica",
-  "areasTitulo": "Áreas de atuação",
-  "areasTexto": "Conheça os temas analisados e os documentos que podem ser relevantes.",
-  "processoOlho": "Do primeiro relato ao próximo passo",
-  "processoTitulo": "Clareza antes de qualquer decisão",
+  "areasTitulo": "Quatro áreas. Uma condução direta.",
+  "areasTexto": "Trabalho, INSS, consumo e família. Veja onde sua questão pode começar.",
+  "processoOlho": "Como funciona",
+  "processoTitulo": "Do relato ao próximo passo.",
   "passos": [
     {
-      "titulo": "Entender",
-      "texto": "Você apresenta os fatos no seu tempo. O escritório identifica o tema, os prazos aparentes e as informações que ainda precisam ser esclarecidas."
+      "titulo": "Contar",
+      "texto": "Você apresenta o que aconteceu. O escritório identifica o assunto, as datas importantes e o que ainda precisa ser esclarecido."
     },
     {
-      "titulo": "Analisar",
-      "texto": "Documentos e acontecimentos são confrontados com a legislação aplicável. Possibilidades, limitações e riscos são apresentados sem promessa de resultado."
+      "titulo": "Organizar",
+      "texto": "Fatos, documentos e prazos são colocados em ordem. Possibilidades e limites aparecem com mais nitidez."
     },
     {
-      "titulo": "Definir",
-      "texto": "Com o cenário compreendido, você sabe quais caminhos existem e o que cada um exige. A contratação, quando cabível, é formalizada antes de qualquer atuação."
+      "titulo": "Decidir",
+      "texto": "Com o cenário claro, você entende o próximo passo e o que ele exige. Qualquer atuação só começa depois da contratação formal."
     }
   ],
-  "faqTitulo": "Antes do primeiro contato",
+  "faqTitulo": "O básico, antes de começar.",
   "faq": [
     {
       "pergunta": "Quem é o advogado responsável pelo atendimento?",
@@ -59,7 +59,7 @@
       "resposta": "Não. O contato serve para troca de informações iniciais. A relação profissional começa somente após a análise de viabilidade, a definição do serviço e a formalização do contrato."
     }
   ],
-  "ctaTitulo": "Canais oficiais de atendimento",
-  "ctaTexto": "Informe a área e resuma o que aconteceu. O escritório indicará os próximos dados necessários.",
-  "ctaMicrocopy": "O contato não cria relação advogado-cliente, não interrompe prazos e não representa promessa de resultado."
+  "ctaTitulo": "Conte o essencial.",
+  "ctaTexto": "Informe a área, a cidade e um resumo do que aconteceu. O restante é orientado no retorno.",
+  "ctaMicrocopy": "A mensagem não formaliza contratação nem interrompe prazos legais."
 }

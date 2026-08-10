@@ -64,11 +64,10 @@ export function AtendimentoBrasil() {
           </nav>
 
           <div className="heroi__texto-largo">
-            <span className="olho">Atendimento jurídico online</span>
-            <h1>Atendimento online</h1>
+            <span className="olho">Do escritório, para todo o Brasil</span>
+            <h1>Só o canal muda.</h1>
             <p className="chamada">
-              Reuniões e documentos podem ser tratados por meios digitais. A viabilidade é
-              confirmada após o primeiro contato.
+              Conversa direta, documentos digitais e cada etapa explicada antes de seguir.
             </p>
             <div className="grupo-botoes">
               <a
@@ -79,7 +78,7 @@ export function AtendimentoBrasil() {
                 data-cta="heroi-atendimento-online"
               >
                 <IconeWhatsApp tamanho={17} />
-                Solicitar informações
+                Consultar disponibilidade
               </a>
               <a className="botao botao--transparente" href="#como-funciona">
                 Como funciona
@@ -87,8 +86,7 @@ export function AtendimentoBrasil() {
               </a>
             </div>
             <p className="microtexto">
-              O primeiro contato não formaliza contratação, não interrompe prazos e não representa
-              promessa de resultado.
+              O primeiro contato não formaliza contratação nem interrompe prazos legais.
             </p>
           </div>
         </div>
@@ -97,19 +95,19 @@ export function AtendimentoBrasil() {
       <section className="secao" id="como-funciona">
         <div className="envolucro">
           <Revelar className="cabeca-secao">
-            <span className="olho">Etapas</span>
-            <h2>Como funciona</h2>
+            <span className="olho">Como funciona</span>
+            <h2>Online na forma. Pessoal na condução.</h2>
             <p className="chamada">
-              O canal muda. A análise dos fatos e dos documentos continua a mesma.
+              O canal muda. O cuidado com os fatos, os documentos e os prazos continua o mesmo.
             </p>
           </Revelar>
 
           <div className="passos passos--4">
             {[
-              ['Relato inicial', 'Você apresenta a situação de forma breve e informa a cidade e o estado relacionados ao caso.'],
-              ['Triagem', 'O escritório verifica a área, eventuais prazos, conflito de interesses e os documentos necessários.'],
-              ['Reunião', 'Quando cabível, a conversa ocorre por videoconferência ou outro canal previamente combinado.'],
-              ['Próximos passos', 'A orientação indica possibilidades, limites e atos que podem exigir presença física ou apoio local.'],
+              ['Primeiro relato', 'Um resumo, a cidade e o estado já são suficientes para começar.'],
+              ['Enquadramento', 'O escritório verifica a área, os prazos aparentes e o que precisa ser enviado.'],
+              ['Conversa', 'Quando necessário, a reunião acontece por videoconferência em canal combinado.'],
+              ['Direção', 'Você entende os limites, as possibilidades e se algum ato exigirá presença física.'],
             ].map(([titulo, texto], indice) => (
               <Revelar key={titulo} atraso={indice * 50}>
                 <article className="passo">
@@ -138,10 +136,9 @@ export function AtendimentoBrasil() {
               </picture>
               <figcaption>
                 <span>Videoconferência</span>
-                <strong>Conversa direta, com tempo para compreender o contexto.</strong>
+                <strong>Conversa direta, com espaço para o que importa.</strong>
                 <p>
-                  O canal é combinado previamente e utilizado quando for adequado à natureza da
-                  demanda e às necessidades do atendimento.
+                  Sem deslocamento e sem perder o contato com quem conduz o trabalho.
                 </p>
               </figcaption>
             </figure>
@@ -152,11 +149,11 @@ export function AtendimentoBrasil() {
       <section className="secao secao--escura cobertura">
         <div className="envolucro">
           <Revelar className="cobertura__cabeca">
-            <span className="olho">Cobertura de atendimento</span>
-            <h2>Atendimento em todas as regiões</h2>
+            <span className="olho">Onde você estiver</span>
+            <h2>Atendimento de Norte a Sul.</h2>
             <p>
-              A possibilidade de atuação depende da matéria, da competência e dos atos que possam
-              exigir presença física.
+              A distância muda o canal. A atuação ainda depende da matéria, da competência e de
+              eventuais atos presenciais.
             </p>
           </Revelar>
 
@@ -175,7 +172,7 @@ export function AtendimentoBrasil() {
         <div className="envolucro">
           <Revelar className="cabeca-secao">
             <span className="olho">Atuação jurídica</span>
-            <h2>Áreas de atuação</h2>
+            <h2>Áreas que podem ser atendidas online.</h2>
           </Revelar>
           <div className="grade grade--4">
             {areas.map((area, indice) => (
@@ -185,7 +182,7 @@ export function AtendimentoBrasil() {
                   <h3>{area.nome}</h3>
                   <p>{area.resumoHome}</p>
                   <span className="cartao__link">
-                    Entender a atuação
+                    Conhecer a área
                     <IconeSeta tamanho={15} />
                   </span>
                 </Link>
@@ -198,11 +195,10 @@ export function AtendimentoBrasil() {
       <section className="secao">
         <div className="envolucro contato-grade">
           <Revelar>
-            <span className="olho">Perguntas frequentes</span>
-            <h2>Perguntas sobre atendimento online</h2>
+            <span className="olho">Antes da primeira conversa</span>
+            <h2>O que muda no atendimento online?</h2>
             <p className="chamada">
-              O formato digital amplia o acesso, mas cada demanda continua sujeita a documentos,
-              prazos, regras territoriais e análise de viabilidade.
+              A forma de conversar. Os critérios jurídicos continuam os mesmos.
             </p>
           </Revelar>
           <Revelar atraso={70}>
@@ -212,10 +208,10 @@ export function AtendimentoBrasil() {
       </section>
 
       <SecaoCta
-        titulo="Atendimento online"
-        texto="Informe a área, a cidade e o estado relacionados à situação."
-        microcopy="O contato é informativo e não garante aceitação da demanda, ajuizamento de ação ou resultado."
-        botao="Solicitar informações"
+        titulo="De onde você estiver."
+        texto="Informe a área, a cidade, o estado e um resumo do que aconteceu."
+        microcopy="O contato é informativo e não garante aceitação da demanda ou resultado."
+        botao="Consultar disponibilidade"
         mensagem="Olá. Gostaria de receber informações sobre o atendimento jurídico online."
       />
     </>

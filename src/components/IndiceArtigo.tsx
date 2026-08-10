@@ -55,7 +55,7 @@ export function IndiceArtigo({ blocos, mensagem }: { blocos: Bloco[]; mensagem?:
       </ol>
 
       <div className="indice-fixo__acao">
-        <p>Passou por isso? Fale com o escritório.</p>
+        <p>Informações sobre análise individual.</p>
         <a
           className="botao botao--zap"
           href={linkWhatsApp(mensagem)}
@@ -64,7 +64,7 @@ export function IndiceArtigo({ blocos, mensagem }: { blocos: Bloco[]; mensagem?:
           data-cta="indice-artigo"
         >
           <IconeWhatsApp tamanho={16} />
-          WhatsApp
+          Canal oficial
         </a>
       </div>
     </nav>

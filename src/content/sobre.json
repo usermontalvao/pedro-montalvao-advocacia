@@ -1,35 +1,35 @@
 {
-  "seoTitle": "Pedro Montalvão | Advogado em Cuiabá",
-  "seoDescription": "Conheça o Dr. Pedro Montalvão, advogado em Cuiabá com atuação nas áreas Trabalhista, Previdenciária, do Consumidor e de Família.",
-  "h1": "Dr. Pedro Montalvão — advogado em Cuiabá",
-  "subtitulo": "Atuação jurídica baseada em responsabilidade profissional, comunicação clara e atenção às particularidades de cada caso.",
-  "sobreTitulo": "Sobre Pedro Montalvão",
+  "seoTitle": "Pedro Rodrigues Montalvão Neto | OAB/MT 30.021",
+  "seoDescription": "Conheça Pedro Rodrigues Montalvão Neto, OAB/MT 30.021: advogado em Cuiabá, graduado pela UNIC e pós-graduado em Direito e Processo do Trabalho.",
+  "h1": "Pedro Rodrigues Montalvão Neto",
+  "subtitulo": "Advogado em Cuiabá, OAB/MT 30.021, com atendimento presencial e online nas áreas Trabalhista, Previdenciária, do Consumidor e de Família.",
+  "sobreTitulo": "Formação local. Atuação sem fronteiras.",
   "sobre": [
-    "Pedro Montalvão é advogado inscrito na Ordem dos Advogados do Brasil, Seccional Mato Grosso.",
-    "Sua atuação abrange questões de Direito Trabalhista, Previdenciário, do Consumidor e de Família, com atendimento a clientes de Cuiabá, de outras localidades de Mato Grosso e, na modalidade online, de todo o Brasil.",
-    "O trabalho parte de uma análise cuidadosa dos fatos e documentos. Durante o atendimento, o cliente recebe informações sobre o cenário jurídico, as alternativas disponíveis, os riscos e as etapas que podem ser necessárias. A linguagem é objetiva e acessível, preservando o rigor técnico e o sigilo profissional."
+    "Pedro Rodrigues Montalvão Neto nasceu em Cuiabá, graduou-se em Direito pela Universidade de Cuiabá — UNIC — e é inscrito na Ordem dos Advogados do Brasil, Seccional Mato Grosso, sob o nº 30.021.",
+    "É pós-graduado em Direito e Processo do Trabalho. Sua atuação também abrange demandas previdenciárias, relações de consumo e questões de família, sempre condicionada à análise dos fatos, dos documentos, dos prazos e da viabilidade jurídica.",
+    "O escritório mantém sede no bairro Pedra 90, em Cuiabá. Clientes de outras cidades e estados podem ser atendidos por meios digitais quando a natureza da demanda permitir."
   ],
-  "trabalhoTitulo": "Forma de trabalho",
+  "trabalhoTitulo": "Como a análise é conduzida",
   "trabalho": [
     {
-      "titulo": "Escuta e compreensão",
-      "texto": "Cada atendimento começa pela compreensão dos fatos, das dúvidas e dos objetivos apresentados pelo cliente."
+      "titulo": "Ouvir antes de concluir",
+      "texto": "O relato inicial ajuda a reconstruir a sequência dos fatos e a identificar o que ainda precisa ser comprovado."
     },
     {
-      "titulo": "Análise responsável",
-      "texto": "Documentos, prazos, riscos e possibilidades são examinados antes da indicação de medidas administrativas ou judiciais."
+      "titulo": "Separar fato de expectativa",
+      "texto": "Documentos, prazos e normas são examinados para distinguir possibilidades jurídicas de resultados que não podem ser antecipados."
     },
     {
-      "titulo": "Comunicação clara",
-      "texto": "As orientações são apresentadas em linguagem compreensível, para que o cliente possa tomar decisões de forma consciente."
+      "titulo": "Explicar sem simplificar demais",
+      "texto": "A orientação é apresentada em linguagem compreensível, sem esconder riscos, etapas ou limitações relevantes."
     },
     {
-      "titulo": "Acompanhamento profissional",
-      "texto": "Quando há contratação, o cliente recebe informações sobre as etapas relevantes do serviço e os canais adequados para comunicação."
+      "titulo": "Formalizar com transparência",
+      "texto": "Quando há contratação, serviço, responsabilidades, comunicação e honorários são definidos antes do início da atuação."
     }
   ],
-  "escritorioTitulo": "O escritório em Cuiabá",
-  "escritorioTexto": "A sede fica no bairro Pedra 90, em Cuiabá, e recebe clientes mediante agendamento. Para quem está em outra cidade ou estado, todo o atendimento pode ser conduzido à distância, com envio de documentos por canais digitais.",
-  "ctaTitulo": "Fale com o escritório Pedro Montalvão Advocacia",
-  "ctaTexto": "Informe sua dúvida pelos canais oficiais e receba as instruções para o atendimento inicial."
+  "escritorioTitulo": "Sede em Cuiabá. Atendimento online nacional.",
+  "escritorioTexto": "O atendimento presencial acontece mediante agendamento na sede do bairro Pedra 90. À distância, reuniões e documentos podem ser tratados por canais digitais, conforme as necessidades e as regras aplicáveis a cada demanda.",
+  "ctaTitulo": "Informações sobre atendimento",
+  "ctaTexto": "Utilize os canais oficiais para informar a área, a cidade e um resumo do que precisa ser analisado."
 }

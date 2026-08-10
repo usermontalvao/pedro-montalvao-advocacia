@@ -28,10 +28,24 @@ const ORIGEM = process.env.MIDIA_ORIGEM
 */
 const FOTOS = [
   {
-    de: '8762131603695372258.jpeg',
+    de: '11515709905921039226.jpeg',
+    origem: 'downloads',
+    para: 'retrato-home',
+    larguras: [720, 1376],
+    qualidade: 84,
+  },
+  {
+    de: '10537598191604023049.jpeg',
     origem: 'downloads',
     para: 'retrato-institucional',
-    larguras: [720, 1400],
+    larguras: [720, 1376],
+    qualidade: 84,
+  },
+  {
+    de: '11439253925460798358.jpeg',
+    origem: 'downloads',
+    para: 'atendimento-online',
+    larguras: [720, 1024],
     qualidade: 84,
   },
   {
@@ -41,7 +55,27 @@ const FOTOS = [
     larguras: [720, 1400],
     qualidade: 84,
   },
-  { de: 'advogado/foto_advogado.jpg', para: 'retrato-pedro-montalvao', larguras: [720, 1200], qualidade: 82 },
+  {
+    de: '10713177436469709073.jpeg',
+    origem: 'downloads',
+    para: 'conteudo-juridico',
+    larguras: [720, 1376],
+    qualidade: 84,
+  },
+  {
+    de: '10450579546458349772.jpeg',
+    origem: 'downloads',
+    para: 'sede-atendimento',
+    larguras: [720, 1400],
+    qualidade: 84,
+  },
+  {
+    de: '9587379170594195253.jpeg',
+    origem: 'downloads',
+    para: 'retrato-pedro-montalvao',
+    larguras: [720, 1376],
+    qualidade: 84,
+  },
   { de: 'escritorio.webp', para: 'escritorio-cuiaba', larguras: [720, 1400], qualidade: 80 },
 ];
 
@@ -159,7 +193,7 @@ async function imagemDeCompartilhamento() {
       <text x="88" y="168" font-family="Helvetica, Arial, sans-serif" font-size="13" letter-spacing="8" fill="#c9a86a">ADVOCACIA</text>
 
       <text x="86" y="352" font-family="Georgia, serif" font-size="60" fill="#f0ece4">Advocacia em Cuiabá</text>
-      <text x="86" y="426" font-family="Georgia, serif" font-size="60" fill="#c9a86a">para defender seus direitos</text>
+      <text x="86" y="426" font-family="Georgia, serif" font-size="60" fill="#c9a86a">orientação para decisões importantes</text>
       <text x="86" y="506" font-family="Helvetica, Arial, sans-serif" font-size="26" fill="#a9a49a">Trabalhista · Previdenciário · Consumidor · Família</text>
       <text x="86" y="556" font-family="Helvetica, Arial, sans-serif" font-size="26" fill="#c9a86a">WhatsApp (65) 98404-6375</text>
     </svg>

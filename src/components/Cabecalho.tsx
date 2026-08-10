@@ -8,6 +8,7 @@ import areas from '../content/areas.json';
 const LINKS = [
   { rotulo: 'Início', para: '/' },
   { rotulo: 'Sobre o advogado', para: '/sobre-advogado-cuiaba/' },
+  { rotulo: 'Atendimento online', para: '/advogado-online-brasil/' },
   { rotulo: 'Artigos', para: '/artigos/' },
   { rotulo: 'Contato', para: '/contato-advogado-cuiaba/' },
 ];
@@ -61,6 +62,13 @@ export function Cabecalho() {
               Sobre o advogado
             </Link>
 
+            <Link
+              para="/advogado-online-brasil/"
+              className={`menu__item ${ativo('/advogado-online-brasil/') ? 'menu__item--ativo' : ''}`}
+            >
+              Atendimento online
+            </Link>
+
             <div className="menu__grupo">
               <button type="button" className="menu__item" aria-haspopup="true">
                 Áreas de atuação
@@ -92,14 +100,14 @@ export function Cabecalho() {
 
           <div className="cabecalho__acao">
             <a
-              className="botao botao--zap"
+              className="botao botao--cabecalho"
               href={linkWhatsApp(MENSAGEM_PADRAO)}
               target="_blank"
               rel="noopener noreferrer"
               data-cta="cabecalho"
             >
-              <IconeWhatsApp tamanho={17} />
-              Falar pelo WhatsApp
+              <IconeWhatsApp tamanho={16} />
+              Atendimento
             </a>
 
             <button
@@ -119,7 +127,7 @@ export function Cabecalho() {
 
       {aberto && (
         <div className="menu-movel" id="menu-movel">
-          {LINKS.slice(0, 2).map((item) => (
+          {LINKS.slice(0, 3).map((item) => (
             <Link key={item.para} para={item.para}>
               {item.rotulo}
             </Link>
@@ -129,7 +137,7 @@ export function Cabecalho() {
               {area.nome}
             </Link>
           ))}
-          {LINKS.slice(2).map((item) => (
+          {LINKS.slice(3).map((item) => (
             <Link key={item.para} para={item.para}>
               {item.rotulo}
             </Link>
@@ -142,7 +150,7 @@ export function Cabecalho() {
             data-cta="menu-movel"
           >
             <IconeWhatsApp tamanho={17} />
-            Falar pelo WhatsApp
+            Canais de atendimento
           </a>
         </div>
       )}

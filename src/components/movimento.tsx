@@ -260,6 +260,16 @@ export function ProgressoLeitura() {
   return <motion.div className="progresso-leitura" style={{ scaleX: largura }} aria-hidden />;
 }
 
+/** Linha mínima no topo que acompanha a leitura de qualquer página. */
+export function ProgressoPagina() {
+  const reduzido = useReducedMotion();
+  const { scrollYProgress } = useScroll();
+  const largura = useSpring(scrollYProgress, { stiffness: 120, damping: 28, mass: 0.34 });
+
+  if (reduzido) return null;
+  return <motion.div className="progresso-pagina" style={{ scaleX: largura }} aria-hidden />;
+}
+
 /* ------------------------------------------------- blocos cinematográficos */
 
 /**
@@ -275,6 +285,7 @@ export function FundoCinema({
   children,
   ancora = 'center',
   className = '',
+  id,
 }: {
   imagem: string;
   imagemPequena?: string;
@@ -282,16 +293,21 @@ export function FundoCinema({
   children: ReactNode;
   ancora?: string;
   className?: string;
+  id?: string;
 }) {
   const alvo = useRef<HTMLElement>(null);
   const reduzido = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: alvo, offset: ['start end', 'end start'] });
 
-  const y = useTransform(scrollYProgress, [0, 1], ['-8%', '8%']);
-  const escala = useTransform(scrollYProgress, [0, 0.5, 1], [1.14, 1.04, 1.14]);
+  const yBruto = useTransform(scrollYProgress, [0, 1], [-48, 48]);
+  const escalaBruta = useTransform(scrollYProgress, [0, 0.5, 1], [1.085, 1.025, 1.085]);
+  const conteudoBruto = useTransform(scrollYProgress, [0, 0.5, 1], [22, 0, -16]);
+  const y = useSpring(yBruto, { stiffness: 95, damping: 25, mass: 0.45 });
+  const escala = useSpring(escalaBruta, { stiffness: 90, damping: 26, mass: 0.5 });
+  const conteudoY = useSpring(conteudoBruto, { stiffness: 105, damping: 28, mass: 0.42 });
 
   return (
-    <section ref={alvo} className={`cinema ${className}`.trim()}>
+    <section ref={alvo} id={id} className={`cinema ${className}`.trim()}>
       <motion.div className="cinema__fundo" style={reduzido ? undefined : { y, scale: escala }}>
         <img
           src={imagem}
@@ -303,7 +319,12 @@ export function FundoCinema({
         />
       </motion.div>
       <div className="cinema__veu" aria-hidden />
-      <div className="envolucro cinema__conteudo">{children}</div>
+      <motion.div
+        className="envolucro cinema__conteudo"
+        style={reduzido ? undefined : { y: conteudoY }}
+      >
+        {children}
+      </motion.div>
     </section>
   );
 }
@@ -314,8 +335,16 @@ export function FundoCinema({
  * O texto inteiro está sempre no HTML — o que muda é só a opacidade de cada
  * palavra. Nada é escondido de quem não roda JavaScript.
  */
-export function TextoIluminado({ texto, className = '' }: { texto: string; className?: string }) {
-  const alvo = useRef<HTMLParagraphElement>(null);
+export function TextoIluminado({
+  texto,
+  className = '',
+  como: Tag = 'p',
+}: {
+  texto: string;
+  className?: string;
+  como?: 'p' | 'h2';
+}) {
+  const alvo = useRef<HTMLParagraphElement | HTMLHeadingElement>(null);
   const reduzido = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: alvo,
@@ -325,11 +354,11 @@ export function TextoIluminado({ texto, className = '' }: { texto: string; class
   const palavras = texto.split(' ');
 
   if (reduzido) {
-    return <p className={`iluminado ${className}`.trim()}>{texto}</p>;
+    return <Tag className={`iluminado ${className}`.trim()}>{texto}</Tag>;
   }
 
   return (
-    <p ref={alvo} className={`iluminado ${className}`.trim()}>
+    <Tag ref={alvo as never} className={`iluminado ${className}`.trim()}>
       {palavras.map((palavra, indice) => (
         <Fragment key={`${palavra}-${indice}`}>
           <Palavra
@@ -340,7 +369,7 @@ export function TextoIluminado({ texto, className = '' }: { texto: string; class
           </Palavra>{' '}
         </Fragment>
       ))}
-    </p>
+    </Tag>
   );
 }
 
@@ -353,7 +382,8 @@ function Palavra({
   progresso: MotionValue<number>;
   faixa: [number, number];
 }) {
-  const opacidade = useTransform(progresso, faixa, [0.16, 1]);
+  const opacidade = useTransform(progresso, faixa, [0.2, 1]);
+  const y = useTransform(progresso, faixa, [10, 0]);
   /*
     O espaço entre as palavras fica FORA deste <span>, como nó de texto irmão.
     Dentro não funciona: a palavra é `inline-block` e o navegador descarta o
@@ -362,7 +392,7 @@ function Palavra({
     leitor de tela continuaria com tudo grudado.
   */
   return (
-    <motion.span style={{ opacity: opacidade }} className="iluminado__palavra">
+    <motion.span style={{ opacity: opacidade, y }} className="iluminado__palavra">
       {children}
     </motion.span>
   );

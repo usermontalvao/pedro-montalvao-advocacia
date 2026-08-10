@@ -8,10 +8,9 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
  * de dados de quem chega pelo celular. Então ele só baixa quando TODAS estas
  * condições são verdadeiras:
  *
- *   1. a tela é grande (no celular a imagem estática já conta a história);
- *   2. o visitante não pediu economia de dados nem redução de movimento;
- *   3. a conexão não é lenta (2G/3G);
- *   4. o bloco realmente chegou perto da tela.
+ *   1. o visitante não pediu economia de dados nem redução de movimento;
+ *   2. a conexão não é lenta (2G/3G);
+ *   3. o bloco realmente chegou perto da tela.
  *
  * Enquanto nada disso acontece, fica a imagem de cartaz — que é o que o HTML
  * pré-renderizado entrega e o que o rastreador do Google enxerga.
@@ -46,9 +45,7 @@ export function VideoFundo({
     const economiza = conexao?.saveData === true;
     const lenta = /(^|-)2g$/.test(conexao?.effectiveType ?? '');
     const menosMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const telaPequena = window.matchMedia('(max-width: 900px)').matches;
-
-    if (economiza || lenta || menosMovimento || telaPequena) return;
+    if (economiza || lenta || menosMovimento) return;
     if (!('IntersectionObserver' in window)) return;
 
     const observador = new IntersectionObserver(

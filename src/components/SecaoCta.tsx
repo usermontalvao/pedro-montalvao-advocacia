@@ -8,7 +8,7 @@ export function SecaoCta({
   titulo,
   texto,
   microcopy,
-  botao = 'Falar pelo WhatsApp',
+  botao = 'Solicitar informações',
   mensagem,
   secundario = true,
 }: {
@@ -24,13 +24,13 @@ export function SecaoCta({
       <div className="envolucro">
         <Revelar>
           <div className="cabeca-secao cabeca-secao--centro" style={{ marginBottom: 0 }}>
-            <span className="olho">Fale com o escritório</span>
+            <span className="olho">Canais oficiais</span>
             <h2>{titulo}</h2>
             <p className="chamada">{texto}</p>
 
             <div className="grupo-botoes" style={{ justifyContent: 'center' }}>
               <a
-                className="botao botao--zap"
+                className="botao botao--claro"
                 href={linkWhatsApp(mensagem)}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -40,8 +40,8 @@ export function SecaoCta({
                 {botao}
               </a>
               {secundario && (
-                <Link className="botao botao--contorno" para="/contato-advogado-cuiaba/">
-                  Ver outros canais de contato
+                <Link className="botao botao--transparente" para="/contato-advogado-cuiaba/">
+                  Endereço e outros canais
                   <IconeSeta />
                 </Link>
               )}

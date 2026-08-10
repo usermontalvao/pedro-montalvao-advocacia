@@ -29,17 +29,17 @@ export function urlAbsoluta(caminho: string): string {
 /** Ficha do escritório: é ela que alimenta o painel de conhecimento do Google. */
 export function dadosDoEscritorio(): Record<string, unknown> {
   return {
-    '@type': ['LegalService', 'Attorney'],
+    '@type': 'LegalService',
     '@id': `${SITE.url}/#escritorio`,
     name: SITE.nome,
+    alternateName: SITE.nomeCurto,
     url: SITE.url,
     image: urlAbsoluta('/midia/marca-dourada.png'),
     logo: urlAbsoluta('/midia/logo-horizontal.png'),
     telephone: `+${SITE.telefoneE164}`,
     email: SITE.email,
-    priceRange: '$$',
     description:
-      'Escritório de advocacia em Cuiabá com atuação em Direito Trabalhista, Previdenciário, do Consumidor e de Família, com atendimento presencial e online.',
+      'Escritório de advocacia em Cuiabá com atendimento presencial e online nacional em Direito Trabalhista, Previdenciário, do Consumidor e de Família.',
     address: {
       '@type': 'PostalAddress',
       streetAddress: SITE.endereco.logradouro,
@@ -58,6 +58,15 @@ export function dadosDoEscritorio(): Record<string, unknown> {
       { '@type': 'State', name: 'Mato Grosso' },
       { '@type': 'Country', name: 'Brasil' },
     ],
+    hasMap: SITE.mapa,
+    sameAs: [SITE.instagram],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: `+${SITE.telefoneE164}`,
+      contactType: 'Atendimento jurídico',
+      availableLanguage: ['Portuguese'],
+      areaServed: 'BR',
+    },
     openingHoursSpecification: [
       {
         '@type': 'OpeningHoursSpecification',
@@ -66,7 +75,13 @@ export function dadosDoEscritorio(): Record<string, unknown> {
         closes: '18:00',
       },
     ],
-    knowsLanguage: 'pt-BR',
+    knowsLanguage: ['pt-BR'],
+    knowsAbout: [
+      'Direito Trabalhista',
+      'Direito Previdenciário',
+      'Direito do Consumidor',
+      'Direito de Família',
+    ],
     founder: dadosDoAdvogado(),
   };
 }
@@ -75,20 +90,41 @@ export function dadosDoAdvogado(): Record<string, unknown> {
   return {
     '@type': 'Person',
     '@id': `${SITE.url}/#advogado`,
-    name: `Dr. ${SITE.advogado}`,
+    name: SITE.advogado,
+    alternateName: SITE.nomeCurto,
+    url: urlAbsoluta('/sobre-advogado-cuiaba/'),
     jobTitle: 'Advogado',
     image: urlAbsoluta('/midia/retrato-pedro-montalvao.webp'),
-    ...(SITE.oab
-      ? {
-          identifier: {
-            '@type': 'PropertyValue',
-            name: 'OAB',
-            value: oabFormatada(),
-          },
-        }
-      : {}),
+    identifier: {
+      '@type': 'PropertyValue',
+      name: 'Ordem dos Advogados do Brasil — Seccional Mato Grosso',
+      value: oabFormatada(),
+    },
+    alumniOf: {
+      '@type': 'CollegeOrUniversity',
+      name: 'Universidade de Cuiabá — UNIC',
+    },
+    hasCredential: {
+      '@type': 'EducationalOccupationalCredential',
+      name: 'Pós-graduação em Direito e Processo do Trabalho',
+      credentialCategory: 'Pós-graduação lato sensu',
+    },
+    knowsAbout: [
+      'Direito Trabalhista',
+      'Direito Previdenciário',
+      'Direito do Consumidor',
+      'Direito de Família',
+    ],
+    sameAs: [
+      SITE.instagram,
+      'https://br.linkedin.com/in/advpedromontalvao',
+    ],
     worksFor: { '@id': `${SITE.url}/#escritorio` },
-    address: ENDERECO_LINHA,
+    workLocation: {
+      '@type': 'Place',
+      name: SITE.nome,
+      address: ENDERECO_LINHA,
+    },
   };
 }
 
@@ -136,6 +172,11 @@ export function dadosDeServico(area: {
       { '@type': 'State', name: 'Mato Grosso' },
       { '@type': 'Country', name: 'Brasil' },
     ],
+    availableChannel: {
+      '@type': 'ServiceChannel',
+      serviceUrl: urlAbsoluta(`/${area.slug}/`),
+      availableLanguage: { '@type': 'Language', name: 'Português', alternateName: 'pt-BR' },
+    },
   };
 }
 

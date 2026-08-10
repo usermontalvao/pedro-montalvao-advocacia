@@ -29,11 +29,11 @@ export function Sobre() {
             <div className="heroi__retrato">
               <img
                 src="/midia/retrato-institucional.webp"
-                srcSet="/midia/retrato-institucional-720.webp 720w, /midia/retrato-institucional.webp 1400w"
+                srcSet="/midia/retrato-institucional-720.webp 720w, /midia/retrato-institucional.webp 1376w"
                 sizes="(max-width: 900px) 90vw, 420px"
                 alt={`${SITE.advogado}, advogado inscrito na OAB de Mato Grosso`}
-                width={1400}
-                height={1400}
+                width={1376}
+                height={768}
                 fetchPriority="high"
               />
             </div>

@@ -1,6 +1,8 @@
 import { Link } from '../lib/router';
 import { SITE, ENDERECO_LINHA, oabFormatada, linkWhatsApp } from '../site.config';
+import { IconeSeta, IconeWhatsApp } from './Icones';
 import { Marca } from './Marca';
+import { Revelar } from './Revelar';
 import areas from '../content/areas.json';
 
 export function Rodape() {
@@ -8,79 +10,86 @@ export function Rodape() {
 
   return (
     <footer className="rodape">
-      <div className="envolucro">
-        <div className="rodape__grade">
+      <div className="rodape__luz" aria-hidden />
+      <div className="envolucro rodape__interno">
+        <Revelar className="rodape__chamada">
           <div>
-            <Marca tom="claro" altura={46} />
-            <p style={{ maxWidth: '34ch', marginTop: '1.3rem' }}>
-              Atuação em Direito Trabalhista, Previdenciário, do Consumidor e de Família em Cuiabá,
-              Mato Grosso, com atendimento online para todo o Brasil.
+            <span className="olho">Informações sobre atendimento</span>
+            <h2>Clareza para o próximo passo.</h2>
+          </div>
+          <a
+            className="botao botao--claro"
+            href={linkWhatsApp()}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-cta="rodape-destaque"
+          >
+            <IconeWhatsApp tamanho={17} />
+            Canais de atendimento
+          </a>
+        </Revelar>
+
+        <div className="rodape__corpo">
+          <div className="rodape__identidade">
+            <Marca tom="claro" altura={52} />
+            <p>
+              Atendimento jurídico presencial e online, com análise individual, comunicação
+              direta e informação compreensível.
             </p>
+            <span className="rodape__oab">{oabFormatada()}</span>
           </div>
 
-          <div>
-            <h4>Áreas de atuação</h4>
+          <nav className="rodape__coluna" aria-label="Navegação do escritório">
+            <h3>Escritório</h3>
+            <ul>
+              <li><Link para="/sobre-advogado-cuiaba/">Sobre o advogado</Link></li>
+              <li><Link para="/advogado-online-brasil/">Atendimento online</Link></li>
+              <li><Link para="/artigos/">Artigos</Link></li>
+              <li><Link para="/contato-advogado-cuiaba/">Contato e localização</Link></li>
+            </ul>
+          </nav>
+
+          <nav className="rodape__coluna" aria-label="Áreas de atuação">
+            <h3>Atuação</h3>
             <ul>
               {areas.map((area) => (
-                <li key={area.slug}>
-                  <Link para={`/${area.slug}/`}>{area.nome}</Link>
-                </li>
+                <li key={area.slug}><Link para={`/${area.slug}/`}>{area.nome}</Link></li>
               ))}
             </ul>
-          </div>
+          </nav>
 
-          <div>
-            <h4>Navegação</h4>
-            <ul>
-              <li>
-                <Link para="/">Início</Link>
-              </li>
-              <li>
-                <Link para="/sobre-advogado-cuiaba/">Sobre o advogado</Link>
-              </li>
-              <li>
-                <Link para="/artigos/">Artigos</Link>
-              </li>
-              <li>
-                <Link para="/contato-advogado-cuiaba/">Contato</Link>
-              </li>
-              <li>
-                <Link para="/politica-de-privacidade/">Política de Privacidade</Link>
-              </li>
-              <li>
-                <Link para="/termos-de-uso/">Termos de Uso</Link>
-              </li>
-            </ul>
-          </div>
+          <address className="rodape__contato">
+            <h3>Contato</h3>
+            <a className="rodape__telefone" href={linkWhatsApp()} target="_blank" rel="noopener noreferrer" data-cta="rodape">
+              <span>WhatsApp</span>
+              <strong>{SITE.telefoneExibicao}</strong>
+            </a>
+            <a className="rodape__email" href={`mailto:${SITE.email}`}>{SITE.email}</a>
+            <p>{ENDERECO_LINHA}</p>
+            <p>{SITE.horario}</p>
+            <div className="rodape__sociais">
+              <a href={SITE.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
+              <a href={SITE.mapa} target="_blank" rel="noopener noreferrer">
+                Google Maps <IconeSeta tamanho={14} />
+              </a>
+            </div>
+          </address>
+        </div>
 
-          <div>
-            <h4>Contato</h4>
-            <ul>
-              <li>
-                <a href={linkWhatsApp()} target="_blank" rel="noopener noreferrer" data-cta="rodape">
-                  WhatsApp {SITE.telefoneExibicao}
-                </a>
-              </li>
-              <li>
-                <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
-              </li>
-              <li>{ENDERECO_LINHA}</li>
-              <li>{SITE.horario}</li>
-            </ul>
+        <div className="rodape__legal">
+          <p className="rodape__aviso">
+            {SITE.advogado} — {oabFormatada()}. Conteúdo informativo, sem promessa de resultado. O
+            envio de mensagem não formaliza contratação nem substitui a análise individual.
+          </p>
+          <div className="rodape__documentos">
+            <Link para="/politica-de-privacidade/">Privacidade</Link>
+            <Link para="/termos-de-uso/">Termos de uso</Link>
           </div>
         </div>
 
-        <p className="rodape__aviso">
-          <strong style={{ color: '#a9a49a' }}>Responsável:</strong> {SITE.advogado} — {oabFormatada()}.
-          O conteúdo deste site possui caráter informativo e não substitui a análise individual de um
-          caso. O envio de mensagem não formaliza contratação nem representa promessa de resultado.
-        </p>
-
         <div className="rodape__base">
-          <span>
-            © {ano} {SITE.nome}. Todos os direitos reservados.
-          </span>
-          <span>Cuiabá — Mato Grosso · Atendimento online em todo o Brasil</span>
+          <span>© {ano} {SITE.nome}</span>
+          <span>Cuiabá — Mato Grosso</span>
         </div>
       </div>
     </footer>

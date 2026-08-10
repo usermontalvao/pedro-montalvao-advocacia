@@ -4,7 +4,6 @@ import { IconeSeta } from '../components/Icones';
 import { Revelar } from '../components/Revelar';
 import { Blocos, type Bloco } from '../components/Blocos';
 import { IndiceArtigo, Compartilhar } from '../components/IndiceArtigo';
-import { ProgressoLeitura } from '../components/movimento';
 import { SecaoCta } from '../components/SecaoCta';
 import { FormularioContato } from '../components/FormularioContato';
 import artigos from '../content/artigos.json';
@@ -96,8 +95,8 @@ export function ListaArtigos() {
       )}
 
       <SecaoCta
-        titulo="Sua situação não está em nenhum artigo?"
-        texto="Descreva o que aconteceu em poucas linhas. A orientação inicial indica se existe caminho jurídico — e quando não existe, isso também é dito com clareza."
+        titulo="Informação geral não substitui análise individual"
+        texto="Os canais oficiais podem ser usados para consultar disponibilidade, documentos necessários e formato do atendimento."
       />
     </>
   );
@@ -115,8 +114,6 @@ export function PaginaArtigo({ artigo }: { artigo: Artigo }) {
 
   return (
     <>
-      <ProgressoLeitura />
-
       <article>
         <header className="artigo-heroi">
           <div className="artigo-heroi__luz" aria-hidden />
@@ -205,12 +202,11 @@ export function PaginaArtigo({ artigo }: { artigo: Artigo }) {
         <div className="envolucro">
           <div className="contato-grade">
             <Revelar>
-              <span className="olho">Análise do seu caso</span>
-              <h2>Conte o que aconteceu com você</h2>
+              <span className="olho">Análise individual</span>
+              <h2>Informações sobre atendimento</h2>
               <p className="chamada">
-                Preencha ao lado e o WhatsApp abre com o resumo pronto. Você recebe uma orientação
-                objetiva sobre os caminhos possíveis — inclusive quando o melhor caminho for não
-                entrar com processo nenhum.
+                O formulário organiza um resumo e abre o canal oficial do escritório. A
+                disponibilidade e os documentos necessários são informados no retorno.
               </p>
               <p className="microtexto">
                 Nenhuma informação é gravada em servidor. Não envie senhas, códigos de autenticação

@@ -37,11 +37,11 @@ export function Area({ area }: { area: ConteudoArea }) {
                 rel="noopener noreferrer"
                 data-cta="heroi-area"
               >
-                <IconeWhatsApp tamanho={18} />
+                <IconeWhatsApp tamanho={17} />
                 {area.botaoPrincipal}
               </a>
               <a className="botao botao--contorno" href="#temas">
-                Conhecer as formas de atuação
+                Ver temas analisados
                 <IconeSeta />
               </a>
             </div>
@@ -107,7 +107,7 @@ export function Area({ area }: { area: ConteudoArea }) {
               ))}
 
               <a
-                className="botao botao--dourado"
+                className="botao botao--escuro"
                 href={linkWhatsApp(area.mensagemZap)}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -115,7 +115,7 @@ export function Area({ area }: { area: ConteudoArea }) {
                 style={{ marginTop: '0.8rem' }}
               >
                 <IconeWhatsApp tamanho={18} />
-                Tirar uma dúvida agora
+                Informações sobre atendimento
               </a>
             </Revelar>
 

@@ -1,6 +1,6 @@
 import { Link } from '../lib/router';
 import { SITE, ENDERECO_LINHA, linkWhatsApp, MENSAGEM_PADRAO } from '../site.config';
-import { IconeWhatsApp, IconeEmail, IconeMapa, IconeAgenda } from '../components/Icones';
+import { IconeWhatsApp, IconeEmail, IconeMapa, IconeAgenda, IconeSeta } from '../components/Icones';
 import { Revelar } from '../components/Revelar';
 import { FormularioContato } from '../components/FormularioContato';
 
@@ -119,6 +119,42 @@ export function Contato() {
               </div>
             </Revelar>
           </div>
+        </div>
+      </section>
+
+      <section className="secao secao--escura localizacao" id="localizacao">
+        <div className="envolucro localizacao__grade">
+          <Revelar className="localizacao__texto">
+            <span className="olho">Localização</span>
+            <h2>Atendimento presencial com agendamento.</h2>
+            <p>
+              O escritório mantém atendimento presencial em Cuiabá. Antes do deslocamento,
+              confirme a disponibilidade pelos canais oficiais.
+            </p>
+            <address>{ENDERECO_LINHA}</address>
+            <a
+              className="botao botao--transparente"
+              href={SITE.mapa}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Abrir rota no Google Maps
+              <IconeSeta />
+            </a>
+          </Revelar>
+
+          <Revelar className="localizacao__mapa" atraso={80}>
+            <iframe
+              src={SITE.mapaEmbed}
+              width="600"
+              height="450"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="strict-origin-when-cross-origin"
+              title="Localização de Pedro Montalvão Advocacia no Google Maps"
+            />
+          </Revelar>
         </div>
       </section>
 

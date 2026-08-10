@@ -6,11 +6,13 @@ import {
   dadosDePerguntas,
   dadosDeServico,
   dadosDoAdvogado,
+  urlAbsoluta,
 } from './lib/seo';
 import { Home } from './pages/Home';
 import { Area } from './pages/Area';
 import { Sobre } from './pages/Sobre';
 import { Contato } from './pages/Contato';
+import { AtendimentoBrasil, FAQ_ATENDIMENTO_BRASIL } from './pages/AtendimentoBrasil';
 import { ListaArtigos, PaginaArtigo } from './pages/Artigos';
 import { Juridico, type PaginaJuridica } from './pages/Juridico';
 import type { Bloco } from './components/Blocos';
@@ -44,15 +46,49 @@ export const ROTAS: Rota[] = [
       dados: [
         {
           '@type': 'WebSite',
-          '@id': '#site',
+          '@id': urlAbsoluta('/#site'),
           name: 'Pedro Montalvão Advocacia',
+          url: urlAbsoluta('/'),
           inLanguage: 'pt-BR',
+          publisher: { '@id': urlAbsoluta('/#escritorio') },
         },
         dadosDoAdvogado(),
         dadosDePerguntas(home.faq),
       ],
     },
     elemento: <Home />,
+  },
+
+  {
+    caminho: '/advogado-online-brasil/',
+    prioridade: 0.95,
+    seo: {
+      titulo: 'Advogado Online para Todo o Brasil | Pedro Montalvão',
+      descricao:
+        'Atendimento jurídico online em todo o Brasil nas áreas Trabalhista, Previdenciária, do Consumidor e de Família. Pedro Montalvão, OAB/MT 30.021.',
+      caminho: '/advogado-online-brasil/',
+      dados: [
+        {
+          '@type': 'Service',
+          '@id': urlAbsoluta('/advogado-online-brasil/#servico'),
+          name: 'Atendimento jurídico online em todo o Brasil',
+          serviceType: 'Atendimento jurídico online',
+          provider: { '@id': urlAbsoluta('/#escritorio') },
+          areaServed: { '@type': 'Country', name: 'Brasil' },
+          availableChannel: {
+            '@type': 'ServiceChannel',
+            serviceUrl: urlAbsoluta('/advogado-online-brasil/'),
+            availableLanguage: { '@type': 'Language', name: 'Português', alternateName: 'pt-BR' },
+          },
+        },
+        dadosDePerguntas(FAQ_ATENDIMENTO_BRASIL),
+        dadosDeNavegacao([
+          { nome: 'Início', caminho: '/' },
+          { nome: 'Atendimento online', caminho: '/advogado-online-brasil/' },
+        ]),
+      ],
+    },
+    elemento: <AtendimentoBrasil />,
   },
 
   ...areas.map((area) => ({
@@ -130,7 +166,7 @@ export const ROTAS: Rota[] = [
           blogPost: artigos.map((artigo) => ({
             '@type': 'BlogPosting',
             headline: artigo.titulo,
-            url: `/artigos/${artigo.slug}/`,
+            url: urlAbsoluta(`/artigos/${artigo.slug}/`),
             datePublished: artigo.publicadoEm,
           })),
         },

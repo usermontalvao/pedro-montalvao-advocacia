@@ -29,12 +29,27 @@ export function urlAbsoluta(caminho: string): string {
 /** Ficha do escritório: é ela que alimenta o painel de conhecimento do Google. */
 export function dadosDoEscritorio(): Record<string, unknown> {
   return {
-    '@type': 'LegalService',
+    /*
+      Dois tipos, do mais genérico ao mais específico. `LegalService` diz que é
+      um serviço jurídico local; `Attorney` diz que é advocacia, e não cartório,
+      despachante ou departamento jurídico. Quanto mais precisa a classe, menos
+      o buscador precisa adivinhar de que negócio se trata.
+    */
+    '@type': ['LegalService', 'Attorney'],
     '@id': `${SITE.url}/#escritorio`,
     name: SITE.nome,
     alternateName: SITE.nomeCurto,
     url: SITE.url,
-    image: urlAbsoluta('/midia/marca-dourada.png'),
+    /*
+      Fotografias reais do escritório e do advogado — não o logotipo. Para
+      negócio local o Google usa `image` como acervo visual da empresa, e
+      logotipo já vai no campo `logo`.
+    */
+    image: [
+      urlAbsoluta('/midia/sede-atendimento.webp'),
+      urlAbsoluta('/midia/atendimento-escritorio.webp'),
+      urlAbsoluta('/midia/retrato-pedro-montalvao.webp'),
+    ],
     logo: urlAbsoluta('/midia/logo-horizontal.png'),
     telephone: `+${SITE.telefoneE164}`,
     email: SITE.email,
@@ -82,9 +97,43 @@ export function dadosDoEscritorio(): Record<string, unknown> {
       'Direito do Consumidor',
       'Direito de Família',
     ],
+    /*
+      O catálogo diz, em forma de dado, o que o escritório faz — e aponta a
+      página de cada área. É o que liga a entidade "escritório" às quatro
+      páginas que competem por "advogado <área> em Cuiabá", em vez de deixar
+      cada uma delas se explicar sozinha.
+    */
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Áreas de atuação',
+      itemListElement: AREAS_CATALOGO.map((area) => ({
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: area.nome,
+          serviceType: area.nome,
+          url: urlAbsoluta(`/${area.slug}/`),
+          provider: { '@id': `${SITE.url}/#escritorio` },
+        },
+      })),
+    },
     founder: dadosDoAdvogado(),
   };
 }
+
+/**
+ * As quatro áreas, na forma mínima que o catálogo precisa.
+ *
+ * Ficam aqui, e não importadas de `content/areas.json`, porque este arquivo é
+ * lido também pelo build do servidor: manter a lista curta evita arrastar o
+ * conteúdo inteiro das áreas para dentro de cada página do site.
+ */
+const AREAS_CATALOGO = [
+  { nome: 'Direito Trabalhista', slug: 'advogado-trabalhista-cuiaba' },
+  { nome: 'Direito Previdenciário', slug: 'advogado-previdenciario-cuiaba' },
+  { nome: 'Direito do Consumidor', slug: 'advogado-consumidor-cuiaba' },
+  { nome: 'Direito de Família', slug: 'advogado-familia-cuiaba' },
+] as const;
 
 export function dadosDoAdvogado(): Record<string, unknown> {
   return {
@@ -120,11 +169,33 @@ export function dadosDoAdvogado(): Record<string, unknown> {
       SITE.linkedin,
     ],
     worksFor: { '@id': `${SITE.url}/#escritorio` },
+    telephone: `+${SITE.telefoneE164}`,
+    email: SITE.email,
     workLocation: {
       '@type': 'Place',
       name: SITE.nome,
       address: ENDERECO_LINHA,
     },
+  };
+}
+
+/**
+ * Página de perfil profissional.
+ *
+ * `ProfilePage` existe justamente para a página que é *sobre uma pessoa*. Sem
+ * ela, /sobre-advogado-cuiaba/ é apenas mais uma página com um `Person`
+ * mencionado; com ela, a página passa a ser a fonte canônica daquele perfil.
+ */
+export function dadosDePerfil(): Record<string, unknown> {
+  return {
+    '@type': 'ProfilePage',
+    '@id': urlAbsoluta('/sobre-advogado-cuiaba/#perfil'),
+    url: urlAbsoluta('/sobre-advogado-cuiaba/'),
+    name: `${SITE.advogado} — ${oabFormatada()}`,
+    inLanguage: 'pt-BR',
+    isPartOf: { '@id': `${SITE.url}/#site` },
+    mainEntity: { '@id': `${SITE.url}/#advogado` },
+    about: { '@id': `${SITE.url}/#advogado` },
   };
 }
 
@@ -199,8 +270,28 @@ export function dadosDeArtigo(artigo: {
     dateModified: artigo.atualizadoEm,
     mainEntityOfPage: { '@type': 'WebPage', '@id': url },
     url,
-    image: urlAbsoluta('/og-imagem.png'),
+    image: urlAbsoluta('/midia/conteudo-juridico.webp'),
+    isPartOf: { '@id': `${SITE.url}/#site` },
     author: dadosDoAdvogado(),
+    publisher: { '@id': `${SITE.url}/#escritorio` },
+  };
+}
+
+/**
+ * O site como entidade.
+ *
+ * Vai em TODAS as páginas, e não só na inicial: é o nó que os demais
+ * referenciam por `isPartOf`. Um `@id` apontando para algo que só existe numa
+ * página é uma referência quebrada em todas as outras.
+ */
+export function dadosDoSite(): Record<string, unknown> {
+  return {
+    '@type': 'WebSite',
+    '@id': `${SITE.url}/#site`,
+    name: SITE.nome,
+    alternateName: SITE.nomeCurto,
+    url: urlAbsoluta('/'),
+    inLanguage: 'pt-BR',
     publisher: { '@id': `${SITE.url}/#escritorio` },
   };
 }
@@ -208,7 +299,10 @@ export function dadosDeArtigo(artigo: {
 /** Junta tudo num único <script type="application/ld+json"> por página. */
 export function montarGrafo(dados: Record<string, unknown>[] = []): string {
   return JSON.stringify(
-    { '@context': 'https://schema.org', '@graph': [dadosDoEscritorio(), ...dados] },
+    {
+      '@context': 'https://schema.org',
+      '@graph': [dadosDoSite(), dadosDoEscritorio(), ...dados],
+    },
     null,
     0,
   );

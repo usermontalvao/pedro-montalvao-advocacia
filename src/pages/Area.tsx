@@ -8,9 +8,100 @@ import artigos from '../content/artigos.json';
 
 export type ConteudoArea = (typeof areas)[number];
 
+const jornadas: Record<string, {
+  titulo: string;
+  texto: string;
+  imagem: string;
+  alt: string;
+  etapas: Array<{ titulo: string; texto: string }>;
+}> = {
+  'advogado-trabalhista-cuiaba': {
+    titulo: 'Do relato à estratégia: cada fato encontra seu lugar.',
+    texto: 'Uma conversa produtiva começa pela sequência dos acontecimentos. Assim, documentos, pessoas e datas deixam de ser uma pilha de informações e passam a compor um caso verificável.',
+    imagem: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1200&q=85',
+    alt: 'Documentos e caneta sobre uma mesa de trabalho',
+    etapas: [
+      { titulo: 'O vínculo', texto: 'Início, função, rotina e alterações do contrato.' },
+      { titulo: 'O que mudou', texto: 'Jornada, pagamentos, afastamentos ou condutas relevantes.' },
+      { titulo: 'Os registros', texto: 'Ponto, holerites, mensagens, extratos e testemunhas.' },
+      { titulo: 'O próximo passo', texto: 'Orientação sobre medidas, prazos e documentos necessários.' }
+    ]
+  },
+  'advogado-previdenciario-cuiaba': {
+    titulo: 'Antes do protocolo, um mapa do seu histórico no INSS.',
+    texto: 'Cada período pode influenciar a análise. A jornada abaixo organiza o histórico para que o pedido, recurso ou planejamento comece com uma visão mais clara.',
+    imagem: '/midia/area-previdenciaria-inss.jpg',
+    alt: 'Imagem relacionada ao atendimento do INSS',
+    etapas: [
+      { titulo: 'Histórico', texto: 'Vínculos, contribuições, afastamentos e atividades exercidas.' },
+      { titulo: 'Conferência', texto: 'CNIS e documentos comparados com a realidade do segurado.' },
+      { titulo: 'Cenários', texto: 'Regras, requisitos e alternativas compatíveis com o caso.' },
+      { titulo: 'Decisão', texto: 'Pedido, recurso ou medida adequada à situação analisada.' }
+    ]
+  },
+  'advogado-consumidor-cuiaba': {
+    titulo: 'Quando a empresa diz uma coisa e os registros mostram outra.',
+    texto: 'A força de uma questão de consumo está no seu rastro: oferta, cobrança, tentativa de solução e resposta. Esta sequência ajuda a preservar o que importa.',
+    imagem: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=85',
+    alt: 'Pessoa realizando uma compra online com cartão e computador',
+    etapas: [
+      { titulo: 'A oferta', texto: 'Anúncio, contrato, pedido ou condição apresentada.' },
+      { titulo: 'O problema', texto: 'Cobrança, falha, negativa ou entrega diferente do combinado.' },
+      { titulo: 'Os protocolos', texto: 'Canais da empresa, números de atendimento e respostas.' },
+      { titulo: 'A análise', texto: 'Documentos, urgência e caminhos possíveis para a situação.' }
+    ]
+  },
+  'advogado-familia-cuiaba': {
+    titulo: 'Decisões importantes pedem uma conversa com começo, meio e futuro.',
+    texto: 'Em família, o que é definido hoje afeta a rotina de amanhã. O atendimento organiza prioridades, documentos e possibilidades com o cuidado que a situação exige.',
+    imagem: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=85',
+    alt: 'Família caminhando junta ao ar livre',
+    etapas: [
+      { titulo: 'O que precisa mudar', texto: 'A decisão, acordo ou situação que trouxe a necessidade de orientação.' },
+      { titulo: 'Quem é afetado', texto: 'Rotina, filhos, vínculos e patrimônio envolvidos.' },
+      { titulo: 'O que já existe', texto: 'Certidões, acordos, decisões e informações relevantes.' },
+      { titulo: 'Como avançar', texto: 'Possibilidades consensuais ou medidas adequadas ao contexto.' }
+    ]
+  }
+};
+
+const guiaPrevidenciario = [
+  {
+    tipo: 'Aposentadoria',
+    titulo: 'Aposentadoria por idade urbana',
+    resumo: 'A análise considera idade, tempo de contribuição, carência, vínculos e regras aplicáveis à trajetória de cada segurado.',
+  },
+  {
+    tipo: 'Incapacidade',
+    titulo: 'Benefício por incapacidade temporária',
+    resumo: 'Abrange situações em que doença ou acidente impedem o trabalho. Histórico contributivo, atividade e documentos médicos são lidos em conjunto.',
+  },
+  {
+    tipo: 'Assistencial',
+    titulo: 'BPC/LOAS',
+    resumo: 'É um benefício assistencial para pessoa idosa ou com deficiência em situação de vulnerabilidade. Não se confunde com aposentadoria.',
+  },
+  {
+    tipo: 'Dependentes',
+    titulo: 'Pensão por morte',
+    resumo: 'Proteção destinada aos dependentes após o falecimento do segurado. A composição familiar e a situação previdenciária influenciam a análise.',
+  },
+  {
+    tipo: 'Maternidade',
+    titulo: 'Salário-maternidade',
+    resumo: 'Relacionado a nascimento, adoção e outras hipóteses legais. A categoria da segurada e o vínculo com a Previdência orientam a avaliação.',
+  },
+  {
+    tipo: 'Decisão do INSS',
+    titulo: 'Benefício negado, suspenso ou cessado',
+    resumo: 'Uma negativa, suspensão ou cessação precisa ser compreendida pela razão apresentada e pelo histórico que sustenta o caso.',
+  },
+];
+
 export function Area({ area }: { area: ConteudoArea }) {
   const relacionados = artigos.filter((artigo) => artigo.area === area.slug);
   const outras = areas.filter((item) => item.slug !== area.slug);
+  const jornada = jornadas[area.slug];
 
   return (
     <>
@@ -82,6 +173,41 @@ export function Area({ area }: { area: ConteudoArea }) {
         </div>
       </section>
 
+      {/* ----------------------------------------------------- percurso do caso */}
+      {jornada && area.slug !== 'advogado-previdenciario-cuiaba' && (
+        <section className="secao secao--escura area-jornada">
+          <div className="envolucro">
+            <div className="area-jornada__cabeca">
+              <Revelar>
+                <span className="olho">Uma leitura por etapas</span>
+                <h2>{jornada.titulo}</h2>
+                <p>{jornada.texto}</p>
+              </Revelar>
+              <Revelar atraso={100}>
+                <figure className="area-jornada__imagem">
+                  <img src={jornada.imagem} alt={jornada.alt} loading="lazy" />
+                  <figcaption>{area.slug === 'advogado-previdenciario-cuiaba' ? 'Imagem relacionada ao INSS' : 'Imagem editorial · Unsplash'}</figcaption>
+                </figure>
+              </Revelar>
+            </div>
+
+            <ol className="area-jornada__linha">
+              {jornada.etapas.map((etapa, indice) => (
+                <Revelar key={etapa.titulo} atraso={indice * 80} className="area-jornada__etapa">
+                  <li>
+                    <span>0{indice + 1}</span>
+                    <div className="area-jornada__ponto" aria-hidden />
+                    <h3>{etapa.titulo}</h3>
+                    <p>{etapa.texto}</p>
+                  </li>
+                </Revelar>
+              ))}
+            </ol>
+            <p className="area-jornada__nota">Cada caso tem fatos e documentos próprios. A sequência acima organiza a conversa inicial, sem antecipar conclusões.</p>
+          </div>
+        </section>
+      )}
+
       {/* -------------------------------------------------------------- temas */}
       <section className="secao secao--creme" id="temas">
         <div className="envolucro">
@@ -108,6 +234,66 @@ export function Area({ area }: { area: ConteudoArea }) {
           </Revelar>
         </div>
       </section>
+
+      {area.slug === 'advogado-trabalhista-cuiaba' && (
+        <section className="secao secao--fina area-calculadora">
+          <div className="envolucro area-calculadora__interno">
+            <Revelar>
+              <span className="olho">Ferramenta gratuita</span>
+              <h2>Estime as verbas da rescisão.</h2>
+              <p>
+                Use datas, salário e tipo de desligamento para visualizar saldo, aviso-prévio,
+                férias, 13º e FGTS com parâmetros de 2026.
+              </p>
+            </Revelar>
+            <Revelar atraso={80}>
+              <Link
+                className="botao botao--dourado"
+                para="/calculadoras/calculadora-rescisao-trabalhista/"
+              >
+                Abrir calculadora de rescisão
+                <IconeSeta tamanho={15} />
+              </Link>
+            </Revelar>
+          </div>
+        </section>
+      )}
+
+      {/* --------------------------------------------- quando procurar + docs */}
+      {area.slug === 'advogado-previdenciario-cuiaba' && (
+        <section className="secao secao--escura area-beneficios" id="beneficios">
+          <div className="envolucro">
+            <Revelar>
+              <div className="cabeca-secao area-beneficios__cabeca">
+                <span className="olho">Benefícios previdenciários</span>
+                <h2>Cada benefício exige uma leitura própria.</h2>
+                <p>O nome do benefício é apenas o começo. Vínculos, contribuições, documentos e acontecimentos de vida definem a análise jurídica de cada caso.</p>
+              </div>
+            </Revelar>
+
+            <ol className="area-beneficios__grade">
+              {guiaPrevidenciario.map((beneficio, indice) => (
+                <Revelar
+                  key={beneficio.titulo}
+                  como="li"
+                  atraso={indice * 55}
+                  className="area-beneficios__item"
+                >
+                  <span className="area-beneficios__numero" aria-hidden>
+                    {String(indice + 1).padStart(2, '0')}
+                  </span>
+                  <div className="area-beneficios__identidade">
+                    <span>{beneficio.tipo}</span>
+                    <h3>{beneficio.titulo}</h3>
+                  </div>
+                  <p>{beneficio.resumo}</p>
+                  <span className="area-beneficios__marcador" aria-hidden />
+                </Revelar>
+              ))}
+            </ol>
+          </div>
+        </section>
+      )}
 
       {/* --------------------------------------------- quando procurar + docs */}
       <section className="secao">

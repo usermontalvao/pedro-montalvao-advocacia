@@ -1,7 +1,11 @@
 node_modules
 dist
 .ssr-build
+.audit-build
 *.local
+.env
+.env.*
+!.env.example
 .DS_Store
 *.log
 .vscode/*

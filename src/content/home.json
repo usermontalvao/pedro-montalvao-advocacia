@@ -1,14 +1,23 @@
 {
-  "seoTitle": "Pedro Montalvão Advocacia | Cuiabá",
-  "seoDescription": "Pedro Montalvão, OAB/MT 30.021. Advocacia trabalhista, previdenciária, do consumidor e de família em Cuiabá, com atendimento online.",
+  "seoTitle": "Advogado em Cuiabá | Pedro Montalvão Advocacia",
+  "seoDescription": "Advocacia em Cuiabá nas áreas trabalhista, previdenciária, do consumidor e de família. Atendimento direto com o advogado, presencial ou online. OAB/MT 30.021.",
   "heroOlho": "Pedro Montalvão Advocacia · Cuiabá e online",
-  "heroTitulo": "Primeiro, entender.<br /><em>Depois, agir.</em>",
+  "heroTitulo": "<span>Primeiro, entender.</span><em>Depois, agir.</em>",
   "heroTexto": "Seu caso começa pelos fatos — não por uma resposta pronta.",
   "heroMicrocopy": "Atendimento direto com o advogado · OAB/MT 30.021",
   "provas": [
-    { "numero": "OAB/MT", "rotulo": "30.021" },
-    { "numero": "Direto", "rotulo": "do relato à condução" },
-    { "numero": "Cuiabá + online", "rotulo": "formas de atendimento" }
+    {
+      "numero": "OAB/MT",
+      "rotulo": "30.021"
+    },
+    {
+      "numero": "Direto",
+      "rotulo": "do relato à condução"
+    },
+    {
+      "numero": "Cuiabá + online",
+      "rotulo": "formas de atendimento"
+    }
   ],
   "sobreOlho": "Sem respostas prontas",
   "sobreTitulo": "O trabalho começa antes do processo",

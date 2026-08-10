@@ -1,6 +1,6 @@
 # Pedro Montalvão Advocacia — site institucional
 
-Site estático, sem servidor e sem banco de dados. O conteúdo vive em arquivos
+Site pré-renderizado, sem banco de dados. O conteúdo vive em arquivos
 JSON dentro de `src/content/`, e cada página é gerada como HTML pronto no
 build — é isso que faz o Google ler o site inteiro sem depender de JavaScript.
 
@@ -79,11 +79,25 @@ Coloque os arquivos novos e ajuste a lista `FOTOS` em
 npm run midias
 ```
 
-## Contatos do site
+## Contatos e pré-triagem do site
 
-Não há backend. O formulário grava o contato em JSON no `localStorage` do
-próprio visitante e abre o WhatsApp do escritório com o resumo já escrito —
-o atendimento acontece onde já acontece hoje.
+O formulário grava o contato em JSON no `localStorage` do próprio visitante e
+abre o WhatsApp do escritório com o resumo já escrito.
+
+Os artigos também carregam um atendimento inicial guiado. Primeiro, alternativas
+fixas qualificam área, situação, período, provas, urgência e objetivo. Só depois
+do consentimento as respostas seguem para a IA, que faz perguntas complementares
+e organiza um radar factual para conferência humana. A mensagem do WhatsApp leva
+o histórico, pontos de atenção, documentos e links de pesquisa em portais oficiais.
+
+A integração segura fica em `public/api/pre-triagem.php`, que é copiado para
+`dist/api/` e executado pela hospedagem PHP. Configure `DEEPSEEK_API_KEY` como
+variável do ambiente da hospedagem. A chave nunca deve ser escrita em arquivos
+públicos nem em código do navegador. A IA não consulta jurisprudência em tempo
+real e não avalia viabilidade jurídica; ela apenas sugere termos para a pesquisa
+que o profissional fará nas fontes oficiais. Em hospedagem puramente estática,
+o widget continua oferecendo o WhatsApp, mas a etapa automatizada ficará
+indisponível.
 
 ## Vídeo de fundo
 

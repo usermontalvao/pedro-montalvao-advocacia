@@ -13,7 +13,17 @@ import { SITE } from './site.config';
  */
 
 export function listarRotas() {
-  return ROTAS.map((rota) => ({ caminho: rota.caminho, prioridade: rota.prioridade }));
+  return ROTAS.map((rota) => ({
+    caminho: rota.caminho,
+    prioridade: rota.prioridade,
+    /*
+      Data real de atualização, quando existe (artigos a declaram). O sitemap
+      usa isto no lugar da data do build — carimbar "hoje" em todas as páginas
+      a cada publicação é justamente o padrão que faz o Google parar de
+      confiar no `lastmod` do site inteiro.
+    */
+    atualizadoEm: rota.seo.atualizadoEm,
+  }));
 }
 
 export function renderizar(caminho: string) {
@@ -61,6 +71,7 @@ function montarCabeca(seo: Seo): string {
     `<meta property="og:image" content="${imagem}" />`,
     `<meta property="og:image:width" content="1200" />`,
     `<meta property="og:image:height" content="630" />`,
+    `<meta property="og:image:alt" content="${escapar(SITE.nome)} — ${escapar(seo.titulo)}" />`,
 
     `<meta name="twitter:card" content="summary_large_image" />`,
     `<meta name="twitter:title" content="${escapar(seo.titulo)}" />`,

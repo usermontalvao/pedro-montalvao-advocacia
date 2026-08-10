@@ -5,7 +5,7 @@ import { Revelar } from '../components/Revelar';
 import { Blocos, type Bloco } from '../components/Blocos';
 import { IndiceArtigo, Compartilhar } from '../components/IndiceArtigo';
 import { SecaoCta } from '../components/SecaoCta';
-import { FormularioContato } from '../components/FormularioContato';
+import { PreTriagemFlutuante } from '../components/PreTriagemFlutuante';
 import artigos from '../content/artigos.json';
 import areas from '../content/areas.json';
 
@@ -115,62 +115,69 @@ export function PaginaArtigo({ artigo }: { artigo: Artigo }) {
   return (
     <>
       <article>
+        {/*
+          Abertura tipográfica. A fotografia saiu daqui de propósito: era a
+          mesma para todos os artigos, num cartão flutuante de cantos
+          arredondados que não existe em nenhum outro lugar do site — e
+          ilustrava um texto sobre banco com uma foto de podcast. O que abre
+          uma publicação é o título; a foto entra depois, em faixa inteira,
+          como assinatura de quem escreve.
+        */}
         <header className="artigo-heroi artigo-heroi--publicacao">
           <div className="artigo-heroi__luz" aria-hidden />
-          <div className="envolucro artigo-heroi__grade">
-            <div className="artigo-heroi__conteudo">
-              <nav className="migalhas" aria-label="Você está em">
-                <Link para="/">Início</Link>
-                <span aria-hidden>/</span>
-                <Link para="/artigos/">Artigos</Link>
-                <span aria-hidden>/</span>
-                <span>{artigo.categoria}</span>
-              </nav>
+          <div className="envolucro artigo-abertura">
+            <nav className="migalhas" aria-label="Você está em">
+              <Link para="/">Início</Link>
+              <span aria-hidden>/</span>
+              <Link para="/artigos/">Artigos</Link>
+              <span aria-hidden>/</span>
+              <span>{artigo.categoria}</span>
+            </nav>
 
-              <div className="artigo-heroi__rotulos">
-                <span className="etiqueta">{artigo.categoria}</span>
-                <span className="artigo-heroi__tipo">Análise jurídica</span>
+            <p className="artigo-abertura__trilho">
+              <Link para={area ? `/${area.slug}/` : '/artigos/'}>{artigo.categoria}</Link>
+              <span aria-hidden>·</span>
+              <span>Análise jurídica</span>
+            </p>
+
+            <h1>{artigo.titulo}</h1>
+            <p className="artigo-abertura__resumo">{artigo.resumo}</p>
+
+            <div className="assinatura">
+              <img
+                className="assinatura__foto"
+                src="/midia/retrato-institucional-720.webp"
+                alt=""
+                width={44}
+                height={44}
+                loading="lazy"
+              />
+              <div className="assinatura__quem">
+                {SITE.advogado}
+                <span>{SITE.oab ? oabFormatada() : 'Advogado — OAB/MT'}</span>
               </div>
-
-              <h1>{artigo.titulo}</h1>
-              <p className="chamada">{artigo.resumo}</p>
-
-              <div className="assinatura">
-                <img
-                  className="assinatura__foto"
-                  src="/midia/retrato-institucional-720.webp"
-                  alt=""
-                  width={46}
-                  height={46}
-                  loading="lazy"
-                />
-                <div className="assinatura__quem">
-                  {SITE.advogado}
-                  <span>{SITE.oab ? oabFormatada() : 'Advogado — OAB/MT'}</span>
-                </div>
-                <div className="assinatura__dados">
-                  <time dateTime={artigo.atualizadoEm}>
-                    Atualizado em {dataLegivel(artigo.atualizadoEm)}
-                  </time>
-                  <span>{artigo.tempoLeitura} min de leitura</span>
-                </div>
+              <div className="assinatura__dados">
+                <time dateTime={artigo.atualizadoEm}>
+                  Atualizado em {dataLegivel(artigo.atualizadoEm)}
+                </time>
+                <span>{artigo.tempoLeitura} min de leitura</span>
               </div>
             </div>
-
-            <figure className="artigo-heroi__imagem">
-              <picture>
-                <source media="(max-width: 720px)" srcSet="/midia/conteudo-juridico-720.webp" />
-                <img
-                  src="/midia/conteudo-juridico.webp"
-                  alt="Pedro Montalvão"
-                  width={1376}
-                  height={768}
-                  fetchPriority="high"
-                  decoding="async"
-                />
-              </picture>
-            </figure>
           </div>
+
+          <figure className="artigo-faixa">
+            <picture>
+              <source media="(max-width: 720px)" srcSet="/midia/conteudo-juridico-720.webp" />
+              <img
+                src="/midia/conteudo-juridico.webp"
+                alt={`${SITE.advogado}, advogado em Cuiabá`}
+                width={1376}
+                height={768}
+                fetchPriority="high"
+                decoding="async"
+              />
+            </picture>
+          </figure>
         </header>
 
         <div className="secao artigo-leitura">
@@ -219,29 +226,13 @@ export function PaginaArtigo({ artigo }: { artigo: Artigo }) {
       </article>
 
       {/* Quem leu o artigo inteiro é o contato mais qualificado do site. */}
-      <section className="secao secao--creme">
-        <div className="envolucro">
-          <div className="contato-grade">
-            <Revelar>
-              <span className="olho">Além da leitura</span>
-              <h2>Seu caso não cabe em um artigo.</h2>
-              <p className="chamada">
-                Organize o essencial no formulário. A mensagem abre pronta no WhatsApp oficial.
-              </p>
-              <p className="microtexto">
-                Nenhuma informação é gravada em servidor. Não envie senhas, códigos de autenticação
-                ou dados bancários completos.
-              </p>
-            </Revelar>
-
-            <Revelar atraso={80}>
-              <div className="painel-form">
-                <FormularioContato origem={`artigo: ${artigo.slug}`} />
-              </div>
-            </Revelar>
-          </div>
-        </div>
-      </section>
+      <SecaoCta
+        olho="Ficou com alguma dúvida, fale com nossa equipe"
+        titulo="Traga os documentos e receba uma análise objetiva"
+        texto="Conte o que aconteceu, informe as datas e reúna o que já tiver em mãos. O primeiro passo é entender se a questão pede regularização, negociação ou medida judicial."
+        botao="Informações pelo WhatsApp"
+        mensagem={primeiraChamada?.mensagem}
+      />
 
       {outros.length > 0 && (
         <section className="secao secao--fina">
@@ -261,6 +252,12 @@ export function PaginaArtigo({ artigo }: { artigo: Artigo }) {
           </div>
         </section>
       )}
+
+      <PreTriagemFlutuante
+        artigoTitulo={artigo.titulo}
+        artigoSlug={artigo.slug}
+        categoria={artigo.categoria}
+      />
     </>
   );
 }

@@ -2,8 +2,45 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { gerarRobots, gerarSitemap, lerEnderecoBase } from './scripts/sitemap.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+/**
+ * Entrega os arquivos técnicos também no `vite`, não só depois do prerender.
+ * Assim, `/sitemap.xml` e `/robots.txt` não caem na rota React de 404 durante
+ * a edição local do site.
+ */
+function arquivosTecnicos() {
+  return {
+    name: 'arquivos-tecnicos',
+    configureServer(server: import('vite').ViteDevServer) {
+      server.middlewares.use(async (requisicao, resposta, proximo) => {
+        const caminho = requisicao.url?.split('?')[0];
+        if (caminho !== '/sitemap.xml' && caminho !== '/robots.txt') {
+          proximo();
+          return;
+        }
+
+        try {
+          const { listarRotas } = await server.ssrLoadModule('/src/entry-server.tsx');
+          const enderecoBase = await lerEnderecoBase(__dirname);
+          const conteudo = caminho === '/sitemap.xml'
+            ? gerarSitemap(listarRotas(), __dirname, enderecoBase)
+            : gerarRobots(enderecoBase);
+
+          resposta.statusCode = 200;
+          resposta.setHeader('Content-Type', caminho === '/sitemap.xml'
+            ? 'application/xml; charset=utf-8'
+            : 'text/plain; charset=utf-8');
+          resposta.end(conteudo);
+        } catch (erro) {
+          proximo(erro as Error);
+        }
+      });
+    },
+  };
+}
 
 /**
  * Site institucional — projeto SEPARADO do CRM de propósito: ele sobe sozinho
@@ -12,7 +49,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
  * contatos ficam no navegador do visitante até virarem mensagem de WhatsApp.
  */
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), arquivosTecnicos()],
   resolve: {
     alias: { '@': path.resolve(__dirname, './src') },
   },

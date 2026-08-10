@@ -5,6 +5,7 @@ import { Revelar } from './Revelar';
 
 /** Bloco de conversão que fecha cada página. */
 export function SecaoCta({
+  olho = 'Contato',
   titulo,
   texto,
   microcopy,
@@ -13,6 +14,8 @@ export function SecaoCta({
   destino,
   secundario = true,
 }: {
+  /** Linha curta acima do título. Trocar o rótulo muda o convite. */
+  olho?: string;
   titulo: string;
   texto: string;
   microcopy?: string;
@@ -26,7 +29,7 @@ export function SecaoCta({
       <div className="envolucro">
         <Revelar>
           <div className="cabeca-secao cabeca-secao--centro" style={{ marginBottom: 0 }}>
-            <span className="olho">Contato</span>
+            <span className="olho">{olho}</span>
             <h2>{titulo}</h2>
             <p className="chamada">{texto}</p>
 
@@ -38,7 +41,7 @@ export function SecaoCta({
                 </Link>
               ) : (
                 <a
-                  className="botao botao--claro"
+                  className="botao botao--zap"
                   href={linkWhatsApp(mensagem)}
                   target="_blank"
                   rel="noopener noreferrer"

@@ -187,5 +187,5 @@ function dataDoGit(arquivos) {
 async function lerEnderecoBase() {
   const config = await fs.readFile(path.join(RAIZ, 'src', 'site.config.ts'), 'utf8');
   const encontrado = /url:\s*'([^']+)'/.exec(config);
-  return (encontrado?.[1] ?? 'https://www.advcuiaba.com').replace(/\/$/, '');
+  return (encontrado?.[1] ?? 'https://pedromontalvao.com').replace(/\/$/, '');
 }

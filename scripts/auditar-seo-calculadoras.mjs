@@ -1,6 +1,11 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import calculadoras from '../src/content/calculadoras.json' with { type: 'json' };
+import { lerEnderecoBase } from './sitemap.mjs';
+
+// O domínio sai do site.config.ts, igual ao build. Escrito na mão aqui, a
+// auditoria passava a cobrar um endereço que o site já não usa mais.
+const enderecoBase = await lerEnderecoBase(process.cwd());
 
 let verificacoes = 0;
 const ok = (condicao, mensagem) => {
@@ -33,7 +38,7 @@ for (const calculadora of calculadoras) {
 
   ok(Boolean(titulo?.toLowerCase().includes(calculadora.nomeCurto.split(' ')[0].toLowerCase())), `${calculadora.slug}: title não corresponde à ferramenta.`);
   ok((descricao?.length ?? 0) >= 75, `${calculadora.slug}: meta description muito curta.`);
-  ok(html.includes(`<link rel="canonical" href="https://advcuiaba.com${caminho}"`), `${calculadora.slug}: canonical ausente ou incorreto.`);
+  ok(html.includes(`<link rel="canonical" href="${enderecoBase}${caminho}"`), `${calculadora.slug}: canonical ausente ou incorreto.`);
   ok(html.includes(`<h1>${calculadora.titulo}</h1>`), `${calculadora.slug}: H1 único da ferramenta ausente.`);
   ok(html.includes('"@type":"WebApplication"'), `${calculadora.slug}: WebApplication ausente.`);
   ok(html.includes('"@type":"FAQPage"'), `${calculadora.slug}: FAQPage ausente.`);
@@ -46,7 +51,7 @@ for (const calculadora of calculadoras) {
     ok((html.match(/calculadora-pagina__largura/g) ?? []).length >= 4, `${calculadora.slug}: blocos principais sem o alinhamento compartilhado.`);
   }
   ok(html.includes(calculadora.fonteUrl.replaceAll('&', '&amp;')) || html.includes(calculadora.fonteUrl), `${calculadora.slug}: fonte oficial ausente.`);
-  ok(sitemap.includes(`<loc>https://advcuiaba.com${caminho}</loc>`), `${calculadora.slug}: rota ausente no sitemap.`);
+  ok(sitemap.includes(`<loc>${enderecoBase}${caminho}</loc>`), `${calculadora.slug}: rota ausente no sitemap.`);
   ok(mapa.includes(`href="${caminho}"`), `${calculadora.slug}: rota ausente no mapa humano.`);
 }
 

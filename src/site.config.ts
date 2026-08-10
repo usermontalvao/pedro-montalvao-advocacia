@@ -6,7 +6,7 @@
 
 export const SITE = {
   /** Sem barra no fim. Usado em canonical, sitemap.xml e og:url. */
-  url: 'https://advcuiaba.com',
+  url: 'https://pedromontalvao.com',
   nome: 'Pedro Montalvão Advocacia',
   nomeCurto: 'Pedro Montalvão',
   advogado: 'Pedro Rodrigues Montalvão Neto',

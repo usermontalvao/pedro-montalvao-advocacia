@@ -1,6 +1,6 @@
 import { Link } from '../lib/router';
 import { SITE, ENDERECO_LINHA, oabFormatada, linkWhatsApp } from '../site.config';
-import { IconeSeta, IconeWhatsApp } from './Icones';
+import { IconeSeta } from './Icones';
 import { Marca } from './Marca';
 import { Revelar } from './Revelar';
 import areas from '../content/areas.json';
@@ -17,16 +17,14 @@ export function Rodape() {
             <span className="olho">Informações sobre atendimento</span>
             <h2>Clareza para o próximo passo.</h2>
           </div>
-          <a
+          <Link
             className="botao botao--claro"
-            href={linkWhatsApp()}
-            target="_blank"
-            rel="noopener noreferrer"
+            para="/contato-advogado-cuiaba/"
             data-cta="rodape-destaque"
           >
-            <IconeWhatsApp tamanho={17} />
             Canais de atendimento
-          </a>
+            <IconeSeta tamanho={16} />
+          </Link>
         </Revelar>
 
         <div className="rodape__corpo">
@@ -52,6 +50,7 @@ export function Rodape() {
           <nav className="rodape__coluna" aria-label="Áreas de atuação">
             <h3>Atuação</h3>
             <ul>
+              <li><Link para="/areas-de-atuacao/">Todas as áreas</Link></li>
               {areas.map((area) => (
                 <li key={area.slug}><Link para={`/${area.slug}/`}>{area.nome}</Link></li>
               ))}
@@ -69,6 +68,7 @@ export function Rodape() {
             <p>{SITE.horario}</p>
             <div className="rodape__sociais">
               <a href={SITE.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
+              <a href={SITE.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
               <a href={SITE.mapa} target="_blank" rel="noopener noreferrer">
                 Google Maps <IconeSeta tamanho={14} />
               </a>

@@ -1,5 +1,5 @@
 import { Link } from '../lib/router';
-import { linkWhatsApp, MENSAGEM_PADRAO, SITE } from '../site.config';
+import { SITE } from '../site.config';
 import { IconeSeta } from '../components/Icones';
 import { Revelar } from '../components/Revelar';
 import { Faq } from '../components/Faq';
@@ -32,19 +32,17 @@ export function Home() {
             <p className="chamada">{conteudo.heroTexto}</p>
 
             <div className="grupo-botoes">
-              <a
+              <Link
                 className="botao botao--claro"
-                href={linkWhatsApp(MENSAGEM_PADRAO)}
-                target="_blank"
-                rel="noopener noreferrer"
+                para="/contato-advogado-cuiaba/"
                 data-cta="heroi"
               >
                 Canais de atendimento
                 <IconeSeta />
-              </a>
-              <a className="botao botao--transparente" href="#areas">
+              </Link>
+              <Link className="botao botao--transparente" para="/areas-de-atuacao/">
                 Conhecer a atuação
-              </a>
+              </Link>
             </div>
 
             <p className="microtexto">{conteudo.heroMicrocopy}</p>

@@ -30,6 +30,7 @@ export const SITE = {
   formacao: 'Graduado em Direito pela UNIC, em Cuiabá',
   posGraduacao: 'Pós-graduado em Direito e Processo do Trabalho',
   instagram: 'https://www.instagram.com/adv.pedro.montalvao',
+  linkedin: 'https://br.linkedin.com/in/advpedromontalvao',
   mapa: 'https://maps.app.goo.gl/uWVSZAzTUZKgoKfk9',
   mapaEmbed:
     'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3842.245864772432!2d-55.95993312424261!3d-15.631890584986076!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x939da5aec28391a1%3A0x4403a597c4716904!2sPedro%20Montalv%C3%A3o%20Advocacia!5e0!3m2!1spt-BR!2sbr!4v1786330171105!5m2!1spt-BR!2sbr',

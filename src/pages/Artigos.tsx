@@ -115,43 +115,66 @@ export function PaginaArtigo({ artigo }: { artigo: Artigo }) {
   return (
     <>
       <article>
-        <header className="artigo-heroi">
+        <header className="artigo-heroi artigo-heroi--publicacao">
           <div className="artigo-heroi__luz" aria-hidden />
-          <div className="envolucro">
-            <nav className="migalhas" aria-label="Você está em">
-              <Link para="/">Início</Link>
-              <span aria-hidden>/</span>
-              <Link para="/artigos/">Artigos</Link>
-              <span aria-hidden>/</span>
-              <span>{artigo.categoria}</span>
-            </nav>
+          <div className="envolucro artigo-heroi__grade">
+            <div className="artigo-heroi__conteudo">
+              <nav className="migalhas" aria-label="Você está em">
+                <Link para="/">Início</Link>
+                <span aria-hidden>/</span>
+                <Link para="/artigos/">Artigos</Link>
+                <span aria-hidden>/</span>
+                <span>{artigo.categoria}</span>
+              </nav>
 
-            <span className="etiqueta">{artigo.categoria}</span>
-            <h1>{artigo.titulo}</h1>
-            <p className="chamada">{artigo.resumo}</p>
-
-            <div className="assinatura">
-              <img
-                className="assinatura__foto"
-                src="/midia/retrato-institucional-720.webp"
-                alt=""
-                width={46}
-                height={46}
-                loading="lazy"
-              />
-              <div className="assinatura__quem">
-                {SITE.advogado}
-                <span>{SITE.oab ? oabFormatada() : 'Advogado — OAB/MT'}</span>
+              <div className="artigo-heroi__rotulos">
+                <span className="etiqueta">{artigo.categoria}</span>
+                <span className="artigo-heroi__tipo">Análise jurídica</span>
               </div>
-              <div className="assinatura__dados">
-                <span>Atualizado em {dataLegivel(artigo.atualizadoEm)}</span>
-                <span>{artigo.tempoLeitura} min de leitura</span>
+
+              <h1>{artigo.titulo}</h1>
+              <p className="chamada">{artigo.resumo}</p>
+
+              <div className="assinatura">
+                <img
+                  className="assinatura__foto"
+                  src="/midia/retrato-institucional-720.webp"
+                  alt=""
+                  width={46}
+                  height={46}
+                  loading="lazy"
+                />
+                <div className="assinatura__quem">
+                  {SITE.advogado}
+                  <span>{SITE.oab ? oabFormatada() : 'Advogado — OAB/MT'}</span>
+                </div>
+                <div className="assinatura__dados">
+                  <time dateTime={artigo.atualizadoEm}>
+                    Atualizado em {dataLegivel(artigo.atualizadoEm)}
+                  </time>
+                  <span>{artigo.tempoLeitura} min de leitura</span>
+                </div>
               </div>
             </div>
+
+            <figure className="artigo-heroi__imagem">
+              <picture>
+                <source media="(max-width: 720px)" srcSet="/midia/conteudo-juridico-720.webp" />
+                <img
+                  src="/midia/conteudo-juridico.webp"
+                  alt="Pedro Montalvão durante gravação de conteúdo jurídico em estúdio"
+                  width={1376}
+                  height={768}
+                  fetchPriority="high"
+                  decoding="async"
+                />
+              </picture>
+              <figcaption>Pedro Montalvão durante gravação de conteúdo jurídico</figcaption>
+            </figure>
           </div>
         </header>
 
-        <div className="secao">
+        <div className="secao artigo-leitura">
           <div className="envolucro">
             <div className="artigo-corpo">
               <IndiceArtigo blocos={blocos} mensagem={primeiraChamada?.mensagem} />

@@ -10,6 +10,7 @@ import {
 } from './lib/seo';
 import { Home } from './pages/Home';
 import { Area } from './pages/Area';
+import { AreasAtuacao } from './pages/AreasAtuacao';
 import { Sobre } from './pages/Sobre';
 import { Contato } from './pages/Contato';
 import { AtendimentoBrasil, FAQ_ATENDIMENTO_BRASIL } from './pages/AtendimentoBrasil';
@@ -89,6 +90,34 @@ export const ROTAS: Rota[] = [
       ],
     },
     elemento: <AtendimentoBrasil />,
+  },
+
+  {
+    caminho: '/areas-de-atuacao/',
+    prioridade: 0.9,
+    seo: {
+      titulo: 'Áreas de atuação | Pedro Montalvão Advocacia',
+      descricao:
+        'Conheça a atuação em Direito Trabalhista, Previdenciário, do Consumidor e de Família, com páginas sobre temas, documentos e atendimento.',
+      caminho: '/areas-de-atuacao/',
+      dados: [
+        {
+          '@type': 'CollectionPage',
+          name: 'Áreas de atuação — Pedro Montalvão Advocacia',
+          url: urlAbsoluta('/areas-de-atuacao/'),
+          hasPart: areas.map((area) => ({
+            '@type': 'WebPage',
+            name: area.nome,
+            url: urlAbsoluta(`/${area.slug}/`),
+          })),
+        },
+        dadosDeNavegacao([
+          { nome: 'Início', caminho: '/' },
+          { nome: 'Áreas de atuação', caminho: '/areas-de-atuacao/' },
+        ]),
+      ],
+    },
+    elemento: <AreasAtuacao />,
   },
 
   ...areas.map((area) => ({

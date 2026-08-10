@@ -1,6 +1,5 @@
 import { Link } from '../lib/router';
-import { linkWhatsApp } from '../site.config';
-import { IconeSeta, IconeWhatsApp } from '../components/Icones';
+import { IconeSeta } from '../components/Icones';
 import { Revelar } from '../components/Revelar';
 import { Faq } from '../components/Faq';
 import { SecaoCta } from '../components/SecaoCta';
@@ -15,31 +14,31 @@ export function Area({ area }: { area: ConteudoArea }) {
 
   return (
     <>
-      <section className="heroi">
+      <section className="heroi heroi-area">
         <div className="heroi__luz" aria-hidden />
-        <div className="envolucro">
-          <nav className="migalhas" aria-label="Você está em">
-            <Link para="/">Início</Link>
-            <span aria-hidden>/</span>
-            <span>{area.nome}</span>
-          </nav>
+        <div className="envolucro heroi-area__grade">
+          <div className="heroi-area__conteudo">
+            <nav className="migalhas" aria-label="Você está em">
+              <Link para="/">Início</Link>
+              <span aria-hidden>/</span>
+              <Link para="/areas-de-atuacao/">Áreas de atuação</Link>
+              <span aria-hidden>/</span>
+              <span>{area.nome}</span>
+            </nav>
 
-          <div style={{ maxWidth: '860px' }}>
             <span className="olho">{area.nome}</span>
             <h1>{area.h1}</h1>
             <p className="chamada">{area.subtitulo}</p>
 
             <div className="grupo-botoes">
-              <a
-                className="botao botao--zap"
-                href={linkWhatsApp(area.mensagemZap)}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                className="botao botao--claro"
+                para="/contato-advogado-cuiaba/"
                 data-cta="heroi-area"
               >
-                <IconeWhatsApp tamanho={17} />
                 {area.botaoPrincipal}
-              </a>
+                <IconeSeta />
+              </Link>
               <a className="botao botao--contorno" href="#temas">
                 Ver temas analisados
                 <IconeSeta />
@@ -48,6 +47,19 @@ export function Area({ area }: { area: ConteudoArea }) {
 
             <p className="microtexto">{area.microcopyHero}</p>
           </div>
+
+          <figure className="heroi-area__imagem">
+            <img
+              src={`/midia/${area.imagem}.webp`}
+              srcSet={`/midia/${area.imagem}-720.webp 720w, /midia/${area.imagem}.webp 1376w`}
+              sizes="(max-width: 900px) 100vw, 540px"
+              alt={`Contexto relacionado a ${area.nome}`}
+              width={1376}
+              height={768}
+              fetchPriority="high"
+            />
+            <figcaption>{area.nome}</figcaption>
+          </figure>
         </div>
       </section>
 
@@ -82,11 +94,15 @@ export function Area({ area }: { area: ConteudoArea }) {
 
           <Revelar atraso={70}>
             <div className="lista-temas">
-              {area.temas.map((tema) => (
-                <article className="tema" key={tema.titulo}>
-                  <h3>{tema.titulo}</h3>
+              {area.temas.map((tema, indice) => (
+                <details className="tema tema--interativo" key={tema.titulo} open={indice < 2}>
+                  <summary>
+                    <span>{String(indice + 1).padStart(2, '0')}</span>
+                    <h3>{tema.titulo}</h3>
+                    <i aria-hidden>+</i>
+                  </summary>
                   <p>{tema.texto}</p>
-                </article>
+                </details>
               ))}
             </div>
           </Revelar>
@@ -106,17 +122,15 @@ export function Area({ area }: { area: ConteudoArea }) {
                 </p>
               ))}
 
-              <a
+              <Link
                 className="botao botao--escuro"
-                href={linkWhatsApp(area.mensagemZap)}
-                target="_blank"
-                rel="noopener noreferrer"
+                para="/contato-advogado-cuiaba/"
                 data-cta="meio-area"
                 style={{ marginTop: '0.8rem' }}
               >
-                <IconeWhatsApp tamanho={18} />
                 Informações sobre atendimento
-              </a>
+                <IconeSeta />
+              </Link>
             </Revelar>
 
             <Revelar atraso={90}>
@@ -203,7 +217,7 @@ export function Area({ area }: { area: ConteudoArea }) {
         texto={area.ctaTexto}
         microcopy={area.ctaMicrocopy}
         botao={area.botaoPrincipal}
-        mensagem={area.mensagemZap}
+        destino="/contato-advogado-cuiaba/"
       />
     </>
   );

@@ -59,7 +59,7 @@ export function dadosDoEscritorio(): Record<string, unknown> {
       { '@type': 'Country', name: 'Brasil' },
     ],
     hasMap: SITE.mapa,
-    sameAs: [SITE.instagram],
+    sameAs: [SITE.instagram, SITE.linkedin],
     contactPoint: {
       '@type': 'ContactPoint',
       telephone: `+${SITE.telefoneE164}`,
@@ -117,7 +117,7 @@ export function dadosDoAdvogado(): Record<string, unknown> {
     ],
     sameAs: [
       SITE.instagram,
-      'https://br.linkedin.com/in/advpedromontalvao',
+      SITE.linkedin,
     ],
     worksFor: { '@id': `${SITE.url}/#escritorio` },
     workLocation: {

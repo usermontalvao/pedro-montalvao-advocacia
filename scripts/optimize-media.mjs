@@ -49,6 +49,13 @@ const FOTOS = [
     qualidade: 84,
   },
   {
+    de: '11203320946907841446.jpeg',
+    origem: 'downloads',
+    para: 'video-conferencia',
+    larguras: [720, 1376],
+    qualidade: 84,
+  },
+  {
     de: '17283843579800063352.jpeg',
     origem: 'downloads',
     para: 'atendimento-escritorio',
@@ -76,23 +83,61 @@ const FOTOS = [
     larguras: [720, 1376],
     qualidade: 84,
   },
+  {
+    de: '14794753527133858660.jpeg',
+    origem: 'downloads',
+    para: 'area-trabalhista',
+    larguras: [720, 1376],
+    qualidade: 82,
+  },
+  {
+    de: '15001162875298710121.jpeg',
+    origem: 'downloads',
+    para: 'area-previdenciaria',
+    larguras: [720, 1376],
+    qualidade: 82,
+  },
+  {
+    de: '4799986149596935486.jpeg',
+    origem: 'downloads',
+    para: 'area-consumidor',
+    larguras: [720, 1376],
+    qualidade: 82,
+  },
+  {
+    de: '11875979752770185470.jpeg',
+    origem: 'downloads',
+    para: 'area-familia',
+    larguras: [720, 1376],
+    qualidade: 82,
+  },
   { de: 'escritorio.webp', para: 'escritorio-cuiaba', larguras: [720, 1400], qualidade: 80 },
 ];
 
 const DOWNLOADS = path.join(process.env.HOME ?? '', 'Downloads');
 
 const LOGOS = [
-  { de: 'advogado/new_logo.png', para: 'logo-horizontal.png', largura: 1123 },
+  {
+    de: 'logo-site-institucional.png',
+    origem: 'downloads',
+    para: 'logo-horizontal.png',
+    largura: 766,
+  },
   { de: 'advogado/MARCA DAGUA ORIGINAL.png', para: 'marca-dourada.png', largura: 1000 },
 ];
 
 /** Mesmo desenho do logotipo, pintado de branco: mantém só o recorte do alfa. */
-async function versaoBranca(entrada, saida) {
-  const { width, height } = await sharp(entrada).metadata();
+async function versaoBranca(entrada, saida, largura) {
+  const preparacao = sharp(entrada).resize(largura ?? null, null, {
+    fit: 'inside',
+    withoutEnlargement: true,
+  });
+  const mascara = await preparacao.png().toBuffer();
+  const { width, height } = await sharp(mascara).metadata();
   await sharp({
     create: { width, height, channels: 4, background: { r: 255, g: 255, b: 255, alpha: 1 } },
   })
-    .composite([{ input: entrada, blend: 'dest-in' }])
+    .composite([{ input: mascara, blend: 'dest-in' }])
     .png({ compressionLevel: 9 })
     .toFile(saida);
 }
@@ -115,7 +160,7 @@ async function principal() {
   }
 
   for (const logo of LOGOS) {
-    const entrada = path.join(ORIGEM, logo.de);
+    const entrada = path.join(logo.origem === 'downloads' ? DOWNLOADS : ORIGEM, logo.de);
     const saida = path.join(DESTINO, logo.para);
     await sharp(entrada)
       .resize(logo.largura, null, { fit: 'inside', withoutEnlargement: true })
@@ -125,43 +170,62 @@ async function principal() {
   }
 
   await versaoBranca(
-    path.join(ORIGEM, 'advogado/new_logo.png'),
+    path.join(DOWNLOADS, 'logo-site-institucional.png'),
     path.join(DESTINO, 'logo-horizontal-branco.png'),
   );
   console.log('logo   logo-horizontal-branco.png');
 
-  // Favicon e ícone do app: o mesmo emblema vetorial usado no cabeçalho,
-  // rasterizado sobre o grafite da marca.
-  for (const tamanho of [180, 192, 512]) {
-    await sharp(Buffer.from(iconeSvg(tamanho, true)))
-      .png({ compressionLevel: 9 })
-      .toFile(path.join(RAIZ, 'public', `icone-${tamanho}.png`));
+  // Favicon e ícones usam o símbolo oficial, sem redesenho ou tipografia substituta.
+  const simbolo = path.join(DOWNLOADS, 'LOGO (2).png');
+  await sharp(simbolo)
+    .resize(512, null, { fit: 'inside', withoutEnlargement: true })
+    .png({ compressionLevel: 9 })
+    .toFile(path.join(DESTINO, 'simbolo-logo.png'));
+  await versaoBranca(simbolo, path.join(DESTINO, 'simbolo-logo-branco.png'), 512);
+  console.log('logo   simbolo-logo.png + simbolo-logo-branco.png');
+
+  for (const tamanho of [32, 180, 192, 512]) {
+    await criarIconeOficial(
+      simbolo,
+      tamanho,
+      path.join(RAIZ, 'public', tamanho === 32 ? 'favicon-32.png' : `icone-${tamanho}.png`),
+    );
   }
-  await fs.writeFile(path.join(RAIZ, 'public', 'favicon.svg'), iconeSvg(64, true), 'utf8');
-  console.log('ícones icone-180/192/512.png + favicon.svg');
+  console.log('ícones favicon-32.png + icone-180/192/512.png');
 
   await imagemDeCompartilhamento();
   console.log('social og-imagem.png');
 }
 
-/**
- * O ícone da marca: as iniciais na mesma serifada do logotipo, sobre o
- * grafite. Num favicon de 32px o nome inteiro seria ilegível — as iniciais
- * com o filete dourado mantêm a identidade e continuam reconhecíveis.
- */
-function iconeSvg(tamanho, comFundo) {
-  const fundo = comFundo ? '<rect width="64" height="64" rx="13" fill="#0e0e10"/>' : '';
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${tamanho}" height="${tamanho}" viewBox="0 0 64 64" fill="none">
-  <defs>
-    <linearGradient id="ouro" x1="12" y1="10" x2="52" y2="54" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#E8D4A6"/><stop offset="0.5" stop-color="#C9A86A"/><stop offset="1" stop-color="#8F7238"/>
-    </linearGradient>
-  </defs>
-  ${fundo}
-  <text x="32" y="39" text-anchor="middle" font-family="Optima, Georgia, serif"
-        font-size="26" font-weight="600" letter-spacing="2.4" fill="url(#ouro)">PM</text>
-  <path d="M17 48h30" stroke="url(#ouro)" stroke-width="1.4" stroke-linecap="round"/>
-</svg>`;
+async function criarIconeOficial(entrada, tamanho, saida) {
+  const margem = Math.max(2, Math.round(tamanho * 0.09));
+  const area = tamanho - margem * 2;
+  const mascara = await sharp(entrada)
+    .resize(area, area, { fit: 'contain' })
+    .ensureAlpha()
+    .toBuffer();
+  const tinta = await sharp({
+    create: {
+      width: area,
+      height: area,
+      channels: 4,
+      background: { r: 201, g: 168, b: 106, alpha: 1 },
+    },
+  }).composite([{ input: mascara, blend: 'dest-in' }]).png().toBuffer();
+
+  await sharp({
+    create: {
+      width: tamanho,
+      height: tamanho,
+      channels: 4,
+      background: { r: 14, g: 14, b: 16, alpha: 1 },
+    },
+  }).composite([{
+    input: tinta,
+    blend: 'over',
+    top: margem,
+    left: margem,
+  }]).png({ compressionLevel: 9 }).toFile(saida);
 }
 
 /**

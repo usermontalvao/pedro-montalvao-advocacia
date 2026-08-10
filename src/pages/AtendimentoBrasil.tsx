@@ -121,6 +121,33 @@ export function AtendimentoBrasil() {
               </Revelar>
             ))}
           </div>
+
+          <Revelar className="atendimento-video" atraso={90}>
+            <figure className="atendimento-video__quadro">
+              <picture>
+                <source
+                  media="(max-width: 720px)"
+                  srcSet="/midia/video-conferencia-720.webp"
+                />
+                <img
+                  src="/midia/video-conferencia.webp"
+                  alt="Pedro Montalvão durante atendimento por videoconferência"
+                  width="1376"
+                  height="768"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
+              <figcaption>
+                <span>Videoconferência</span>
+                <strong>Conversa direta, com tempo para compreender o contexto.</strong>
+                <p>
+                  O canal é combinado previamente e utilizado quando for adequado à natureza da
+                  demanda e às necessidades do atendimento.
+                </p>
+              </figcaption>
+            </figure>
+          </Revelar>
         </div>
       </section>
 

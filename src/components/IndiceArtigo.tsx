@@ -41,33 +41,56 @@ export function IndiceArtigo({ blocos, mensagem }: { blocos: Bloco[]; mensagem?:
 
   if (titulos.length < 3) return null;
 
-  return (
-    <nav className="indice-fixo" aria-label="Índice do artigo">
-      <strong>Neste artigo</strong>
-      <ol>
-        {titulos.map((titulo) => (
-          <li key={titulo.id}>
-            <a href={`#${titulo.id}`} data-atual={atual === titulo.id}>
-              {titulo.texto}
-            </a>
-          </li>
-        ))}
-      </ol>
+  const lista = (mobile = false) => (
+    <ol>
+      {titulos.map((titulo) => (
+        <li key={`${mobile ? 'mobile-' : ''}${titulo.id}`}>
+          <a href={`#${titulo.id}`} data-atual={atual === titulo.id}>
+            {titulo.texto}
+          </a>
+        </li>
+      ))}
+    </ol>
+  );
 
-      <div className="indice-fixo__acao">
-        <p>Informações sobre análise individual.</p>
-        <a
-          className="botao botao--zap"
-          href={linkWhatsApp(mensagem)}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-cta="indice-artigo"
-        >
-          <IconeWhatsApp tamanho={16} />
-          Canal oficial
-        </a>
-      </div>
-    </nav>
+  const acao = (
+    <div className="indice-fixo__acao">
+      <p>Informações sobre análise individual.</p>
+      <a
+        className="botao botao--zap"
+        href={linkWhatsApp(mensagem)}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-cta="indice-artigo"
+      >
+        <IconeWhatsApp tamanho={16} />
+        Canal oficial
+      </a>
+    </div>
+  );
+
+  return (
+    <>
+      <nav className="indice-fixo indice-fixo--desktop" aria-label="Índice do artigo">
+        <div className="indice-fixo__cabecalho">
+          <strong>Neste artigo</strong>
+          <span>{titulos.length} tópicos</span>
+        </div>
+        {lista()}
+        {acao}
+      </nav>
+
+      <details className="indice-fixo indice-fixo--mobile">
+        <summary>
+          <span>Neste artigo</span>
+          <small>{titulos.length} tópicos</small>
+        </summary>
+        <div className="indice-fixo__conteudo">
+          {lista(true)}
+          {acao}
+        </div>
+      </details>
+    </>
   );
 }
 

@@ -24,6 +24,21 @@ export function Sobre() {
               <h1>{conteudo.h1}</h1>
               <p className="chamada">{conteudo.subtitulo}</p>
               {SITE.oab && <p className="microtexto">{oabFormatada()}</p>}
+              <div className="grupo-botoes">
+                <a
+                  className="botao botao--contorno"
+                  href={SITE.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Perfil no LinkedIn
+                  <IconeSeta />
+                </a>
+                <Link className="botao botao--contorno" para="/contato-advogado-cuiaba/">
+                  Canais de atendimento
+                  <IconeSeta />
+                </Link>
+              </div>
             </div>
 
             <div className="heroi__retrato">
@@ -61,20 +76,16 @@ export function Sobre() {
 
       <section className="secao secao--escura">
         <div className="envolucro">
-          <Revelar>
-            <div className="cabeca-secao">
+          <div className="metodo-linha">
+            <Revelar className="metodo-linha__introducao">
               <span className="olho">Método</span>
               <h2>{conteudo.trabalhoTitulo}</h2>
-            </div>
-          </Revelar>
-
-          <div className="passos">
+            </Revelar>
             {conteudo.trabalho.map((item, indice) => (
-              <Revelar key={item.titulo} atraso={indice * 80}>
-                <div className="passo">
-                  <h3>{item.titulo}</h3>
-                  <p>{item.texto}</p>
-                </div>
+              <Revelar className="metodo-linha__item" key={item.titulo} atraso={indice * 70}>
+                <span>{String(indice + 1).padStart(2, '0')}</span>
+                <h3>{item.titulo}</h3>
+                <p>{item.texto}</p>
               </Revelar>
             ))}
           </div>
@@ -93,12 +104,12 @@ export function Sobre() {
 
             <Revelar atraso={90}>
               <img
-                src="/midia/escritorio-cuiaba.webp"
-                srcSet="/midia/escritorio-cuiaba-720.webp 720w, /midia/escritorio-cuiaba.webp 1400w"
+                src="/midia/sede-atendimento.webp"
+                srcSet="/midia/sede-atendimento-720.webp 720w, /midia/sede-atendimento.webp 1400w"
                 sizes="(max-width: 900px) 92vw, 520px"
-                alt="Entrada do escritório Pedro Montalvão Advocacia em Cuiabá"
+                alt="Pedro Montalvão em ambiente profissional de atendimento"
                 width={1400}
-                height={1867}
+                height={1400}
                 loading="lazy"
                 style={{ borderRadius: 'var(--raio-g)', width: '100%', objectFit: 'cover', aspectRatio: '4 / 3' }}
               />
@@ -127,7 +138,13 @@ export function Sobre() {
         </div>
       </section>
 
-      <SecaoCta titulo={conteudo.ctaTitulo} texto={conteudo.ctaTexto} />
+      <SecaoCta
+        titulo={conteudo.ctaTitulo}
+        texto={conteudo.ctaTexto}
+        botao="Ver canais de atendimento"
+        destino="/contato-advogado-cuiaba/"
+        secundario={false}
+      />
     </>
   );
 }

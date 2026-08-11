@@ -1,0 +1,84 @@
+[
+  {
+    "slug": "trabalhista",
+    "categoria": "Direito Trabalhista",
+    "nome": "Trabalhista",
+    "titulo": "Calculadoras trabalhistas",
+    "seoTitle": "Calculadoras trabalhistas | Grátis, com memória de cálculo",
+    "seoDescription": "Rescisão, horas extras, férias, 13º, FGTS, adicionais, estabilidade e multas da CLT em calculadoras trabalhistas gratuitas, cada uma com memória de cálculo e fonte oficial.",
+    "olho": "Biblioteca trabalhista",
+    "chamada": "Do primeiro dia ao acerto final: jornada, salário, adicionais, estabilidade, multas e rescisão. Cada ferramenta mostra a fórmula, a fonte oficial e os limites da estimativa.",
+    "resumoHub": "Jornada, salário, férias, 13º, FGTS, adicionais, estabilidade, multas e rescisão — inclusive a rescisão com FGTS histórico projetado pelo período do contrato.",
+    "areaNome": "Direito Trabalhista",
+    "areaCaminho": "/advogado-trabalhista-cuiaba/",
+    "grupos": [
+      {
+        "nome": "Rescisão e desligamento",
+        "descricao": "O acerto final do contrato, o aviso-prévio, o seguro-desemprego e as multas do atraso."
+      },
+      {
+        "nome": "Jornada e horas",
+        "descricao": "Quanto tempo foi trabalhado, o que passou do limite e o que ficou no banco de horas."
+      },
+      {
+        "nome": "Salário, férias e 13º",
+        "descricao": "O que entra e o que sai da folha: líquido, proporcionais, reflexos e tributos em vigor."
+      },
+      {
+        "nome": "Adicionais",
+        "descricao": "Trabalho noturno, insalubridade e periculosidade, com os reflexos habituais estimados."
+      },
+      {
+        "nome": "FGTS e estabilidade",
+        "descricao": "Depósitos, multa rescisória e os períodos de garantia no emprego."
+      }
+    ]
+  },
+  {
+    "slug": "familia",
+    "categoria": "Direito de Família",
+    "nome": "Família",
+    "titulo": "Calculadoras de Direito de Família",
+    "seoTitle": "Calculadoras de Direito de Família | Pensão alimentícia",
+    "seoDescription": "Calculadoras de Direito de Família: pensão alimentícia em atraso nos ritos da prisão civil e da expropriação, com correção, juros, pagamentos abatidos e relatório por parcela.",
+    "olho": "Ferramentas de família",
+    "chamada": "Pensão em atraso parcela por parcela: compare os ritos da prisão civil e da expropriação, registre pagamentos, aplique atualização e imprima um relatório conferível.",
+    "resumoHub": "Prestações alimentícias em atraso separadas por rito, com salário mínimo, índices públicos, juros e relatório pronto para conferência.",
+    "areaNome": "Direito de Família",
+    "areaCaminho": "/advogado-familia-cuiaba/",
+    "grupos": [
+      {
+        "nome": "Alimentos",
+        "descricao": "Prestações vencidas, atualização e a separação entre o que cabe em cada rito de cobrança."
+      }
+    ]
+  },
+  {
+    "slug": "previdenciario",
+    "categoria": "Direito Previdenciário",
+    "nome": "Previdenciário",
+    "titulo": "Calculadoras previdenciárias",
+    "seoTitle": "Calculadoras previdenciárias | Pedro Montalvão",
+    "seoDescription": "Ferramentas previdenciárias em preparo: tempo de contribuição, salário de benefício e revisões.",
+    "olho": "Em preparo",
+    "chamada": "Tempo de contribuição, salário de benefício e revisões.",
+    "resumoHub": "Tempo de contribuição, carência, salário de benefício e revisões — em preparo, com as mesmas regras de memória de cálculo das demais.",
+    "areaNome": "Direito Previdenciário",
+    "areaCaminho": "/advogado-previdenciario-cuiaba/",
+    "grupos": []
+  },
+  {
+    "slug": "consumidor",
+    "categoria": "Direito do Consumidor",
+    "nome": "Consumidor",
+    "titulo": "Calculadoras de Direito do Consumidor",
+    "seoTitle": "Calculadoras de Direito do Consumidor | Pedro Montalvão",
+    "seoDescription": "Ferramentas de consumo em preparo: revisão de juros, repetição do indébito e cobrança indevida.",
+    "olho": "Em preparo",
+    "chamada": "Juros, repetição do indébito e cobrança indevida.",
+    "resumoHub": "Revisão de juros, repetição do indébito em dobro e cobrança indevida — em preparo, com fonte e fórmula visíveis.",
+    "areaNome": "Direito do Consumidor",
+    "areaCaminho": "/advogado-consumidor-cuiaba/",
+    "grupos": []
+  }
+]

@@ -9,6 +9,7 @@
  * Rode de novo sempre que trocar alguma foto:  npm run midias
  */
 import sharp from 'sharp';
+import { gerarIcones } from './gerar-icones.mjs';
 import path from 'node:path';
 import fs from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
@@ -184,48 +185,12 @@ async function principal() {
   await versaoBranca(simbolo, path.join(DESTINO, 'simbolo-logo-branco.png'), 512);
   console.log('logo   simbolo-logo.png + simbolo-logo-branco.png');
 
-  for (const tamanho of [32, 180, 192, 512]) {
-    await criarIconeOficial(
-      simbolo,
-      tamanho,
-      path.join(RAIZ, 'public', tamanho === 32 ? 'favicon-32.png' : `icone-${tamanho}.png`),
-    );
-  }
-  console.log('ícones favicon-32.png + icone-180/192/512.png');
+  // Um gerador só para os ícones, compartilhado com `npm run icones`.
+  const icones = await gerarIcones({ simbolo: path.join(DESTINO, 'simbolo-logo.png') });
+  console.log(`ícones ${icones.join(' + ')}`);
 
   await imagemDeCompartilhamento();
   console.log('social og-imagem.png');
-}
-
-async function criarIconeOficial(entrada, tamanho, saida) {
-  const margem = Math.max(2, Math.round(tamanho * 0.09));
-  const area = tamanho - margem * 2;
-  const mascara = await sharp(entrada)
-    .resize(area, area, { fit: 'contain' })
-    .ensureAlpha()
-    .toBuffer();
-  const tinta = await sharp({
-    create: {
-      width: area,
-      height: area,
-      channels: 4,
-      background: { r: 201, g: 168, b: 106, alpha: 1 },
-    },
-  }).composite([{ input: mascara, blend: 'dest-in' }]).png().toBuffer();
-
-  await sharp({
-    create: {
-      width: tamanho,
-      height: tamanho,
-      channels: 4,
-      background: { r: 14, g: 14, b: 16, alpha: 1 },
-    },
-  }).composite([{
-    input: tinta,
-    blend: 'over',
-    top: margem,
-    left: margem,
-  }]).png({ compressionLevel: 9 }).toFile(saida);
 }
 
 /**

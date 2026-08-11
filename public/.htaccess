@@ -1,0 +1,10 @@
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+
+<IfModule mod_autoindex.c>
+  Options -Indexes
+</IfModule>
+
+<IfModule mod_negotiation.c>
+  Options -MultiViews
+</IfModule>

@@ -10,6 +10,7 @@ import {
   type ResultadoGenerico,
   type ValoresCalculadora,
 } from '../lib/calculosTrabalhistas';
+import { caminhoDaCategoria, categoriaDaCalculadora } from '../lib/categoriasCalculadoras';
 import { montarMensagemCalculadora } from '../lib/mensagemCalculadora';
 import { Link } from '../lib/router';
 import { linkWhatsApp } from '../site.config';
@@ -193,6 +194,11 @@ const RELACIONADAS: Record<string, string[]> = {
   comissoes_dsr: ['calculadora-salario-liquido', 'calculadora-horas-extras', 'calculadora-decimo-terceiro'],
   estabilidade_gestante: ['calculadora-rescisao-trabalhista', 'calculadora-ferias', 'calculadora-decimo-terceiro'],
   estabilidade_acidente: ['calculadora-rescisao-trabalhista', 'calculadora-fgts', 'calculadora-decimo-terceiro'],
+  ferias_dobro: ['calculadora-ferias', 'calculadora-rescisao-trabalhista', 'calculadora-salario-liquido'],
+  multa_477: ['calculadora-rescisao-trabalhista', 'calculadora-multa-artigo-467-clt', 'calculadora-aviso-previo'],
+  multa_467: ['calculadora-rescisao-trabalhista', 'calculadora-multa-artigo-477-clt', 'calculadora-diferencas-salariais'],
+  diferencas_salariais: ['calculadora-salario-liquido', 'calculadora-fgts', 'calculadora-decimo-terceiro'],
+  vale_transporte: ['calculadora-salario-liquido', 'calculadora-salario-dias-trabalhados', 'calculadora-inss-irrf'],
   vinculo_sem_registro: ['calculadora-rescisao-trabalhista', 'calculadora-fgts', 'calculadora-horas-extras'],
   rescisao_domestico: ['calculadora-rescisao-trabalhista', 'calculadora-fgts', 'calculadora-aviso-previo'],
 };
@@ -211,6 +217,7 @@ export function CalculadoraTrabalhista({ calculadora }: { calculadora: ConteudoC
   }, [motor]);
 
   const faq = useMemo(() => faqDaCalculadora(calculadora), [calculadora]);
+  const categoria = useMemo(() => categoriaDaCalculadora(calculadora), [calculadora]);
   const relacionadas = useMemo(() => {
     const slugs = RELACIONADAS[calculadora.motor] ?? [];
     return slugs.map((slug) => calculadoras.find((item) => item.slug === slug)).filter(Boolean) as ConteudoCalculadora[];
@@ -301,15 +308,23 @@ export function CalculadoraTrabalhista({ calculadora }: { calculadora: ConteudoC
               <span aria-hidden>/</span>
               <Link para="/calculadoras/">Calculadoras</Link>
               <span aria-hidden>/</span>
+              {categoria && (
+                <>
+                  <Link para={caminhoDaCategoria(categoria)}>{categoria.nome}</Link>
+                  <span aria-hidden>/</span>
+                </>
+              )}
               <span>{calculadora.nomeCurto}</span>
             </nav>
-            <span className="olho">Calculadora trabalhista gratuita</span>
+            <span className="olho">
+              {categoria ? `${categoria.olho} · ${calculadora.grupo}` : 'Calculadora jurídica gratuita'}
+            </span>
             <h1>{calculadora.titulo}</h1>
             <p className="chamada">{calculadora.resumo}</p>
             <div className="calculadora-etiquetas" aria-label="Características da ferramenta">
               <span>Grátis</span>
               <span>Estimativa</span>
-              <span>Parâmetros 2026</span>
+              <span>Parâmetros oficiais</span>
               <span>Sem cadastro</span>
             </div>
           </div>
@@ -439,7 +454,18 @@ export function CalculadoraTrabalhista({ calculadora }: { calculadora: ConteudoC
                 {indice > 0 && (indice === relacionadas.length - 1 ? ' e ' : ', ')}
                 <Link para={`/calculadoras/${item.slug}/`}>{item.nomeCurto.toLowerCase()}</Link>
               </span>
-            ))}. Consulte ainda a página de <Link para="/advogado-trabalhista-cuiaba/">Direito Trabalhista</Link>{' '}
+            ))}
+            {categoria && (
+              <>
+                {' '}ou percorra as{' '}
+                <Link para={caminhoDaCategoria(categoria)}>
+                  calculadoras de {categoria.nome.toLowerCase()}
+                </Link>
+              </>
+            )}. Consulte ainda a página de{' '}
+            <Link para={categoria?.areaCaminho ?? '/areas-de-atuacao/'}>
+              {categoria?.areaNome ?? 'áreas de atuação'}
+            </Link>{' '}
             e os <Link para="/artigos/">artigos jurídicos</Link>.
           </p>
         </div>
@@ -459,18 +485,25 @@ export function CalculadoraTrabalhista({ calculadora }: { calculadora: ConteudoC
         <div className="envolucro calculadora-pagina__largura">
           <div className="cabeca-secao">
             <span className="olho">Ferramentas relacionadas</span>
-            <h2>Continue sua conferência trabalhista.</h2>
+            <h2>Continue sua conferência.</h2>
           </div>
           <div className="grade grade--3 calculadora-relacionadas">
             {relacionadas.map((item) => (
               <Link className="cartao calculadora-cartao" para={`/calculadoras/${item.slug}/`} key={item.slug}>
-                <span className="etiqueta">{item.categoria}</span>
+                <span className="etiqueta">{item.grupo}</span>
                 <h3>{item.nomeCurto}</h3>
                 <p>{item.resumo}</p>
                 <span className="cartao__link">Abrir calculadora <IconeSeta tamanho={15} /></span>
               </Link>
             ))}
           </div>
+          {categoria && (
+            <p className="calculadora-fonte">
+              <Link para={caminhoDaCategoria(categoria)}>
+                Ver todas as calculadoras de {categoria.nome.toLowerCase()}
+              </Link>
+            </p>
+          )}
         </div>
       </section>
 

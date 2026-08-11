@@ -94,6 +94,24 @@ export function IconeDocumento({ tamanho = 24, className }: Props) {
   );
 }
 
+export function IconeCadeado({ tamanho = 24, className }: Props) {
+  return (
+    <svg {...base(tamanho)} className={className}>
+      <rect x="4.5" y="10" width="15" height="11" rx="2.5" />
+      <path d="M8 10V7.5a4 4 0 0 1 8 0V10M12 14.5v2.5" />
+    </svg>
+  );
+}
+
+export function IconePatrimonio({ tamanho = 24, className }: Props) {
+  return (
+    <svg {...base(tamanho)} className={className}>
+      <path d="M3 10.5 12 4l9 6.5M5 10.5V20M19 10.5V20M3 20h18" />
+      <path d="M9 20v-6h6v6M16.5 7.3a3.2 3.2 0 1 1-6.3-1" />
+    </svg>
+  );
+}
+
 export function IconeEmail({ tamanho = 20, className }: Props) {
   return (
     <svg {...base(tamanho)} className={className}>

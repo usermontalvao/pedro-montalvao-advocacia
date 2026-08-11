@@ -243,7 +243,7 @@ export function Area({ area }: { area: ConteudoArea }) {
               <h2>Estime as verbas da rescisão.</h2>
               <p>
                 Use datas, salário e tipo de desligamento para visualizar saldo, aviso-prévio,
-                férias, 13º e FGTS com parâmetros de 2026.
+                férias, 13º e FGTS com os parâmetros oficiais em vigor.
               </p>
             </Revelar>
             <Revelar atraso={80}>

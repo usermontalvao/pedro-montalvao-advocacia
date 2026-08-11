@@ -518,7 +518,7 @@ export const MOTORES: Record<string, MotorCalculadora> = {
 
   insalubridade: {
     campos: [
-      { ...salario, chave: 'base', rotulo: 'Base de cálculo informada', padrao: '1.621,00', ajuda: 'O salário mínimo de 2026 é sugerido; norma coletiva ou decisão pode alterar a base.' },
+      { ...salario, chave: 'base', rotulo: 'Base de cálculo informada', padrao: '1.621,00', ajuda: 'O salário mínimo vigente é sugerido; norma coletiva ou decisão pode alterar a base.' },
       {
         chave: 'grau', rotulo: 'Grau de insalubridade', tipo: 'select', padrao: '20',
         opcoes: [{ valor: '10', rotulo: 'Mínimo — 10%' }, { valor: '20', rotulo: 'Médio — 20%' }, { valor: '40', rotulo: 'Máximo — 40%' }],
@@ -561,10 +561,10 @@ export const MOTORES: Record<string, MotorCalculadora> = {
         linhas: [
           { rotulo: 'Rendimento informado', valor: bruto },
           { rotulo: 'INSS progressivo', valor: -inss },
-          { rotulo: 'IRRF com redução de 2026', valor: -ir.valor },
+          { rotulo: 'IRRF com a redução legal', valor: -ir.valor },
           { rotulo: 'Dedução escolhida para IRRF', valor: ir.deducao === 'simplificada' ? 'Simplificada — R$ 607,20' : 'Legal — INSS e dependentes', formato: 'texto' },
         ],
-        notas: ['A redução do IRRF de 2026 zera o imposto em rendimentos tributáveis de até R$ 5.000,00, observada a apuração oficial.'],
+        notas: ['A redução legal do IRRF zera o imposto em rendimentos tributáveis de até R$ 5.000,00, observada a apuração oficial.'],
       };
     },
   },
@@ -780,6 +780,133 @@ export const MOTORES: Record<string, MotorCalculadora> = {
     },
   },
 
+  ferias_dobro: {
+    campos: [
+      salario,
+      { chave: 'medias', rotulo: 'Médias habituais mensais', tipo: 'moeda', padrao: '0,00' },
+      { chave: 'periodos', rotulo: 'Períodos concedidos fora do prazo', tipo: 'numero', padrao: '1', minimo: 1, maximo: 5, passo: 1 },
+    ],
+    calcular(valores) {
+      const base = n(valores, 'salario') + n(valores, 'medias');
+      const dobro = arredondar(base * 2 * n(valores, 'periodos'));
+      const terco = arredondar(dobro / 3);
+      return {
+        tituloTotal: 'Férias em dobro com 1/3',
+        total: arredondar(dobro + terco),
+        linhas: [
+          { rotulo: 'Remuneração usada como base', valor: base },
+          { rotulo: 'Férias pagas em dobro', valor: dobro },
+          { rotulo: 'Adicional constitucional de 1/3', valor: terco },
+        ],
+        notas: ['A dobra se relaciona à concessão das férias fora do prazo legal. O simples atraso no pagamento, isoladamente, não autoriza esta projeção.'],
+      };
+    },
+  },
+
+  multa_477: {
+    campos: [
+      { ...salario, rotulo: 'Última remuneração do empregado' },
+      {
+        chave: 'culpaEmpregado', rotulo: 'O empregado deu causa comprovada ao atraso?', tipo: 'select', padrao: 'nao',
+        opcoes: [{ valor: 'nao', rotulo: 'Não' }, { valor: 'sim', rotulo: 'Sim' }],
+      },
+    ],
+    calcular(valores) {
+      const aplicavel = valores.culpaEmpregado !== 'sim';
+      const multa = aplicavel ? n(valores, 'salario') : 0;
+      return {
+        tituloTotal: 'Multa estimada do art. 477',
+        total: multa,
+        linhas: [
+          { rotulo: 'Última remuneração informada', valor: n(valores, 'salario') },
+          { rotulo: 'Multiplicador legal estimado', valor: aplicavel ? '1 remuneração' : 'Não aplicado', formato: 'texto' },
+        ],
+        notas: [aplicavel ? 'A incidência depende do descumprimento do prazo legal para pagamento das verbas rescisórias.' : 'A projeção foi zerada porque foi informada causa comprovada atribuível ao empregado.'],
+      };
+    },
+  },
+
+  multa_467: {
+    campos: [
+      { chave: 'verbas', rotulo: 'Verbas rescisórias incontroversas', tipo: 'moeda', obrigatorio: true },
+      {
+        chave: 'pagas', rotulo: 'Foram pagas na primeira audiência?', tipo: 'select', padrao: 'nao',
+        opcoes: [{ valor: 'nao', rotulo: 'Não' }, { valor: 'sim', rotulo: 'Sim' }],
+      },
+    ],
+    calcular(valores) {
+      const base = n(valores, 'verbas');
+      const multa = valores.pagas === 'sim' ? 0 : arredondar(base * 0.5);
+      return {
+        tituloTotal: 'Acréscimo estimado do art. 467',
+        total: multa,
+        linhas: [
+          { rotulo: 'Verbas incontroversas informadas', valor: base },
+          { rotulo: 'Percentual aplicado', valor: valores.pagas === 'sim' ? '0%' : '50%', formato: 'texto' },
+        ],
+        notas: ['A definição do que é incontroverso depende da defesa e dos documentos do processo.'],
+      };
+    },
+  },
+
+  diferencas_salariais: {
+    campos: [
+      { chave: 'salarioRecebido', rotulo: 'Salário mensal recebido', tipo: 'moeda', obrigatorio: true },
+      { chave: 'salarioDevido', rotulo: 'Salário mensal alegadamente devido', tipo: 'moeda', obrigatorio: true },
+      { chave: 'meses', rotulo: 'Meses no período', tipo: 'numero', padrao: '12', minimo: 1, maximo: 60, passo: 1 },
+    ],
+    validar(valores) {
+      return n(valores, 'salarioDevido') < n(valores, 'salarioRecebido')
+        ? ['O salário alegadamente devido precisa ser igual ou maior que o recebido.']
+        : [];
+    },
+    calcular(valores) {
+      const diferencaMensal = Math.max(0, n(valores, 'salarioDevido') - n(valores, 'salarioRecebido'));
+      const meses = n(valores, 'meses');
+      const diferencas = arredondar(diferencaMensal * meses);
+      const decimo = arredondar(diferencas / 12);
+      const ferias = arredondar((diferencas / 12) * (4 / 3));
+      const fgts = arredondar((diferencas + decimo) * 0.08);
+      return {
+        tituloTotal: 'Diferenças e reflexos estimados',
+        total: arredondar(diferencas + decimo + ferias + fgts),
+        linhas: [
+          { rotulo: 'Diferença salarial mensal', valor: diferencaMensal },
+          { rotulo: `Diferenças em ${meses} meses`, valor: diferencas },
+          { rotulo: 'Reflexo em 13º salário', valor: decimo },
+          { rotulo: 'Reflexo em férias + 1/3', valor: ferias },
+          { rotulo: 'FGTS estimado', valor: fgts },
+        ],
+        notas: ['A ferramenta não reconhece equiparação, desvio de função ou piso normativo; ela apenas projeta a diferença informada.'],
+      };
+    },
+  },
+
+  vale_transporte: {
+    campos: [
+      { ...salario, rotulo: 'Salário básico mensal' },
+      { chave: 'tarifa', rotulo: 'Valor de cada passagem', tipo: 'moeda', obrigatorio: true },
+      { chave: 'viagens', rotulo: 'Passagens por dia', tipo: 'numero', padrao: '2', minimo: 1, maximo: 8, passo: 1 },
+      { chave: 'dias', rotulo: 'Dias de deslocamento no mês', tipo: 'numero', padrao: '22', minimo: 1, maximo: 31, passo: 1 },
+    ],
+    calcular(valores) {
+      const custo = arredondar(n(valores, 'tarifa') * n(valores, 'viagens') * n(valores, 'dias'));
+      const limite = arredondar(n(valores, 'salario') * 0.06);
+      const empregado = Math.min(custo, limite);
+      const empregador = arredondar(Math.max(0, custo - empregado));
+      return {
+        tituloTotal: 'Desconto máximo estimado do empregado',
+        total: empregado,
+        linhas: [
+          { rotulo: 'Custo mensal do deslocamento', valor: custo },
+          { rotulo: 'Limite de 6% do salário básico', valor: limite },
+          { rotulo: 'Parcela estimada do empregador', valor: empregador },
+        ],
+        notas: ['O desconto do trabalhador não deve superar o custo efetivo do benefício nem o limite legal estimado de 6% do salário básico.'],
+      };
+    },
+  },
+
   vinculo_sem_registro: {
     campos: [
       salario,
@@ -816,7 +943,7 @@ export const MOTORES: Record<string, MotorCalculadora> = {
     campos: [
       salario,
       { chave: 'admissao', rotulo: 'Data de admissão', tipo: 'data', obrigatorio: true },
-      { chave: 'desligamento', rotulo: 'Data de desligamento em 2026', tipo: 'data', obrigatorio: true },
+      { chave: 'desligamento', rotulo: 'Data de desligamento', tipo: 'data', obrigatorio: true },
       {
         chave: 'modalidade', rotulo: 'Modalidade', tipo: 'select', padrao: 'sem',
         opcoes: [
@@ -840,7 +967,6 @@ export const MOTORES: Record<string, MotorCalculadora> = {
         tipoAviso: aviso,
         feriasVencidas: n(valores, 'feriasVencidas'),
         adiantamentoDecimo: 0,
-        baseFgts: 0,
         dependentes: 0,
         outrasVerbas: 0,
         naturezaOutrasVerbas: 'remuneratoria',

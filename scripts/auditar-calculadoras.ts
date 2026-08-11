@@ -1,8 +1,12 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import calculadoras from '../src/content/calculadoras.json';
+import categorias from '../src/content/categoriasCalculadoras.json';
 import { calcularInss2026, calcularIrrf2026, calcularRescisao } from '../src/lib/calculoRescisao';
 import { MOTORES, type MotorCalculadora, type ValoresCalculadora } from '../src/lib/calculosTrabalhistas';
 import { montarMensagemCalculadora } from '../src/lib/mensagemCalculadora';
+import { calcularPensao, dataPtParaIsoPensao, mascararDataPensao, validarEntradaPensao } from '../src/lib/calculoPensao';
+import { calcularTaxasLegaisBcb } from '../src/lib/dadosPensao';
 
 let verificacoes = 0;
 
@@ -42,21 +46,36 @@ const cenarios: Record<string, ValoresCalculadora> = {
   comissoes_dsr: { comissoes: '1000' },
   estabilidade_gestante: { salario: '3000', dispensa: '2026-08-10', parto: '2026-12-10' },
   estabilidade_acidente: { salario: '3000', cessacao: '2026-06-01', dispensa: '2026-08-10' },
+  ferias_dobro: { salario: '3000' },
+  multa_477: { salario: '3000' },
+  multa_467: { verbas: '3000' },
+  diferencas_salariais: { salarioRecebido: '2500', salarioDevido: '3000' },
+  vale_transporte: { salario: '3000', tarifa: '5' },
   vinculo_sem_registro: { salario: '3000', inicio: '2025-01-01', fim: '2026-01-01' },
   rescisao_domestico: { salario: '3000', admissao: '2020-01-01', desligamento: '2026-08-10' },
 };
 
 // Integridade editorial e ligação entre as páginas e os motores.
-igual(calculadoras.length, 21, 'A biblioteca deve conter 21 calculadoras trabalhistas.');
-igual(new Set(calculadoras.map((item) => item.slug)).size, 21, 'Os slugs precisam ser únicos.');
-igual(new Set(calculadoras.map((item) => item.motor)).size, 21, 'Os identificadores de motor precisam ser únicos.');
+igual(calculadoras.length, 27, 'A biblioteca deve conter 27 calculadoras jurídicas.');
+igual(new Set(calculadoras.map((item) => item.slug)).size, 27, 'Os slugs precisam ser únicos.');
+igual(new Set(calculadoras.map((item) => item.motor)).size, 27, 'Os identificadores de motor precisam ser únicos.');
 
 for (const calculadora of calculadoras) {
-  ok(calculadora.titulo.length >= 20, `${calculadora.slug}: título editorial muito curto.`);
+  // Sem o ano no fim, "Calculadora de FGTS" é o título legítimo mais curto.
+  ok(calculadora.titulo.length >= 18, `${calculadora.slug}: título editorial muito curto.`);
+  ok(!/\b20\d{2}\b/.test(calculadora.titulo), `${calculadora.slug}: o título não deve carregar o ano.`);
   ok(calculadora.resumo.length >= 80, `${calculadora.slug}: descrição editorial muito curta.`);
+  // Toda ferramenta precisa caber em um bloco declarado na área dela, senão
+  // ela cai no cesto "outras ferramentas" da página de categoria.
+  const categoria = categorias.find((item) => item.categoria === calculadora.categoria);
+  ok(Boolean(categoria), `${calculadora.slug}: categoria "${calculadora.categoria}" não está no catálogo de áreas.`);
+  ok(
+    Boolean(categoria?.grupos.some((grupo) => grupo.nome === calculadora.grupo)),
+    `${calculadora.slug}: grupo "${calculadora.grupo}" não existe na área ${calculadora.categoria}.`,
+  );
   ok(calculadora.fonteUrl.startsWith('https://'), `${calculadora.slug}: fonte oficial sem HTTPS.`);
-  igual(calculadora.atualizadoEm, '2026-08-10', `${calculadora.slug}: data de revisão inesperada.`);
-  if (calculadora.motor !== 'rescisao') {
+  ok(/^2026-08-(10|11)$/.test(calculadora.atualizadoEm), `${calculadora.slug}: data de revisão inesperada.`);
+  if (!['rescisao', 'pensao_alimenticia'].includes(calculadora.motor)) {
     ok(Boolean(MOTORES[calculadora.motor]), `${calculadora.slug}: motor não encontrado.`);
   }
 }
@@ -190,7 +209,6 @@ const rescisao = calcularRescisao({
   tipoAviso: 'indenizado',
   feriasVencidas: 0,
   adiantamentoDecimo: 0,
-  baseFgts: 20_000,
   dependentes: 0,
   outrasVerbas: 0,
   naturezaOutrasVerbas: 'remuneratoria',
@@ -199,7 +217,120 @@ const rescisao = calcularRescisao({
 igual(rescisao.diasAviso, 48, 'Rescisão: aviso proporcional de 48 dias.');
 igual(rescisao.percentualMultaFgts, 0.4, 'Rescisão: multa de 40% na dispensa sem justa causa.');
 ok(rescisao.liquidoTrct > 0, 'Rescisão: líquido deve ser positivo no cenário auditado.');
-ok(rescisao.fgtsMulta > 8_000, 'Rescisão: multa deve considerar o saldo-base informado e o depósito rescisório.');
+ok(rescisao.fgtsHistoricoEstimado > 20_000, 'Rescisão: FGTS histórico deve ser projetado automaticamente pelo vínculo.');
+ok(rescisao.fgtsMulta > 8_000, 'Rescisão: multa deve considerar o FGTS histórico e o depósito rescisório estimados.');
+
+const taxaLegalBcb = calcularTaxasLegaisBcb(
+  Array.from({ length: 21 }, (_, indice) => ({ data: `${String(indice + 1).padStart(2, '0')}/01/2026`, valor: '0.055131' })),
+  [{ data: '01/01/2026', valor: '0.20' }],
+);
+igual(taxaLegalBcb['2026-02'], 0.962232, 'Taxa Legal: fórmula e arredondamentos devem reproduzir o Comunicado BCB 44.645/2026.');
+
+const dadosPensao = {
+  salariosMinimos: { '2026-06': 1621, '2026-07': 1621, '2026-08': 1621 },
+  ipcaMensal: { '2026-05': 0.58, '2026-06': 0.16, '2026-07': 0.07 },
+  taxaLegalMensal: { '2026-08': 1.154527 },
+  salarioViaApi: true,
+  ipcaViaApi: true,
+  taxaLegalViaApi: true,
+  ultimoIpca: '2026-07',
+  ultimaTaxaLegal: '2026-08',
+};
+const pensaoPrisao = calcularPensao({
+  rito: 'prisao', tipoBase: 'salario_minimo', valorBase: 0, percentual: 30,
+  inicio: '2026-06', fim: '2026-08', dataReferencia: '2026-08-11', dataAjuizamento: '2026-08-11', diaVencimento: 10,
+  mesSubsequente: false, incluirDecimo: false, criterioJuros: 'sem_juros', jurosMensal: null,
+}, dadosPensao);
+igual(pensaoPrisao.prisao.parcelas, 3, 'Prisão: devem entrar as três prestações vencidas mais recentes.');
+igual(pensaoPrisao.expropriacao.parcelas, 0, 'Prisão: período de três meses não deve criar bloco patrimonial.');
+igual(pensaoPrisao.total, 1_460.36, 'Prisão: correção de junho e julho deve respeitar o IPCA disponível.');
+
+const pensaoComRitosSeparados = calcularPensao({
+  rito: 'prisao', tipoBase: 'valor_fixo', valorBase: 500, percentual: 0,
+  inicio: '2026-01', fim: '2026-08', dataReferencia: '2026-08-11', dataAjuizamento: '2026-08-11', diaVencimento: 10,
+  mesSubsequente: false, incluirDecimo: false, criterioJuros: 'taxa_mensal', jurosMensal: 1,
+}, dadosPensao);
+igual(pensaoComRitosSeparados.prisao.parcelas, 3, 'Cálculo combinado: as três parcelas mais recentes devem ficar no rito da prisão.');
+igual(pensaoComRitosSeparados.expropriacao.parcelas, 5, 'Cálculo combinado: as cinco parcelas anteriores devem ir para expropriação.');
+igual(pensaoComRitosSeparados.parcelas.filter((parcela) => parcela.ritoAplicavel === 'prisao').length, 3, 'Relatório combinado: três linhas devem ser identificadas como prisão.');
+igual(pensaoComRitosSeparados.parcelas.filter((parcela) => parcela.ritoAplicavel === 'expropriacao').length, 5, 'Relatório combinado: cinco linhas devem ser identificadas como expropriação.');
+igual(
+  pensaoComRitosSeparados.total,
+  Math.round((pensaoComRitosSeparados.prisao.total + pensaoComRitosSeparados.expropriacao.total) * 100) / 100,
+  'Cálculo combinado: total geral deve conciliar com os dois subtotais.',
+);
+ok(pensaoComRitosSeparados.expropriacao.totalJuros > 0, 'Cálculo combinado: parcelas patrimoniais devem receber o critério único de juros.');
+ok(pensaoComRitosSeparados.prisao.totalJuros > 0, 'Cálculo combinado: parcelas da prisão devem receber o mesmo critério de juros.');
+igual(pensaoComRitosSeparados.parcelas[0].fatorCorrecao.toFixed(7), '1.0343685', 'Correção: o prolongamento da tabela de maio precisa incluir IPCA de maio, junho e julho.');
+igual(pensaoComRitosSeparados.parcelas[0].diasJuros, 214, 'Juros: o período deve ser contado em dias corridos, incluindo vencimento e data-base.');
+ok(pensaoComRitosSeparados.parcelas[0].percentualJurosAcumulado < 8, 'Juros: o cálculo pro rata não pode arredondar sete meses e dois dias para oito meses inteiros.');
+
+const pensaoProcessoEmCurso = calcularPensao({
+  rito: 'prisao', tipoBase: 'valor_fixo', valorBase: 500, percentual: 0,
+  inicio: '2026-01', fim: '2026-08', dataReferencia: '2026-08-11', dataAjuizamento: '2026-03-15', diaVencimento: 10,
+  mesSubsequente: false, incluirDecimo: false, criterioJuros: 'sem_juros', jurosMensal: null,
+}, dadosPensao);
+igual(pensaoProcessoEmCurso.prisao.parcelas, 8, 'Prisão: além das três anteriores ao ajuizamento, devem entrar as vencidas durante o processo.');
+igual(pensaoProcessoEmCurso.expropriacao.parcelas, 0, 'Prisão: parcelas vencidas no curso não podem ser deslocadas para a expropriação por um limite fixo de três.');
+
+const pensaoTaxaLegal = calcularPensao({
+  rito: 'expropriacao', tipoBase: 'valor_fixo', valorBase: 500, percentual: 0,
+  inicio: '2026-08', fim: '2026-08', dataReferencia: '2026-08-11', dataAjuizamento: '', diaVencimento: 10,
+  mesSubsequente: false, incluirDecimo: false, criterioJuros: 'taxa_legal', jurosMensal: null,
+}, dadosPensao);
+igual(pensaoTaxaLegal.parcelas[0].diasJuros, 2, 'Taxa Legal: vencimento e data-base devem ser apropriados como dias corridos inclusivos.');
+igual(pensaoTaxaLegal.parcelas[0].percentualJurosAcumulado, 0.074486, 'Taxa Legal: fração pro rata deve usar a taxa mensal dividida pelos 31 dias de agosto.');
+igual(pensaoTaxaLegal.parcelas[0].juros, 0.37, 'Taxa Legal: juros proporcionais de dois dias devem ser aplicados ao saldo corrigido.');
+ok(pensaoTaxaLegal.taxaLegalCompleta, 'Taxa Legal: o resultado deve registrar que todas as competências necessárias vieram da API.');
+
+const pensaoExpropriacao = calcularPensao({
+  rito: 'expropriacao', tipoBase: 'valor_fixo', valorBase: 500, percentual: 0,
+  inicio: '2026-01', fim: '2026-08', dataReferencia: '2026-08-11', dataAjuizamento: '', diaVencimento: 10,
+  mesSubsequente: false, incluirDecimo: false, criterioJuros: 'taxa_mensal', jurosMensal: 1,
+}, dadosPensao);
+igual(pensaoExpropriacao.expropriacao.parcelas, 8, 'Expropriação: todo o período informado deve ser incluído.');
+igual(pensaoExpropriacao.prisao.parcelas, 0, 'Expropriação isolada não deve criar bloco de prisão.');
+ok(pensaoExpropriacao.total > 4_000, 'Expropriação: o total deve refletir correção e juros parametrizados.');
+
+const entradaComDataBaseInvalida = {
+  rito: 'prisao' as const, tipoBase: 'salario_minimo' as const, valorBase: 0, percentual: 30,
+  inicio: '2026-01', fim: '2026-08', dataReferencia: '2026-01-01', dataAjuizamento: '2026-01-01', diaVencimento: 10,
+  mesSubsequente: false, incluirDecimo: false, criterioJuros: 'sem_juros' as const, jurosMensal: null,
+};
+ok(
+  validarEntradaPensao(entradaComDataBaseInvalida).some((erro) => erro.includes('última parcela')),
+  'Pensão: a data-base anterior ao último vencimento precisa impedir o cálculo.',
+);
+
+const cssCalculadoras = readFileSync('src/styles/global.css', 'utf8');
+ok(cssCalculadoras.includes('body > *:not(#raiz)'), 'Impressão: a raiz real do aplicativo precisa permanecer visível.');
+ok(!cssCalculadoras.includes('body > *:not(#root)'), 'Impressão: o seletor antigo não pode ocultar todo o relatório.');
+ok(/@page\s*\{[^}]*margin:\s*0;/s.test(cssCalculadoras), 'Impressão: a página não deve reservar margem para cabeçalho automático do navegador.');
+ok(/\.relatorio-pensao\s*\{[^}]*padding:\s*14mm 11mm 16mm !important;/s.test(cssCalculadoras), 'Impressão: o relatório deve manter margens internas próprias após remover o cabeçalho do navegador.');
+ok(readFileSync('public/midia/logo-horizontal.png').length > 0, 'Relatório: a marca do escritório precisa existir.');
+const paginaPensao = readFileSync('src/pages/CalculadoraPensao.tsx', 'utf8');
+ok(paginaPensao.includes('URL_CALCULADORA_PENSAO'), 'Relatório: deve exibir o endereço público da calculadora.');
+ok(paginaPensao.includes('pensao-memorias-separadas'), 'Relatório: os ritos devem aparecer em memoriais visualmente separados.');
+ok(paginaPensao.includes('API pública SGS 1619') && paginaPensao.includes('API pública SGS 433'), 'Relatório: deve identificar as APIs públicas usadas nos dados e índices.');
+ok(/\[inicioMes, setInicioMes\] = useState\(''\)/.test(paginaPensao) && /\[inicioAno, setInicioAno\] = useState\(''\)/.test(paginaPensao), 'Pensão: mês e ano iniciais não podem vir preenchidos com um caso hipotético.');
+ok(/\[fimMes, setFimMes\] = useState\(''\)/.test(paginaPensao) && /\[fimAno, setFimAno\] = useState\(''\)/.test(paginaPensao), 'Pensão: mês e ano finais não podem vir preenchidos com um caso hipotético.');
+ok(paginaPensao.includes('setDataReferenciaTexto(dataLocalBr())'), 'Pensão: a data-base deve usar automaticamente a data local do visitante.');
+ok(paginaPensao.includes('Remover data preenchida') && paginaPensao.includes("setDataReferenciaTexto('')"), 'Pensão: o visitante deve conseguir remover a data-base sugerida.');
+ok(!paginaPensao.includes('setDataAjuizamento'), 'Pensão: a interface não deve pedir uma segunda data para o mesmo marco da simulação inicial.');
+ok(paginaPensao.includes('dataAjuizamento: dataReferencia'), 'Pensão: a data-base deve alimentar explicitamente o marco processual usado pelo motor.');
+ok(paginaPensao.includes('IconeCadeado') && paginaPensao.includes('IconePatrimonio'), 'Pensão: as opções de rito devem ter ícones próprios.');
+ok(paginaPensao.includes('inputMode="numeric"') && paginaPensao.includes('placeholder="dd/mm/aaaa"'), 'Pensão: a data-base deve aceitar digitação numérica no formato brasileiro, inclusive no celular.');
+ok(paginaPensao.includes('pensao-data-nativa') && paginaPensao.includes('Abrir calendário da data-base'), 'Pensão: a data-base deve manter um seletor de calendário acessível.');
+igual(mascararDataPensao('11082026'), '11/08/2026', 'Pensão: a máscara deve inserir as barras da data-base.');
+igual(mascararDataPensao('11a08b2026'), '11/08/2026', 'Pensão: a máscara deve ignorar caracteres não numéricos.');
+igual(dataPtParaIsoPensao('11/08/2026'), '2026-08-11', 'Pensão: a data brasileira deve ser convertida para o motor sem trocar dia e mês.');
+igual(dataPtParaIsoPensao('31/02/2026'), '', 'Pensão: uma data inexistente deve ser recusada.');
+ok(paginaPensao.includes('pensao-mes-selects') && paginaPensao.includes('<option value="">Mês</option>') && paginaPensao.includes('<option value="">Ano</option>'), 'Pensão: cada competência deve ter seletores separados de mês e ano.');
+ok(paginaPensao.includes('Taxa Legal do Banco Central — automática'), 'Pensão: deve oferecer Taxa Legal automática sem presumir juros diferentes por rito.');
+const fonteDadosPensao = readFileSync('src/lib/dadosPensao.ts', 'utf8');
+ok(!fonteDadosPensao.includes('SALARIOS_MINIMOS_FALLBACK'), 'Pensão: salário mínimo não pode depender de tabela manual de contingência.');
+ok(fonteDadosPensao.includes("cache: 'no-store'"), 'Pensão: APIs públicas devem ser consultadas sem cache persistente do navegador.');
+ok(fonteDadosPensao.includes('URL_API_SELIC_DIARIA') && fonteDadosPensao.includes('URL_API_IPCA15'), 'Pensão: Taxa Legal deve ser formada por séries públicas oficiais.');
 
 const mensagem = montarMensagemCalculadora({
   titulo: 'Calculadora de 13º salário 2026',
@@ -213,4 +344,4 @@ ok(mensagem.includes('RESULTADO ESTIMADO: R$ 2.751,40'), 'Mensagem deve levar o 
 ok(mensagem.includes('Salário bruto mensal: R$ 3.000,00'), 'Mensagem deve levar os dados informados.');
 ok(mensagem.includes('INSS sobre o 13º: − R$ 248,60'), 'Mensagem deve levar a memória do cálculo.');
 
-console.log(`Auditoria concluída: ${calculadoras.length} calculadoras, ${Object.keys(MOTORES).length + 1} motores e ${verificacoes} verificações aprovadas.`);
+console.log(`Auditoria concluída: ${calculadoras.length} calculadoras, ${Object.keys(MOTORES).length + 2} motores e ${verificacoes} verificações aprovadas.`);

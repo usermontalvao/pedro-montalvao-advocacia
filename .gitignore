@@ -7,5 +7,6 @@ dist
 .env.*
 .DS_Store
 *.log
+site-hostinger.zip
 .vscode/*
 !.vscode/extensions.json

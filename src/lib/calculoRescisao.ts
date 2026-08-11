@@ -19,7 +19,6 @@ export type EntradaRescisao = {
   tipoAviso: TipoAviso;
   feriasVencidas: number;
   adiantamentoDecimo: number;
-  baseFgts: number;
   dependentes: number;
   outrasVerbas: number;
   naturezaOutrasVerbas: NaturezaOutrasVerbas;
@@ -39,6 +38,7 @@ export type ResultadoRescisao = {
   totalCreditos: number;
   totalDescontos: number;
   liquidoTrct: number;
+  fgtsHistoricoEstimado: number;
   fgtsDepositoRescisorio: number;
   fgtsMulta: number;
   fgtsSaldoComDeposito: number;
@@ -150,6 +150,49 @@ function avosPeriodoAquisitivo(admissao: Date, fim: Date): number {
     break;
   }
   return Math.min(12, avos);
+}
+
+/**
+ * Estima os depósitos anteriores ao mês da rescisão usando o salário atual.
+ * O mês do desligamento e o 13º do ano corrente entram no depósito rescisório,
+ * evitando duplicidade entre o histórico projetado e as verbas do TRCT.
+ */
+function estimarFgtsHistorico(admissao: Date, desligamento: Date, salario: number): number {
+  const primeiroMes = new Date(Date.UTC(admissao.getUTCFullYear(), admissao.getUTCMonth(), 1));
+  const mesDoDesligamento = new Date(Date.UTC(
+    desligamento.getUTCFullYear(),
+    desligamento.getUTCMonth(),
+    1,
+  ));
+  let baseMensal = 0;
+
+  for (let competencia = primeiroMes; competencia < mesDoDesligamento;) {
+    const inicioMes = new Date(competencia);
+    const fimMes = new Date(Date.UTC(
+      competencia.getUTCFullYear(),
+      competencia.getUTCMonth() + 1,
+      0,
+    ));
+    const inicioTrabalhado = admissao > inicioMes ? admissao : inicioMes;
+    const dias = Math.min(30, diasInclusivos(inicioTrabalhado, fimMes));
+    baseMensal += salario * (dias / 30);
+    competencia = new Date(Date.UTC(
+      competencia.getUTCFullYear(),
+      competencia.getUTCMonth() + 1,
+      1,
+    ));
+  }
+
+  let baseDecimosAnteriores = 0;
+  for (let ano = admissao.getUTCFullYear(); ano < desligamento.getUTCFullYear(); ano += 1) {
+    const inicioAno = new Date(Date.UTC(ano, 0, 1));
+    const fimAno = new Date(Date.UTC(ano, 11, 31));
+    const inicioEfetivo = admissao > inicioAno ? admissao : inicioAno;
+    const avos = avosNoAno(inicioEfetivo, fimAno);
+    baseDecimosAnteriores += salario * (avos / 12);
+  }
+
+  return arredondar((baseMensal + baseDecimosAnteriores) * 0.08);
 }
 
 /** INSS progressivo de empregado, empregado doméstico e avulso em 2026. */
@@ -361,7 +404,8 @@ export function calcularRescisao(entrada: EntradaRescisao): ResultadoRescisao {
       : entrada.tipoDesligamento === 'acordo'
         ? 0.2
         : 0;
-  const fgtsSaldoComDeposito = arredondar(Math.max(0, entrada.baseFgts) + fgtsDepositoRescisorio);
+  const fgtsHistoricoEstimado = estimarFgtsHistorico(admissao, desligamento, salario);
+  const fgtsSaldoComDeposito = arredondar(fgtsHistoricoEstimado + fgtsDepositoRescisorio);
   const fgtsMulta = arredondar(fgtsSaldoComDeposito * percentualMultaFgts);
 
   return {
@@ -370,6 +414,7 @@ export function calcularRescisao(entrada: EntradaRescisao): ResultadoRescisao {
     totalCreditos,
     totalDescontos,
     liquidoTrct,
+    fgtsHistoricoEstimado,
     fgtsDepositoRescisorio,
     fgtsMulta,
     fgtsSaldoComDeposito,

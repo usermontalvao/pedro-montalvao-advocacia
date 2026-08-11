@@ -5,7 +5,11 @@ import { SecaoCta } from '../components/SecaoCta';
 import areas from '../content/areas.json';
 import artigos from '../content/artigos.json';
 import juridico from '../content/juridico.json';
-import calculadoras from '../content/calculadoras.json';
+import {
+  CATEGORIAS_PUBLICADAS,
+  caminhoDaCategoria,
+  calculadorasDaCategoria,
+} from '../lib/categoriasCalculadoras';
 
 /**
  * Mapa do site — a versão para gente.
@@ -84,18 +88,29 @@ export const GRUPOS_DO_MAPA: Grupo[] = [
 
   {
     nome: 'Calculadoras',
-    descricao: 'Ferramentas gratuitas com memória de cálculo e parâmetros identificados.',
+    descricao: 'Ferramentas gratuitas com memória de cálculo, separadas por área do Direito.',
     entradas: [
       {
         caminho: '/calculadoras/',
         titulo: 'Todas as calculadoras',
-        nota: 'Página central das ferramentas jurídicas disponíveis no site.',
+        nota: 'Página central: escolha a área do Direito e veja as ferramentas dela.',
       },
-      ...calculadoras.map((calculadora) => ({
-        caminho: `/calculadoras/${calculadora.slug}/`,
-        titulo: calculadora.titulo,
-        nota: calculadora.resumo,
-      })),
+      /*
+        Cada área entra com a sua página logo antes das próprias ferramentas —
+        assim o mapa reproduz a mesma separação que o visitante encontra no site.
+      */
+      ...CATEGORIAS_PUBLICADAS.flatMap((categoria) => [
+        {
+          caminho: caminhoDaCategoria(categoria),
+          titulo: categoria.titulo,
+          nota: categoria.resumoHub,
+        },
+        ...calculadorasDaCategoria(categoria).map((calculadora) => ({
+          caminho: `/calculadoras/${calculadora.slug}/`,
+          titulo: calculadora.titulo,
+          nota: calculadora.resumo,
+        })),
+      ]),
     ],
   },
 
@@ -133,6 +148,16 @@ export const GRUPOS_DO_MAPA: Grupo[] = [
     ],
   },
 ];
+
+/**
+ * As mesmas páginas em lista plana, com título e nota.
+ *
+ * A página de erro usa isto para sugerir um caminho a partir do endereço
+ * digitado: o mapa já é o índice humano do site, então não faz sentido manter
+ * um segundo catálogo só para o 404 — ele ficaria desatualizado no primeiro
+ * conteúdo novo.
+ */
+export const PAGINAS_DO_MAPA: Entrada[] = GRUPOS_DO_MAPA.flatMap((grupo) => grupo.entradas);
 
 /** Todas as URLs listadas aqui — usada para conferir o mapa contra as rotas. */
 export const CAMINHOS_DO_MAPA = GRUPOS_DO_MAPA.flatMap((grupo) =>

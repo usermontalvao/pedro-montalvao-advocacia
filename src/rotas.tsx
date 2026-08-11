@@ -20,6 +20,15 @@ import { Juridico, type PaginaJuridica } from './pages/Juridico';
 import { MapaDoSite, GRUPOS_DO_MAPA } from './pages/MapaDoSite';
 import { CalculadoraRescisao, FAQ_RESCISAO, ListaCalculadoras } from './pages/Calculadoras';
 import { CalculadoraTrabalhista, faqDaCalculadora } from './pages/CalculadorasTrabalhistas';
+import { CalculadoraPensao, FAQ_PENSAO } from './pages/CalculadoraPensao';
+import { CategoriaCalculadoras } from './pages/CalculadorasCategoria';
+import {
+  CATEGORIAS_PUBLICADAS,
+  atualizacaoDaCategoria,
+  caminhoDaCategoria,
+  calculadorasDaCategoria,
+  categoriaDaCalculadora,
+} from './lib/categoriasCalculadoras';
 import type { Bloco } from './components/Blocos';
 import home from './content/home.json';
 import sobre from './content/sobre.json';
@@ -39,6 +48,26 @@ export type Rota = {
 /** Todas as perguntas de um artigo viram FAQPage nos dados estruturados. */
 function perguntasDoArtigo(blocos: Bloco[]) {
   return blocos.flatMap((bloco) => (bloco.t === 'faq' ? bloco.itens : []));
+}
+
+/**
+ * A trilha de uma calculadora passa pela área dela.
+ *
+ * Início › Calculadoras › Trabalhista › Horas extras. O degrau da categoria é o
+ * mesmo que o visitante vê nas migalhas, então o dado estruturado e a tela
+ * contam a mesma história.
+ */
+function trilhaDaCalculadora(
+  calculadora: { categoria: string; nomeCurto: string },
+  caminho: string,
+) {
+  const categoria = categoriaDaCalculadora(calculadora);
+  return dadosDeNavegacao([
+    { nome: 'Início', caminho: '/' },
+    { nome: 'Calculadoras', caminho: '/calculadoras/' },
+    ...(categoria ? [{ nome: categoria.nome, caminho: caminhoDaCategoria(categoria) }] : []),
+    { nome: calculadora.nomeCurto, caminho },
+  ]);
 }
 
 export const ROTAS: Rota[] = [
@@ -140,20 +169,22 @@ export const ROTAS: Rota[] = [
     seo: {
       titulo: 'Calculadoras jurídicas gratuitas | Pedro Montalvão',
       descricao:
-        'Calculadoras jurídicas gratuitas com memória de cálculo. Comece pela calculadora de rescisão trabalhista atualizada com tabelas de 2026.',
+        'Calculadoras jurídicas gratuitas com memória de cálculo: rescisão com FGTS automático, verbas trabalhistas e pensão em atraso com relatório.',
       caminho: '/calculadoras/',
-      atualizadoEm: '2026-08-10',
+      atualizadoEm: '2026-08-11',
       dados: [
         {
           '@type': 'CollectionPage',
           name: 'Calculadoras jurídicas — Pedro Montalvão Advocacia',
-          description: 'Ferramentas gratuitas para simulações jurídicas informativas.',
+          description: 'Ferramentas gratuitas para simulações jurídicas informativas, separadas por área do Direito.',
           url: urlAbsoluta('/calculadoras/'),
-          hasPart: calculadoras.map((calculadora) => ({
-              '@type': 'WebApplication',
-              name: calculadora.titulo,
-              url: urlAbsoluta(`/calculadoras/${calculadora.slug}/`),
-            })),
+          // O hub agora aponta para as áreas; a lista de ferramentas de cada
+          // uma fica na página da própria área.
+          hasPart: CATEGORIAS_PUBLICADAS.map((categoria) => ({
+            '@type': 'CollectionPage',
+            name: categoria.titulo,
+            url: urlAbsoluta(caminhoDaCategoria(categoria)),
+          })),
         },
         dadosDeNavegacao([
           { nome: 'Início', caminho: '/' },
@@ -164,26 +195,69 @@ export const ROTAS: Rota[] = [
     elemento: <ListaCalculadoras />,
   },
 
+  /*
+    Uma página por área do Direito. A rota nasce da categoria que já tem
+    ferramenta publicada, então a lista cresce junto com o conteúdo — sem
+    precisar registrar caminho na mão a cada calculadora nova.
+  */
+  ...CATEGORIAS_PUBLICADAS.map((categoria) => {
+    const caminho = caminhoDaCategoria(categoria);
+    const itens = calculadorasDaCategoria(categoria);
+
+    return {
+      caminho,
+      prioridade: 0.9,
+      seo: {
+        titulo: categoria.seoTitle,
+        descricao: categoria.seoDescription,
+        caminho,
+        atualizadoEm: atualizacaoDaCategoria(categoria),
+        dados: [
+          {
+            '@type': 'CollectionPage',
+            '@id': urlAbsoluta(`${caminho}#colecao`),
+            name: categoria.titulo,
+            description: categoria.seoDescription,
+            url: urlAbsoluta(caminho),
+            inLanguage: 'pt-BR',
+            about: { '@id': urlAbsoluta(`${categoria.areaCaminho}#servico`) },
+            hasPart: itens.map((calculadora) => ({
+              '@type': 'WebApplication',
+              name: calculadora.titulo,
+              url: urlAbsoluta(`/calculadoras/${calculadora.slug}/`),
+            })),
+          },
+          dadosDeNavegacao([
+            { nome: 'Início', caminho: '/' },
+            { nome: 'Calculadoras', caminho: '/calculadoras/' },
+            { nome: categoria.nome, caminho },
+          ]),
+        ],
+      },
+      elemento: <CategoriaCalculadoras categoria={categoria} key={categoria.slug} />,
+    };
+  }),
+
   {
     caminho: '/calculadoras/calculadora-rescisao-trabalhista/',
     prioridade: 0.95,
     seo: {
-      titulo: 'Calculadora de rescisão trabalhista 2026 | Grátis',
+      titulo: 'Calculadora de rescisão trabalhista | Grátis',
       descricao:
-        'Calcule sua rescisão CLT em 2026: saldo, aviso-prévio, 13º, férias, FGTS, multa, INSS e IRRF. Resultado estimado com memória de cálculo.',
+        'Calcule sua rescisão CLT: saldo, aviso-prévio, 13º, férias, FGTS, multa, INSS e IRRF. Resultado estimado com memória de cálculo e tabelas oficiais.',
       caminho: '/calculadoras/calculadora-rescisao-trabalhista/',
       atualizadoEm: '2026-08-10',
       dados: [
         {
           '@type': 'WebApplication',
           '@id': urlAbsoluta('/calculadoras/calculadora-rescisao-trabalhista/#aplicativo'),
-          name: 'Calculadora de rescisão trabalhista 2026',
+          name: 'Calculadora de rescisão trabalhista',
           applicationCategory: 'FinanceApplication',
           operatingSystem: 'Qualquer navegador moderno',
           inLanguage: 'pt-BR',
           isAccessibleForFree: true,
           description:
-            'Ferramenta gratuita para estimar verbas de rescisão CLT com parâmetros de 2026.',
+            'Ferramenta gratuita para estimar verbas de rescisão CLT com os parâmetros oficiais em vigor.',
           url: urlAbsoluta('/calculadoras/calculadora-rescisao-trabalhista/'),
           offers: {
             '@type': 'Offer',
@@ -193,20 +267,48 @@ export const ROTAS: Rota[] = [
           author: { '@id': urlAbsoluta('/#advogado') },
         },
         dadosDePerguntas(FAQ_RESCISAO),
-        dadosDeNavegacao([
-          { nome: 'Início', caminho: '/' },
-          { nome: 'Calculadoras', caminho: '/calculadoras/' },
-          {
-            nome: 'Rescisão trabalhista',
-            caminho: '/calculadoras/calculadora-rescisao-trabalhista/',
-          },
-        ]),
+        trilhaDaCalculadora(
+          { categoria: 'Direito Trabalhista', nomeCurto: 'Rescisão trabalhista' },
+          '/calculadoras/calculadora-rescisao-trabalhista/',
+        ),
       ],
     },
     elemento: <CalculadoraRescisao />,
   },
 
-  ...calculadoras.filter((calculadora) => calculadora.motor !== 'rescisao').map((calculadora) => {
+  {
+    caminho: '/calculadoras/calculadora-pensao-alimenticia/',
+    prioridade: 0.95,
+    seo: {
+      titulo: 'Calculadora de pensão alimentícia | Prisão e expropriação',
+      descricao: 'Calcule pensão alimentícia em atraso nos ritos da prisão civil e expropriação, com correção, juros, pagamentos e relatório por parcela.',
+      caminho: '/calculadoras/calculadora-pensao-alimenticia/',
+      atualizadoEm: '2026-08-11',
+      dados: [
+        {
+          '@type': 'WebApplication',
+          '@id': urlAbsoluta('/calculadoras/calculadora-pensao-alimenticia/#aplicativo'),
+          name: 'Calculadora de pensão alimentícia: prisão e expropriação',
+          applicationCategory: 'FinanceApplication',
+          operatingSystem: 'Qualquer navegador moderno',
+          inLanguage: 'pt-BR',
+          isAccessibleForFree: true,
+          description: 'Ferramenta gratuita para organizar parcelas alimentícias em atraso com memória de cálculo e relatório.',
+          url: urlAbsoluta('/calculadoras/calculadora-pensao-alimenticia/'),
+          offers: { '@type': 'Offer', price: '0', priceCurrency: 'BRL' },
+          author: { '@id': urlAbsoluta('/#advogado') },
+        },
+        dadosDePerguntas(FAQ_PENSAO),
+        trilhaDaCalculadora(
+          { categoria: 'Direito de Família', nomeCurto: 'Pensão alimentícia' },
+          '/calculadoras/calculadora-pensao-alimenticia/',
+        ),
+      ],
+    },
+    elemento: <CalculadoraPensao />,
+  },
+
+  ...calculadoras.filter((calculadora) => !['rescisao', 'pensao_alimenticia'].includes(calculadora.motor)).map((calculadora) => {
     const caminho = `/calculadoras/${calculadora.slug}/`;
     return {
       caminho,
@@ -235,11 +337,7 @@ export const ROTAS: Rota[] = [
             author: { '@id': urlAbsoluta('/#advogado') },
           },
           dadosDePerguntas(faqDaCalculadora(calculadora)),
-          dadosDeNavegacao([
-            { nome: 'Início', caminho: '/' },
-            { nome: 'Calculadoras', caminho: '/calculadoras/' },
-            { nome: calculadora.nomeCurto, caminho },
-          ]),
+          trilhaDaCalculadora(calculadora, caminho),
         ],
       },
       elemento: <CalculadoraTrabalhista calculadora={calculadora} key={calculadora.slug} />,

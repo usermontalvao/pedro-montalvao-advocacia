@@ -87,9 +87,320 @@
   min-height: 270px;
 }
 
+.calculadoras-categoria__acoes {
+  display: flex;
+  align-items: center;
+  gap: 1rem 1.25rem;
+  margin-top: 1.55rem;
+  flex-wrap: wrap;
+}
+
+.calculadoras-categoria__acoes > a:not(.botao) {
+  color: var(--dourado-claro);
+  font-size: 0.76rem;
+  font-weight: 650;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.calculadoras-heroi--entrada-direta .calculadora-etiquetas {
+  margin-top: 1.2rem;
+}
+
+#calculadoras-disponiveis {
+  scroll-margin-top: 78px;
+}
+
+.calculadoras-categoria__grade-unica {
+  grid-template-columns: 1fr;
+}
+
+.cartao.calculadora-cartao--entrada-direta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(250px, 0.38fr);
+  gap: clamp(1.5rem, 5vw, 4rem);
+  align-items: stretch;
+  min-height: 250px;
+  padding: clamp(1.6rem, 4vw, 2.7rem);
+  border-color: rgba(201, 168, 106, 0.5);
+}
+
+.calculadora-cartao-entrada__texto {
+  align-self: center;
+}
+
+.calculadora-cartao-entrada__texto .olho {
+  margin-bottom: 0.7rem;
+}
+
+.calculadora-cartao--entrada-direta h3 {
+  margin-bottom: 0.75rem;
+  font-size: clamp(1.75rem, 3.5vw, 2.65rem);
+}
+
+.calculadora-cartao--entrada-direta p {
+  max-width: 68ch;
+  margin-bottom: 1.2rem;
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.calculadora-cartao-entrada__beneficios {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.calculadora-cartao-entrada__beneficios span {
+  padding: 0.35rem 0.6rem;
+  border: 1px solid var(--linha);
+  color: var(--texto-suave);
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.03em;
+}
+
+.calculadora-cartao--entrada-direta .calculadora-cartao-entrada__acao {
+  display: grid;
+  align-content: center;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 1.4rem;
+  background: var(--tinta);
+  color: var(--texto-claro);
+}
+
+.calculadora-cartao-entrada__acao small {
+  color: var(--texto-claro-suave);
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.calculadora-cartao-entrada__acao strong {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--dourado-claro);
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.calculadora-cartao--entrada-direta:hover .calculadora-cartao-entrada__acao svg {
+  transform: translateX(5px);
+}
+
+.calculadora-cartao-entrada__acao svg {
+  flex: none;
+  transition: transform var(--transicao);
+}
+
 .calculadora-cartao .etiqueta {
   align-self: flex-start;
   margin-bottom: 1.25rem;
+}
+
+@media (max-width: 720px) {
+  .calculadoras-categoria__acoes {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .calculadoras-categoria__acoes .botao {
+    width: 100%;
+  }
+
+  .cartao.calculadora-cartao--entrada-direta {
+    grid-template-columns: 1fr;
+  }
+
+  .calculadora-cartao-entrada__acao {
+    min-height: 112px;
+  }
+}
+
+/* Cartão de área no hub: é a escolha principal da página, então tem mais ar
+   que um cartão de ferramenta e mostra os blocos que existem lá dentro. */
+.calculadora-cartao--categoria {
+  min-height: 320px;
+  padding: clamp(1.6rem, 4vw, 2.6rem);
+  border-color: rgba(201, 168, 106, 0.42);
+}
+
+.calculadora-cartao--categoria h3 {
+  max-width: 20ch;
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+}
+
+.calculadora-cartao__grupos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 1.1rem 0 0.35rem;
+}
+
+.calculadora-cartao__grupos small {
+  padding: 0.28rem 0.62rem;
+  border: 1px solid var(--linha);
+  color: var(--texto-suave);
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+}
+
+/* Áreas anunciadas sem ferramenta no ar: aparecem como texto, nunca como link
+   para uma página vazia. O único link é o da área de atuação, que existe. */
+.calculadoras-preparo {
+  display: grid;
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--linha);
+  border-block: 1px solid var(--linha);
+}
+
+.calculadoras-preparo li {
+  display: grid;
+  grid-template-columns: minmax(160px, 0.5fr) minmax(0, 1.5fr) auto;
+  gap: clamp(0.8rem, 3vw, 2.5rem);
+  align-items: baseline;
+  padding: 1.35rem 0;
+  background: var(--papel);
+}
+
+.calculadoras-preparo strong {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 500;
+}
+
+.calculadoras-preparo span {
+  color: var(--texto-suave);
+  font-size: 0.94rem;
+}
+
+.calculadoras-preparo a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--dourado-escuro);
+  font-size: 0.86rem;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .calculadoras-preparo li {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.45rem;
+  }
+}
+
+/* ---------------------------------------------------------- página de erro */
+
+.erro-heroi {
+  padding-block: clamp(7.6rem, 12vw, 9.5rem) clamp(3rem, 6vw, 4.5rem);
+}
+
+.erro-cabeca {
+  max-width: 680px;
+}
+
+.erro-cabeca .grupo-botoes {
+  margin-top: 2rem;
+}
+
+.erro-endereco {
+  margin-top: 1.4rem;
+  color: var(--texto-claro-suave);
+  font-size: 0.9rem;
+}
+
+.erro-endereco code {
+  padding: 0.2rem 0.5rem;
+  border: 1px solid rgba(201, 168, 106, 0.28);
+  background: rgba(201, 168, 106, 0.08);
+  color: var(--dourado-claro);
+  font-size: 0.86rem;
+  overflow-wrap: anywhere;
+}
+
+.erro-sugestoes {
+  display: grid;
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--linha);
+  border-block: 1px solid var(--linha);
+}
+
+.erro-sugestoes a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.25rem 0;
+  background: var(--papel);
+  color: inherit;
+  transition: padding var(--transicao), color var(--transicao);
+}
+
+.erro-sugestoes a:hover {
+  padding-inline: 1rem;
+  color: var(--dourado-escuro);
+}
+
+.erro-sugestoes strong {
+  display: block;
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 500;
+}
+
+.erro-sugestoes small {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--texto-suave);
+  font-size: 0.88rem;
+}
+
+.erro-atalhos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: auto;
+  padding-top: 1.35rem;
+}
+
+.erro-atalhos a {
+  padding: 0.4rem 0.85rem;
+  border: 1px solid var(--linha);
+  color: var(--texto-suave);
+  font-size: 0.84rem;
+  font-weight: 600;
+  transition: border-color var(--transicao), color var(--transicao);
+}
+
+.erro-atalhos a:hover {
+  border-color: var(--dourado-escuro);
+  color: var(--dourado-escuro);
+}
+
+.erro-mapa {
+  max-width: 62ch;
+  margin-top: clamp(2rem, 4vw, 3rem);
+  color: var(--texto-suave);
+}
+
+.erro-mapa a {
+  color: var(--dourado-escuro);
+  font-weight: 650;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .calculadoras-planejadas .tema {
@@ -520,7 +831,7 @@
 
 .resultado-fgts {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   margin-top: 1rem;
   border: 1px solid rgba(201, 168, 106, 0.5);
   background: #f4ead5;
@@ -531,7 +842,7 @@
   border-right: 1px solid rgba(143, 114, 56, 0.24);
 }
 
-.resultado-fgts > div:nth-child(3) {
+.resultado-fgts > div:nth-child(4) {
   border-right: 0;
 }
 
@@ -561,6 +872,20 @@
   color: #5c503b;
   font-size: 0.75rem;
   line-height: 1.55;
+}
+
+@media (max-width: 980px) and (min-width: 701px) {
+  .resultado-fgts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .resultado-fgts > div:nth-child(2) {
+    border-right: 0;
+  }
+
+  .resultado-fgts > div:nth-child(-n + 2) {
+    border-bottom: 1px solid rgba(143, 114, 56, 0.24);
+  }
 }
 
 .resultado-memoria {
@@ -6637,13 +6962,20 @@ html {
   min-width: 0;
 }
 
-.calculadora-campo label {
+.calculadora-campo label,
+.calculadora-campo__rotulo {
   color: #514d46;
   font-size: 0.73rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   line-height: 1.4;
   text-transform: uppercase;
+}
+
+.pensao-mes-selects {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(104px, 0.75fr);
+  gap: 0.55rem;
 }
 
 .calculadora-campo input,
@@ -6901,6 +7233,431 @@ html {
   color: inherit;
 }
 
+.calculadora-cartao--destaque {
+  min-height: 300px;
+  padding: clamp(1.6rem, 4vw, 3rem);
+  border-color: rgba(201, 168, 106, 0.56);
+  background:
+    linear-gradient(115deg, rgba(201, 168, 106, 0.14), transparent 48%),
+    var(--tinta);
+  color: var(--texto-claro);
+}
+
+.calculadora-cartao--destaque h3 {
+  max-width: 18ch;
+  color: var(--texto-claro);
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
+}
+
+.calculadora-cartao--destaque p {
+  max-width: 68ch;
+  color: var(--texto-claro-suave);
+}
+
+.pensao-ritos {
+  margin-top: 0.8rem;
+}
+
+.pensao-rito-icone {
+  display: grid;
+  flex: none;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid rgba(143, 114, 56, 0.28);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--dourado-escuro);
+  transition: border-color var(--transicao), background var(--transicao), color var(--transicao);
+}
+
+.pensao-ritos label:has(input:checked) .pensao-rito-icone {
+  border-color: var(--dourado-escuro);
+  background: var(--dourado-escuro);
+  color: #fff;
+}
+
+.pensao-data-hibrida {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 50px;
+}
+
+.calculadora-campo .pensao-data-hibrida > input[type='text'] {
+  min-width: 0;
+  border-radius: var(--raio) 0 0 var(--raio);
+}
+
+.pensao-data-calendario {
+  display: grid;
+  min-height: 50px;
+  place-items: center;
+  border: 1px solid var(--linha);
+  border-left: 0;
+  border-radius: 0 var(--raio) var(--raio) 0;
+  background: var(--papel-2);
+  color: var(--dourado-escuro);
+  pointer-events: none;
+}
+
+.calculadora-campo .pensao-data-nativa {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50px;
+  height: 100%;
+  min-height: 50px;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.pensao-data-hibrida:focus-within .pensao-data-calendario {
+  border-color: var(--dourado-escuro);
+  outline: 2px solid rgba(143, 114, 56, 0.16);
+  outline-offset: 1px;
+}
+
+.pensao-data-remover {
+  justify-self: start;
+  min-height: 38px;
+  margin-top: 0.05rem;
+  padding: 0.35rem 0;
+  border: 0;
+  background: transparent;
+  color: var(--dourado-escuro);
+  font: inherit;
+  font-size: 0.73rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.pensao-data-remover:focus-visible {
+  border-radius: 2px;
+  outline: 2px solid rgba(143, 114, 56, 0.38);
+  outline-offset: 2px;
+}
+
+.pensao-dados-status {
+  display: grid;
+  gap: 0.25rem;
+  margin-top: 1rem;
+  padding: 1rem 1.15rem;
+  border-left: 3px solid var(--dourado-escuro);
+  background: var(--papel-2);
+  color: var(--texto-suave);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.pensao-dados-status strong {
+  color: var(--texto);
+}
+
+.pensao-relatorio-cabeca {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2rem;
+  align-items: end;
+  margin-bottom: 1.5rem;
+}
+
+.pensao-relatorio-marca {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--linha);
+  color: var(--texto-suave);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pensao-relatorio-marca img {
+  width: min(210px, 42vw);
+  height: auto;
+}
+
+.pensao-relatorio-identificacao {
+  display: grid;
+  gap: 0.32rem;
+  justify-items: end;
+  max-width: 520px;
+  text-align: right;
+}
+
+.pensao-relatorio-identificacao strong {
+  color: var(--texto);
+}
+
+.pensao-relatorio-identificacao a {
+  color: var(--dourado-escuro);
+  font-size: 0.7rem;
+  font-weight: 650;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
+  text-transform: none;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.pensao-relatorio-cabeca h2 {
+  margin: 0.25rem 0 0.45rem;
+}
+
+.pensao-relatorio-cabeca p {
+  margin: 0;
+  color: var(--texto-suave);
+}
+
+.pensao-fontes-dados {
+  margin: 1.25rem 0;
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--linha);
+  background: #fff;
+}
+
+.pensao-fontes-dados > strong {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-size: 0.74rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.pensao-fontes-dados ul {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pensao-fontes-dados li {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.pensao-fontes-dados a {
+  color: var(--dourado-escuro);
+  font-size: 0.73rem;
+  font-weight: 720;
+  line-height: 1.4;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.pensao-fontes-dados span {
+  color: var(--texto-suave);
+  font-size: 0.68rem;
+  line-height: 1.4;
+}
+
+.pensao-memorias-separadas {
+  margin-top: 2.5rem;
+}
+
+.pensao-memoria-rito + .pensao-memoria-rito {
+  margin-top: 3.5rem;
+  padding-top: 2rem;
+  border-top: 2px solid var(--linha);
+}
+
+.pensao-memoria-rito > header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1.5rem;
+  align-items: center;
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--linha);
+  border-left: 6px solid var(--dourado-escuro);
+  border-bottom: 0;
+  background: #fff;
+}
+
+.pensao-memoria-rito--prisao > header {
+  border-left-color: #8c4337;
+}
+
+.pensao-memoria-rito > header span {
+  color: var(--texto-suave);
+  font-size: 0.67rem;
+  font-weight: 750;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.pensao-memoria-rito h3 {
+  margin: 0.18rem 0 0.28rem;
+  color: var(--texto);
+  font-size: clamp(1.35rem, 2.8vw, 1.8rem);
+}
+
+.pensao-memoria-rito header p {
+  margin: 0;
+  color: var(--texto-suave);
+  font-size: 0.74rem;
+  line-height: 1.45;
+}
+
+.pensao-memoria-subtotal {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 220px;
+  text-align: right;
+}
+
+.pensao-memoria-subtotal strong {
+  color: var(--texto);
+  font-family: var(--serif);
+  font-size: clamp(1.55rem, 3vw, 2.15rem);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.pensao-memoria-subtotal small {
+  color: var(--texto-suave);
+  font-size: 0.68rem;
+}
+
+.pensao-resumo {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 1rem 0;
+  border: 1px solid var(--linha);
+  background: #fff;
+}
+
+.pensao-resumo > div {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem;
+  border-right: 1px solid var(--linha);
+}
+
+.pensao-resumo > div:last-child {
+  border-right: 0;
+}
+
+.pensao-resumo span,
+.pensao-tabela small {
+  color: var(--texto-suave);
+  font-size: 0.68rem;
+  line-height: 1.4;
+}
+
+.pensao-resumo strong {
+  font-variant-numeric: tabular-nums;
+}
+
+.pensao-tabela-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--linha);
+  background: #fff;
+}
+
+.pensao-tabela {
+  width: 100%;
+  min-width: 1180px;
+  border-collapse: collapse;
+  font-size: 0.74rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.pensao-tabela--por-rito {
+  min-width: 1080px;
+}
+
+.pensao-tabela th,
+.pensao-tabela td {
+  padding: 0.75rem 0.65rem;
+  border-bottom: 1px solid #eee9e0;
+  text-align: right;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.pensao-tabela th:first-child,
+.pensao-tabela td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  min-width: 130px;
+  background: #fff;
+  text-align: left;
+}
+
+.pensao-tabela thead th {
+  background: var(--tinta);
+  color: var(--texto-claro);
+  font-size: 0.64rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.pensao-tabela thead th:first-child {
+  background: var(--tinta);
+}
+
+.pensao-tabela small {
+  display: block;
+  margin-top: 0.2rem;
+}
+
+.pensao-pago input {
+  width: 92px;
+  min-height: 36px;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--linha);
+  font: inherit;
+  text-align: right;
+}
+
+.pensao-parcela--fora {
+  opacity: 0.55;
+}
+
+.pensao-metodologia {
+  margin-top: 1rem;
+  padding: 1.2rem 1.35rem;
+  border: 1px solid var(--linha);
+  background: #fff;
+}
+
+.pensao-metodologia h3 {
+  margin: 0 0 0.65rem;
+  font-size: 1.15rem;
+}
+
+.pensao-metodologia ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--texto-suave);
+  font-size: 0.77rem;
+  line-height: 1.55;
+}
+
+.pensao-relatorio-acoes {
+  justify-content: flex-end;
+}
+
+.pensao-impressao-dica {
+  max-width: 760px;
+  margin: 1rem 0 0 auto;
+  color: var(--texto-suave);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  text-align: right;
+}
+
 @media (max-width: 700px) {
   .calculadora-formulario--generica .calculadora-grade,
   .resultado-linha {
@@ -6919,6 +7676,185 @@ html {
   .resultado-cta .botao {
     width: 100%;
   }
+
+  .pensao-relatorio-cabeca,
+  .pensao-fontes-dados ul,
+  .pensao-memoria-rito > header,
+  .pensao-resumo {
+    grid-template-columns: 1fr;
+  }
+
+  .pensao-relatorio-marca {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .pensao-relatorio-identificacao {
+    justify-items: start;
+    text-align: left;
+  }
+
+  .pensao-memoria-subtotal {
+    min-width: 0;
+    text-align: left;
+  }
+
+  .pensao-resumo > div {
+    border-right: 0;
+    border-bottom: 1px solid var(--linha);
+  }
+}
+
+@page {
+  size: A4;
+  /* Sem margem de página, o navegador não reserva a faixa externa usada para
+     data, título da aba e URL. O relatório cria as próprias margens abaixo. */
+  margin: 0;
+}
+
+@media print {
+
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+  }
+
+  body > *:not(#raiz),
+  .cabecalho,
+  .rodape,
+  .acoes-flutuantes,
+  .pensao-pagina > :not(.relatorio-pensao),
+  .pensao-impressao-dica,
+  .pensao-relatorio-acoes {
+    display: none !important;
+  }
+
+  .relatorio-pensao {
+    box-sizing: border-box;
+    padding: 14mm 11mm 16mm !important;
+    background: #fff !important;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  .relatorio-pensao .envolucro {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 !important;
+  }
+
+  .pensao-relatorio-marca {
+    gap: 18pt;
+    margin: 0 0 12pt;
+    padding: 0 0 8pt;
+  }
+
+  .pensao-relatorio-marca img {
+    width: 132pt;
+  }
+
+  .pensao-relatorio-identificacao {
+    max-width: 300pt;
+  }
+
+  .pensao-relatorio-identificacao strong {
+    font-size: 7.5pt;
+  }
+
+  .pensao-relatorio-identificacao a {
+    font-size: 6.5pt;
+  }
+
+  .pensao-relatorio-cabeca {
+    gap: 14pt;
+    margin-bottom: 10pt;
+  }
+
+  .pensao-relatorio-cabeca h2 {
+    font-size: 20pt;
+  }
+
+  .pensao-relatorio-cabeca .resultado-total {
+    min-width: 170pt;
+    padding: 10pt 12pt;
+  }
+
+  .pensao-relatorio-cabeca .resultado-total strong {
+    font-size: 22pt;
+  }
+
+  .pensao-fontes-dados {
+    margin: 9pt 0;
+    padding: 7pt 8pt;
+  }
+
+  .pensao-fontes-dados a,
+  .pensao-fontes-dados span {
+    font-size: 6.2pt;
+  }
+
+  .pensao-memorias-separadas {
+    margin-top: 18pt;
+  }
+
+  .pensao-memoria-rito + .pensao-memoria-rito {
+    margin-top: 28pt;
+    padding-top: 16pt;
+  }
+
+  .pensao-memoria-rito > header {
+    break-after: avoid-page;
+    padding: 8pt 9pt;
+  }
+
+  .pensao-memoria-rito h3 {
+    font-size: 14pt;
+  }
+
+  .pensao-memoria-subtotal {
+    min-width: 145pt;
+  }
+
+  .pensao-memoria-subtotal strong {
+    font-size: 16pt;
+  }
+
+  .pensao-tabela-wrap {
+    overflow: visible;
+  }
+
+  .pensao-tabela {
+    min-width: 0;
+    font-size: 7pt;
+  }
+
+  .pensao-tabela th,
+  .pensao-tabela td {
+    padding: 4pt 3pt;
+    white-space: normal;
+  }
+
+  .pensao-tabela th:first-child,
+  .pensao-tabela td:first-child {
+    position: static;
+  }
+
+  .pensao-relatorio-marca,
+  .pensao-fontes-dados,
+  .pensao-resumo,
+  .pensao-metodologia {
+    break-inside: avoid;
+  }
+
+  .pensao-pago input {
+    width: 54pt;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+
 }
 
 /* ------------------------------------------------ pré-triagem dos artigos */

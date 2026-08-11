@@ -28,6 +28,29 @@ A pasta **`dist/`** é o site pronto: é ela inteira que você envia para a
 hospedagem (Netlify, Vercel, Hostinger, cPanel — qualquer uma serve, porque
 são só arquivos).
 
+### Publicar na Hostinger sem perder as páginas internas
+
+Gere um pacote completo:
+
+```bash
+npm run publicacao:preparar
+```
+
+O comando cria `site-hostinger.zip`. No Gerenciador de Arquivos da Hostinger,
+envie o ZIP e extraia **todo o conteúdo diretamente dentro de `public_html`**.
+Não envie apenas os arquivos soltos da raiz: as pastas `calculadoras/`,
+`assets/` e `midia/` fazem parte do site e precisam ser substituídas juntas.
+
+Depois da extração e da limpeza do cache da hospedagem, confirme o domínio:
+
+```bash
+npm run test:publicacao
+```
+
+A publicação somente é aprovada quando todas as calculadoras respondem HTTP
+200, constam no sitemap e entregam canonical, `index, follow` e HTML
+pré-renderizado. Só então envie novamente o sitemap no Google Search Console.
+
 ## Antes de publicar
 
 | O quê | Onde |

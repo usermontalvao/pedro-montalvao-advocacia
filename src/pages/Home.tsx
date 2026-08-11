@@ -4,6 +4,7 @@ import { IconeSeta } from '../components/Icones';
 import { Revelar } from '../components/Revelar';
 import { Faq } from '../components/Faq';
 import { SecaoCta } from '../components/SecaoCta';
+import { AberturaMarca } from '../components/AberturaMarca';
 import { Parallax } from '../components/movimento';
 import conteudo from '../content/home.json';
 import areas from '../content/areas.json';
@@ -11,6 +12,8 @@ import areas from '../content/areas.json';
 export function Home() {
   return (
     <>
+      <AberturaMarca />
+
       <section className="heroi-cine heroi-cine--principal">
         <div className="heroi-cine__midia" aria-hidden>
           <Parallax className="heroi-cine__parallax" forca={58}>

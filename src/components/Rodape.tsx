@@ -13,7 +13,13 @@ export function Rodape() {
       <div className="envolucro rodape-novo">
         <div className="rodape-novo__topo">
           <div className="rodape-novo__marca">
-            <Marca tom="claro" altura={52} />
+            <Link
+              className="rodape-novo__logo"
+              para="/"
+              aria-label="Pedro Montalvão Advocacia — início"
+            >
+              <Marca tom="claro" altura={58} tipografiaEditorial />
+            </Link>
             <p>Advocacia em Cuiabá · atendimento online no Brasil</p>
             <span>{oabFormatada()}</span>
           </div>

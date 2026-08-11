@@ -7,6 +7,8 @@ type Props = {
   compacta?: boolean;
   /** Assinatura puramente tipográfica, usada no cabeçalho. */
   semSimbolo?: boolean;
+  /** Usa a mesma tipografia editorial do cabeçalho, com ou sem o símbolo. */
+  tipografiaEditorial?: boolean;
   className?: string;
 };
 
@@ -15,6 +17,7 @@ export function Marca({
   altura = 44,
   compacta = false,
   semSimbolo = false,
+  tipografiaEditorial = false,
   className = '',
 }: Props) {
   const src = tom === 'claro'
@@ -24,8 +27,8 @@ export function Marca({
   return (
     <span
       className={`marca marca--${tom} ${compacta ? 'marca--compacta' : ''} ${
-        semSimbolo ? 'marca--tipografica' : ''
-      } ${className}`.trim()}
+        semSimbolo || tipografiaEditorial ? 'marca--tipografica' : ''
+      } ${semSimbolo ? 'marca--sem-simbolo' : 'marca--com-simbolo'} ${className}`.trim()}
       style={{ ['--marca-altura' as string]: `${altura}px` }}
       role="img"
       aria-label="Pedro Montalvão Advocacia"

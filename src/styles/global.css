@@ -2836,6 +2836,10 @@ a.rodape__linha:hover > strong {
   gap: 0;
 }
 
+.marca--tipografica.marca--com-simbolo {
+  gap: calc(var(--marca-altura) * 0.22);
+}
+
 .marca--tipografica .marca__assinatura {
   gap: calc(var(--marca-altura) * 0.12);
 }
@@ -8289,5 +8293,178 @@ html {
 
   .rodape-novo__sociais {
     justify-content: flex-start;
+  }
+}
+
+/* ==========================================================================
+   Vinheta institucional e aplicação da marca
+   ========================================================================== */
+
+.cabecalho__marca {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.rodape-novo__logo {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  padding: 0.25rem 0;
+  transition: opacity var(--transicao), transform var(--transicao);
+}
+
+.rodape-novo__logo .marca {
+  max-width: 100%;
+}
+
+.rodape-novo__logo:hover {
+  opacity: 0.86;
+  transform: translateY(-1px);
+}
+
+.abertura-marca {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.52), transparent 44%),
+    #d8d3ca;
+  pointer-events: none;
+  animation: abertura-marca-sair 1900ms cubic-bezier(0.77, 0, 0.18, 1) forwards;
+}
+
+.abertura-marca__conteudo {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  transform: translateY(-1.5vh);
+}
+
+.abertura-marca__selo {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(132px, 14vw, 184px);
+  aspect-ratio: 512 / 486;
+  transform-origin: center;
+  animation: abertura-brasao 1050ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.abertura-marca__selo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('/midia/simbolo-logo.png?v=2') center / contain no-repeat;
+  clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+  pointer-events: none;
+  animation: abertura-liquido 1120ms 170ms cubic-bezier(0.45, 0, 0.18, 1) both;
+}
+
+.abertura-marca__brasao {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+/* O brasão reaparece como timbre, não como ilustração dominante. */
+.secao--metodo-home {
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.secao--metodo-home::after {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  right: clamp(-140px, -7vw, -70px);
+  bottom: clamp(-80px, -4vw, -30px);
+  width: clamp(340px, 39vw, 560px);
+  aspect-ratio: 1;
+  background: url('/midia/simbolo-logo.png?v=2') center / contain no-repeat;
+  opacity: 0.048;
+  filter: sepia(1) saturate(0.5);
+  pointer-events: none;
+  transform: rotate(-8deg);
+}
+
+.secao--metodo-home > .envolucro {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes abertura-marca-sair {
+  0%, 67% {
+    transform: translateY(0);
+    visibility: visible;
+  }
+  100% {
+    transform: translateY(-102%);
+    visibility: hidden;
+  }
+}
+
+@keyframes abertura-brasao {
+  from {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+    filter: blur(5px) drop-shadow(0 16px 28px rgba(27, 27, 27, 0));
+    transform: translateY(22px) scale(0.94);
+  }
+  to {
+    opacity: 0.94;
+    clip-path: inset(0 0 0 0);
+    filter: blur(0) drop-shadow(0 12px 22px rgba(27, 27, 27, 0.09));
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes abertura-liquido {
+  0% {
+    opacity: 0.4;
+    clip-path: polygon(0 100%, 18% 100%, 36% 100%, 54% 100%, 72% 100%, 88% 100%, 100% 100%, 100% 100%, 0 100%);
+  }
+  24% {
+    opacity: 0.76;
+    clip-path: polygon(0 82%, 18% 78%, 36% 83%, 54% 79%, 72% 82%, 88% 78%, 100% 81%, 100% 100%, 0 100%);
+  }
+  48% {
+    opacity: 0.9;
+    clip-path: polygon(0 58%, 18% 62%, 36% 57%, 54% 61%, 72% 56%, 88% 60%, 100% 57%, 100% 100%, 0 100%);
+  }
+  72% {
+    clip-path: polygon(0 33%, 18% 29%, 36% 34%, 54% 30%, 72% 35%, 88% 30%, 100% 33%, 100% 100%, 0 100%);
+  }
+  90% {
+    opacity: 1;
+    clip-path: polygon(0 9%, 18% 12%, 36% 7%, 54% 11%, 72% 8%, 88% 11%, 100% 8%, 100% 100%, 0 100%);
+  }
+  100% {
+    opacity: 1;
+    clip-path: polygon(0 0, 18% 0, 36% 0, 54% 0, 72% 0, 88% 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+@media (max-width: 640px) {
+  .abertura-marca__selo {
+    width: 138px;
+  }
+
+  .secao--metodo-home::after {
+    right: -110px;
+    bottom: 1.5rem;
+    width: 300px;
+    opacity: 0.05;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .abertura-marca {
+    display: none;
   }
 }

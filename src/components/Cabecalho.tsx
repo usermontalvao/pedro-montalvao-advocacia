@@ -171,7 +171,7 @@ export function Cabecalho() {
               para="/contato-advogado-cuiaba/"
               data-cta="cabecalho"
             >
-              Como falar
+              Contato
               <IconeSeta tamanho={15} />
             </Link>
 

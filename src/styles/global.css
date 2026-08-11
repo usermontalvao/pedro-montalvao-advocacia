@@ -744,6 +744,21 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  /*
+    O clipe horizontal precisa estar AQUI, e não só no corpo.
+    Quem rola a página é a raiz. A regra do corpo só chega à área visível por
+    propagação — e a propagação depende de a raiz estar em `visible`, o que
+    varia entre navegadores e versões. Era essa dependência que deixava passar
+    os poucos pixels de arrasto lateral no celular: bastava a propagação não
+    valer para o documento voltar a ser mais largo que a tela, e aí aparecia
+    uma tira do fundo creme do corpo na beirada direita, sobre um site inteiro
+    escuro. Declarado na raiz, o clipe é do contêiner que rola de fato.
+
+    Continua sendo `clip`, e não `hidden`, pelo motivo anotado no corpo:
+    `hidden` criaria um contêiner de rolagem e derrubaria o `position: sticky`
+    junto com a rolagem suave.
+  */
+  overflow-x: clip;
 }
 
 body {
@@ -2600,6 +2615,18 @@ a.rodape__linha:hover > strong {
   .cabecalho__acao .botao {
     display: none;
   }
+  /*
+    Sem o menu, o cabeçalho tem só dois filhos — e a grade de três colunas
+    passava a segunda (a do `1fr`) para as ações: o hambúrguer parava colado
+    na logo, com a metade direita da barra vazia. Duas colunas, e o botão
+    ancorado no fim, devolvem-no à borda onde o polegar o procura.
+  */
+  .cabecalho__interno {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .cabecalho__acao {
+    justify-self: end;
+  }
 }
 
 @media (max-width: 900px) {
@@ -4400,23 +4427,60 @@ a.rodape__linha:hover > strong {
   color: #d7d2c8;
 }
 
-.cinema--atendimento .cinema__fundo img {
-  object-position: center 38%;
-  transform: translate3d(18%, 0, 0) scale(1.035);
-  filter: saturate(0.78) contrast(1.06) brightness(0.88);
+/* ------------------------------------------------- bloco claro mesclado */
+
+/*
+  A tela branca entre duas pretas.
+
+  Ela existe pelo contraste: o herói é escuro, o bloco de vídeo é escuro, e sem
+  uma pausa clara entre os dois a home vira uma sequência de telas iguais. A
+  fotografia continua aqui — o que muda é como ela entra.
+*/
+.secao--mesclada {
+  background: var(--papel);
+  min-height: 100svh;
+  display: grid;
+  align-items: center;
+  overflow: hidden;
+  border-block: 1px solid var(--linha);
 }
 
-.cinema--atendimento .cinema__veu {
-  background:
-    linear-gradient(to top, rgba(14, 14, 16, 0.96) 2%, rgba(14, 14, 16, 0.42) 54%, rgba(14, 14, 16, 0.28) 100%),
-    linear-gradient(
-      to right,
-      rgba(14, 14, 16, 1) 0%,
-      rgba(14, 14, 16, 0.98) 34%,
-      rgba(14, 14, 16, 0.88) 49%,
-      rgba(14, 14, 16, 0.18) 70%,
-      rgba(14, 14, 16, 0.32) 100%
-    );
+.mesclada {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.02fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 4.5rem);
+}
+
+.mesclada__texto h2 {
+  max-width: 15ch;
+  text-wrap: balance;
+}
+
+.mesclada__texto p {
+  max-width: 48ch;
+}
+
+/*
+  Mesclada, não colada.
+
+  A foto não tem moldura, nem borda, nem canto arredondado: a máscara come as
+  quatro beiradas até o transparente, e o que sobra é a cena aparecendo do
+  próprio papel. É o que impede o bloco de parecer "texto + retângulo de
+  imagem" — e o que separa esta tela do retrato de abertura, onde a fotografia
+  ocupa tudo e é o assunto.
+
+  O clareamento acompanha: sobre papel creme, a foto original (escura, saturada
+  para fundo escuro) apareceria como um buraco no meio da página.
+*/
+.mesclada__foto img {
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  object-fit: cover;
+  object-position: center 34%;
+  filter: saturate(0.86) contrast(0.98) brightness(1.06);
+  -webkit-mask-image: radial-gradient(78% 74% at 56% 46%, #000 46%, transparent 88%);
+  mask-image: radial-gradient(78% 74% at 56% 46%, #000 46%, transparent 88%);
 }
 
 .cinema--brasil .cinema__fundo img {
@@ -5905,6 +5969,16 @@ html {
   }
 }
 
+/* Mesma aproximação, mas fechando em 1: usada onde não há folga por cima. */
+@keyframes entrada-camera-topo {
+  from {
+    transform: scale(1.1);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
 .heroi-cine__texto > * {
   animation: entrada-suave 700ms cubic-bezier(0.16, 0.84, 0.34, 1) both;
 }
@@ -5982,35 +6056,72 @@ html {
     border-bottom: 0;
   }
 
+  /*
+    Sem folga vertical, e por isso sem parallax aqui. Numa tela estreita a foto
+    é mais larga que alta: o `cover` a dimensiona pela ALTURA e o corte todo
+    acontece nas laterais — não sobra um pixel em cima. Como o cabelo encosta
+    na borda superior do original, qualquer deslocamento para cima (os -6% da
+    caixa, o `scale`, o passeio do parallax) decepava a cabeça do advogado.
+    A caixa passa a coincidir com a moldura e o translate do motion é anulado.
+  */
   .heroi-cine__parallax {
-    inset: -6% 0;
-    height: 112%;
+    inset: 0;
+    height: 100%;
+  }
+
+  .heroi-cine__midia .parallax__interno {
+    transform: none !important;
   }
 
   .heroi-cine__midia img {
     object-position: center top;
-    filter: saturate(0.88) contrast(1.05) brightness(0.95);
-    transform: scale(1.02);
-    animation: entrada-camera 2600ms cubic-bezier(0.16, 0.84, 0.34, 1) both;
+    filter: saturate(1.04) contrast(1.06) brightness(1.04);
+    /*
+      A aproximação de câmera continua, mas ancorada no topo e terminando em
+      escala 1: assim ela abre a partir do rosto sem nunca ultrapassar a
+      moldura por cima. (`entrada-camera` termina em 1.02 e, sendo `both`,
+      esse 1.02 fica — era ele que voltava a cortar o cabelo.)
+    */
+    transform-origin: center top;
+    animation: entrada-camera-topo 2600ms cubic-bezier(0.16, 0.84, 0.34, 1) both;
   }
 
   /*
     Véu vertical, não lateral: no retrato o rosto fica no alto e a leitura no
-    rodapé, então o escuro precisa subir do pé da tela. A faixa clara do meio
-    é o que mantém a fotografia visível em vez de virar textura.
+    rodapé, então o escuro precisa subir do pé da tela.
+
+    O ajuste fino está na metade de baixo. O título ocupa exatamente a altura
+    do terno, então o véu não pode sumir — mas também não pode chegar ao preto
+    chapado, que era o que apagava o advogado: sobrava um rosto flutuando, sem
+    ombros nem braços. Parando a densidade em torno de 0,6, a fotografia
+    continua legível atrás da tipografia, e a legibilidade do texto volta pela
+    sombra logo abaixo, que escurece só os poucos pixels ao redor das letras
+    em vez de escurecer a foto inteira.
   */
   .heroi-cine__midia::after {
     background:
       linear-gradient(
         to top,
         #08080a 0%,
-        rgba(8, 8, 10, 0.96) 16%,
-        rgba(8, 8, 10, 0.72) 32%,
-        rgba(8, 8, 10, 0.22) 58%,
-        rgba(8, 8, 10, 0.06) 78%,
-        rgba(8, 8, 10, 0.5) 100%
+        rgba(8, 8, 10, 0.86) 10%,
+        rgba(8, 8, 10, 0.64) 24%,
+        rgba(8, 8, 10, 0.44) 40%,
+        rgba(8, 8, 10, 0.18) 56%,
+        rgba(8, 8, 10, 0.02) 72%,
+        rgba(8, 8, 10, 0.3) 100%
       ),
       radial-gradient(74% 34% at 80% 2%, rgba(201, 168, 106, 0.2), transparent 70%);
+  }
+
+  /*
+    Só o que de fato cai sobre a foto. Os botões e o microtexto ficam abaixo
+    dela, no grafite chapado — e o botão claro herdava a sombra, que virava
+    uma mancha suja atrás de letras pretas sobre branco.
+  */
+  .heroi-cine--principal .olho,
+  .heroi-cine--principal h1,
+  .heroi-cine--principal .chamada {
+    text-shadow: 0 1px 2px rgba(8, 8, 10, 0.5), 0 2px 22px rgba(8, 8, 10, 0.6);
   }
 
   /* O grafite da seção continua embaixo da foto, sem emenda visível. */
@@ -6041,7 +6152,6 @@ html {
     o véu tem de vir de baixo, senão o texto cai sobre a parte clara da foto.
   */
   .cinema__veu,
-  .cinema--atendimento .cinema__veu,
   .cinema--alcance .cinema__veu,
   .cinema--video .cinema__veu {
     background:
@@ -6061,14 +6171,22 @@ html {
   }
 
   /*
-    No computador a foto do escritório é empurrada 18% para a direita, e o véu
-    lateral esconde a faixa vazia que sobra à esquerda. Em tela estreita esse
-    véu é vertical, então a faixa aparecia como um degrau preto no meio da
-    imagem. Sem o deslocamento, a foto volta a ocupar o quadro inteiro.
+    Empilhado, o texto vem primeiro — é ele que responde ao título da tela
+    anterior — e a foto fecha o bloco. A máscara continua fazendo o serviço:
+    sem ela, empilhada, a imagem viraria uma faixa de corte reto no meio do
+    papel. E a tela cheia sai: com as duas peças uma sobre a outra, forçar
+    100svh só abriria vão em volta.
   */
-  .cinema--atendimento .cinema__fundo img {
-    transform: none;
-    object-position: center 32%;
+  .secao--mesclada {
+    min-height: auto;
+  }
+
+  .mesclada {
+    grid-template-columns: 1fr;
+  }
+
+  .mesclada__foto img {
+    aspect-ratio: 4 / 3;
   }
 }
 

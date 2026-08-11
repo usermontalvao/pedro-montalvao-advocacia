@@ -7,6 +7,7 @@ import {
   useTransform,
   type MotionValue,
 } from 'motion/react';
+import { alvoDeEncaixe } from '../lib/encaixe';
 
 /**
  * A camada de movimento do site.
@@ -117,6 +118,73 @@ export function rolarAte(alvo: HTMLElement | number, imediato = false) {
   }
 
   window.scrollTo({ top: destino, behavior: imediato ? 'auto' : 'smooth' });
+}
+
+/* --------------------------------------------------- rolagem encaixada */
+
+/**
+ * Rolagem que assenta seção a seção, no espírito do site da SpaceX: você para
+ * de rolar e a página termina o movimento sozinha, encostando o bloco inteiro
+ * na tela em vez de deixá-lo pela metade.
+ *
+ * Por que em JavaScript e não com `scroll-snap` do CSS: quem manda na rolagem
+ * aqui é o Lenis, que reposiciona a página a cada quadro. O `scroll-snap`
+ * nativo tentaria corrigir esse mesmo valor ao mesmo tempo, e os dois passam o
+ * resto da rolagem se empurrando — trepida na roda do mouse e trava no trackpad.
+ * Encaixando por fora, o Lenis continua sendo o único a escrever a posição.
+ *
+ * Três travas mantêm o efeito discreto, que é o ponto: ele existe para arrumar
+ * uma parada desalinhada, nunca para sequestrar a rolagem de quem está lendo.
+ *
+ *   1. só blocos de tela cheia entram na conta — as seções de texto longo, que
+ *      não cabem na tela, são ignoradas;
+ *   2. só assenta se o desencontro for pequeno (menos de 38% da tela). Quem
+ *      rolou com força para longe queria mesmo ir para longe;
+ *   3. só depois que a rolagem parou de verdade, incluindo a inércia do dedo
+ *      no celular.
+ *
+ * `prefers-reduced-motion` desliga tudo.
+ */
+export function useRolagemEncaixada(seletor: string) {
+  const reduzido = useReducedMotion();
+
+  useEffect(() => {
+    if (reduzido) return;
+
+    let espera = 0;
+
+    const encaixar = () => {
+      // Menu de tela cheia aberto: o corpo está travado, não há o que assentar.
+      if (document.body.style.overflow === 'hidden') return;
+
+      const altura = window.innerHeight;
+      const rolagem = window.scrollY;
+
+      const blocos = Array.from(document.querySelectorAll<HTMLElement>(seletor)).map((bloco) => ({
+        topo: Math.round(bloco.getBoundingClientRect().top + rolagem),
+        altura: bloco.offsetHeight,
+      }));
+
+      const destino = alvoDeEncaixe(blocos, {
+        rolagem,
+        altura,
+        limite: document.documentElement.scrollHeight - altura,
+      });
+
+      if (destino !== null) rolarAte(destino);
+    };
+
+    const aoRolar = () => {
+      window.clearTimeout(espera);
+      espera = window.setTimeout(encaixar, 170);
+    };
+
+    window.addEventListener('scroll', aoRolar, { passive: true });
+    return () => {
+      window.clearTimeout(espera);
+      window.removeEventListener('scroll', aoRolar);
+    };
+  }, [reduzido, seletor]);
 }
 
 /* ---------------------------------------------------- troca de página */

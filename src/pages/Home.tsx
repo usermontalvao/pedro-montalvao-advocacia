@@ -4,12 +4,26 @@ import { IconeSeta } from '../components/Icones';
 import { Revelar } from '../components/Revelar';
 import { Faq } from '../components/Faq';
 import { SecaoCta } from '../components/SecaoCta';
-import { FundoCinema, Parallax, TextoIluminado } from '../components/movimento';
+import { Parallax, TextoIluminado, useRolagemEncaixada } from '../components/movimento';
 import { VideoFundo } from '../components/VideoFundo';
 import conteudo from '../content/home.json';
 import areas from '../content/areas.json';
 
+/*
+  Os blocos que ocupam a tela inteira — o retrato de abertura, o bloco branco e
+  o bloco de vídeo. São eles que assentam sozinhos ao fim da rolagem; as seções
+  de texto longo ficam de fora de propósito, porque ninguém quer a página
+  puxando o parágrafo enquanto lê.
+
+  O encaixe confere a altura de cada um antes de aceitá-lo, então o bloco
+  branco simplesmente sai da conta no celular, onde ele deixa de ser de tela
+  cheia para empilhar texto e foto.
+*/
+const BLOCOS_DE_TELA_CHEIA = '.heroi-cine--principal, .cinema, .secao--mesclada';
+
 export function Home() {
+  useRolagemEncaixada(BLOCOS_DE_TELA_CHEIA);
+
   return (
     <>
       <section className="heroi-cine heroi-cine--principal">
@@ -27,7 +41,11 @@ export function Home() {
 
         <div className="envolucro heroi-cine__conteudo">
           <div className="heroi-cine__texto">
-            <span className="olho">{conteudo.heroOlho}</span>
+            {/*
+              Sem linha de assinatura acima do título: o nome do escritório já
+              está na logo, a poucos centímetros dali, e no celular ela era a
+              única linha de texto caindo em cima do retrato.
+            */}
             <h1 dangerouslySetInnerHTML={{ __html: conteudo.heroTitulo }} />
             <p className="chamada">{conteudo.heroTexto}</p>
 
@@ -54,36 +72,51 @@ export function Home() {
         </div>
       </section>
 
-      <section className="faixa-credenciais" aria-label="Informações principais">
-        <div className="envolucro faixa-provas">
-          {conteudo.provas.map((prova) => (
-            <div className="prova" key={prova.rotulo}>
-              <strong>{prova.numero}</strong>
-              <span>{prova.rotulo}</span>
-            </div>
-          ))}
+      {/*
+        A faixa de credenciais saiu daqui. Ela tinha a forma de um placar —
+        três números grandes — sem número nenhum para mostrar, e repetia o
+        que o microtexto do herói e o rodapé já dizem. Sem ela, o retrato
+        emenda direto no bloco seguinte, que é o corte que a rolagem
+        encaixada precisa para funcionar.
+      */}
+
+      {/*
+        O bloco branco entre dois pretos.
+
+        O problema nunca foi a foto existir — era a segunda tela cheia ESCURA
+        com o mesmo tratamento da primeira, uma emendada na outra. Aqui o fundo
+        vira claro, e a fotografia não entra como retângulo colado: ela se
+        dissolve no papel pela borda, sem moldura e sem corte, mesclada ao
+        fundo. Preto, branco, preto — é a alternância que separa os blocos, não
+        a ausência do advogado.
+      */}
+      <section id="apresentacao" className="secao secao--mesclada">
+        <div className="envolucro mesclada">
+          <Revelar className="mesclada__texto">
+            <span className="olho">{conteudo.sobreOlho}</span>
+            <h2>{conteudo.sobreTitulo}</h2>
+            {conteudo.sobreParagrafos.map((paragrafo) => (
+              <p key={paragrafo.slice(0, 28)}>{paragrafo}</p>
+            ))}
+            <Link className="botao botao--contorno" para="/sobre-advogado-cuiaba/">
+              Conhecer o advogado
+              <IconeSeta />
+            </Link>
+          </Revelar>
+
+          <Revelar className="mesclada__foto" atraso={90}>
+            <img
+              src="/midia/atendimento-escritorio.webp"
+              srcSet="/midia/atendimento-escritorio-720.webp 720w, /midia/atendimento-escritorio.webp 1376w"
+              sizes="(max-width: 900px) 100vw, 52vw"
+              alt={`${SITE.advogado} analisando documentos com um cliente no escritório`}
+              width={1376}
+              height={768}
+              loading="lazy"
+            />
+          </Revelar>
         </div>
       </section>
-
-      <FundoCinema
-        id="apresentacao"
-        className="cinema--atendimento"
-        imagem="/midia/atendimento-escritorio.webp"
-        imagemPequena="/midia/atendimento-escritorio-720.webp"
-        ancora="center 38%"
-      >
-        <Revelar>
-          <span className="olho">{conteudo.sobreOlho}</span>
-          <h2>{conteudo.sobreTitulo}</h2>
-          {conteudo.sobreParagrafos.map((paragrafo) => (
-            <p key={paragrafo.slice(0, 28)}>{paragrafo}</p>
-          ))}
-          <Link className="botao botao--transparente" para="/sobre-advogado-cuiaba/">
-            Conhecer o advogado
-            <IconeSeta />
-          </Link>
-        </Revelar>
-      </FundoCinema>
 
       <section className="secao secao--escura" id="areas">
         <div className="envolucro">

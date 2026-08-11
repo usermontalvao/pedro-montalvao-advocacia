@@ -13,6 +13,7 @@ export function SecaoCta({
   mensagem,
   destino,
   secundario = true,
+  tom = 'escuro',
 }: {
   /** Linha curta acima do título. Trocar o rótulo muda o convite. */
   olho?: string;
@@ -23,9 +24,13 @@ export function SecaoCta({
   mensagem?: string;
   destino?: string;
   secundario?: boolean;
+  /** O destaque claro separa a conversão final do rodapé escuro. */
+  tom?: 'escuro' | 'destaque';
 }) {
   return (
-    <section className="secao secao--escura">
+    <section
+      className={`secao secao-cta ${tom === 'destaque' ? 'secao-cta--destaque' : 'secao--escura'}`}
+    >
       <div className="envolucro">
         <Revelar>
           <div className="cabeca-secao cabeca-secao--centro" style={{ marginBottom: 0 }}>

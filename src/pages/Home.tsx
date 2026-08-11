@@ -4,26 +4,11 @@ import { IconeSeta } from '../components/Icones';
 import { Revelar } from '../components/Revelar';
 import { Faq } from '../components/Faq';
 import { SecaoCta } from '../components/SecaoCta';
-import { Parallax, TextoIluminado, useRolagemEncaixada } from '../components/movimento';
-import { VideoFundo } from '../components/VideoFundo';
+import { Parallax } from '../components/movimento';
 import conteudo from '../content/home.json';
 import areas from '../content/areas.json';
 
-/*
-  Os blocos que ocupam a tela inteira — o retrato de abertura, o bloco branco e
-  o bloco de vídeo. São eles que assentam sozinhos ao fim da rolagem; as seções
-  de texto longo ficam de fora de propósito, porque ninguém quer a página
-  puxando o parágrafo enquanto lê.
-
-  O encaixe confere a altura de cada um antes de aceitá-lo, então o bloco
-  branco simplesmente sai da conta no celular, onde ele deixa de ser de tela
-  cheia para empilhar texto e foto.
-*/
-const BLOCOS_DE_TELA_CHEIA = '.heroi-cine--principal, .cinema, .secao--mesclada';
-
 export function Home() {
-  useRolagemEncaixada(BLOCOS_DE_TELA_CHEIA);
-
   return (
     <>
       <section className="heroi-cine heroi-cine--principal">
@@ -41,11 +26,6 @@ export function Home() {
 
         <div className="envolucro heroi-cine__conteudo">
           <div className="heroi-cine__texto">
-            {/*
-              Sem linha de assinatura acima do título: o nome do escritório já
-              está na logo, a poucos centímetros dali, e no celular ela era a
-              única linha de texto caindo em cima do retrato.
-            */}
             <h1 dangerouslySetInnerHTML={{ __html: conteudo.heroTitulo }} />
             <p className="chamada">{conteudo.heroTexto}</p>
 
@@ -64,61 +44,15 @@ export function Home() {
             </div>
 
             <p className="microtexto">{conteudo.heroMicrocopy}</p>
-            <a className="rolar-cue" href="#apresentacao" aria-label="Continuar para a apresentação">
+            <a className="rolar-cue" href="#areas" aria-label="Continuar para as áreas de atuação">
               <span aria-hidden />
-              Como trabalhamos
+              Onde sua questão começa
             </a>
           </div>
         </div>
       </section>
 
-      {/*
-        A faixa de credenciais saiu daqui. Ela tinha a forma de um placar —
-        três números grandes — sem número nenhum para mostrar, e repetia o
-        que o microtexto do herói e o rodapé já dizem. Sem ela, o retrato
-        emenda direto no bloco seguinte, que é o corte que a rolagem
-        encaixada precisa para funcionar.
-      */}
-
-      {/*
-        O bloco branco entre dois pretos.
-
-        O problema nunca foi a foto existir — era a segunda tela cheia ESCURA
-        com o mesmo tratamento da primeira, uma emendada na outra. Aqui o fundo
-        vira claro, e a fotografia não entra como retângulo colado: ela se
-        dissolve no papel pela borda, sem moldura e sem corte, mesclada ao
-        fundo. Preto, branco, preto — é a alternância que separa os blocos, não
-        a ausência do advogado.
-      */}
-      <section id="apresentacao" className="secao secao--mesclada">
-        <div className="envolucro mesclada">
-          <Revelar className="mesclada__texto">
-            <span className="olho">{conteudo.sobreOlho}</span>
-            <h2>{conteudo.sobreTitulo}</h2>
-            {conteudo.sobreParagrafos.map((paragrafo) => (
-              <p key={paragrafo.slice(0, 28)}>{paragrafo}</p>
-            ))}
-            <Link className="botao botao--contorno" para="/sobre-advogado-cuiaba/">
-              Conhecer o advogado
-              <IconeSeta />
-            </Link>
-          </Revelar>
-
-          <Revelar className="mesclada__foto" atraso={90}>
-            <img
-              src="/midia/atendimento-escritorio.webp"
-              srcSet="/midia/atendimento-escritorio-720.webp 720w, /midia/atendimento-escritorio.webp 1376w"
-              sizes="(max-width: 900px) 100vw, 52vw"
-              alt={`${SITE.advogado} analisando documentos com um cliente no escritório`}
-              width={1376}
-              height={768}
-              loading="lazy"
-            />
-          </Revelar>
-        </div>
-      </section>
-
-      <section className="secao secao--escura" id="areas">
+      <section className="secao secao--areas-home" id="areas">
         <div className="envolucro">
           <div className="areas-cine">
             <Revelar className="areas-cine__titulo">
@@ -147,82 +81,103 @@ export function Home() {
         </div>
       </section>
 
-      <VideoFundo
-        className="cinema--alcance"
-        fonte="/midia/justica.mp4"
-        cartaz="/midia/sede-atendimento.webp"
-        cartazPequeno="/midia/sede-atendimento-720.webp"
-      >
-        <Revelar>
-          <span className="olho">Atendimento online</span>
-        </Revelar>
-        <TextoIluminado
-          como="h2"
-          className="iluminado--destaque"
-          texto="Perto, mesmo à distância."
-        />
-        <Revelar atraso={90}>
-          <p>
-            Reuniões, documentos e acompanhamento podem acontecer online. Se algum ato exigir
-            presença física, isso é alinhado desde o início.
-          </p>
-          <Link className="botao botao--claro" para="/advogado-online-brasil/">
-            Ver o atendimento online
-            <IconeSeta />
-          </Link>
-        </Revelar>
-      </VideoFundo>
-
-      <section className="secao secao--processo">
+      <section id="apresentacao" className="secao secao--metodo-home">
         <div className="envolucro">
-          <Revelar className="cabeca-secao">
-            <span className="olho">{conteudo.processoOlho}</span>
-            <h2>{conteudo.processoTitulo}</h2>
-          </Revelar>
+          <div className="metodo-home__abertura">
+            <Revelar className="metodo-home__texto">
+              <span className="olho">{conteudo.sobreOlho}</span>
+              <h2>{conteudo.sobreTitulo}</h2>
+              {conteudo.sobreParagrafos.map((paragrafo) => (
+                <p key={paragrafo.slice(0, 28)}>{paragrafo}</p>
+              ))}
 
-          <div className="passos">
-            {conteudo.passos.map((passo, indice) => (
-              <Revelar key={passo.titulo} atraso={indice * 60}>
-                <article className="passo">
-                  <h3>{passo.titulo}</h3>
-                  <p>{passo.texto}</p>
-                </article>
-              </Revelar>
-            ))}
+              <div className="metodo-home__responsavel">
+                <span>Condução pessoal</span>
+                <strong>{SITE.advogado}</strong>
+                <small>OAB/MT 30.021</small>
+              </div>
+
+              <Link className="botao botao--contorno" para="/sobre-advogado-cuiaba/">
+                Conhecer o advogado
+                <IconeSeta />
+              </Link>
+            </Revelar>
+
+            <Revelar className="metodo-home__foto" atraso={80}>
+              <img
+                src="/midia/atendimento-escritorio.webp"
+                srcSet="/midia/atendimento-escritorio-720.webp 720w, /midia/atendimento-escritorio.webp 1376w"
+                sizes="(max-width: 900px) 100vw, 48vw"
+                alt={`${SITE.advogado} analisando documentos com um cliente no escritório`}
+                width={1376}
+                height={768}
+                loading="lazy"
+              />
+            </Revelar>
+          </div>
+
+          <div className="metodo-home__processo">
+            <Revelar className="cabeca-secao">
+              <span className="olho">{conteudo.processoOlho}</span>
+              <h2>{conteudo.processoTitulo}</h2>
+            </Revelar>
+
+            <div className="passos">
+              {conteudo.passos.map((passo, indice) => (
+                <Revelar key={passo.titulo} atraso={indice * 60}>
+                  <article className="passo">
+                    <h3>{passo.titulo}</h3>
+                    <p>{passo.texto}</p>
+                  </article>
+                </Revelar>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="secao secao--escura secao--perfil">
-        <div className="envolucro perfil-destaque">
-          <Revelar className="perfil-destaque__imagem">
-            <img
-              src="/midia/retrato-pedro-montalvao.webp"
-              srcSet="/midia/retrato-pedro-montalvao-720.webp 720w, /midia/retrato-pedro-montalvao.webp 1400w"
-              sizes="(max-width: 800px) 100vw, 48vw"
-              alt={`${SITE.advogado}, ${SITE.oab ? `OAB/MT ${SITE.oab}` : 'advogado em Cuiabá'}`}
-              width={1376}
-              height={768}
-              loading="lazy"
-            />
-          </Revelar>
-          <Revelar className="perfil-destaque__texto" atraso={80}>
-            <span className="olho">Quem conduz</span>
-            <h2>Pedro Rodrigues<br />Montalvão Neto</h2>
-            <p className="perfil-destaque__oab">OAB/MT 30.021</p>
-            <p>
-              Advogado cuiabano, com atuação trabalhista, previdenciária, de consumo e de família.
-              Quem chega ao escritório fala diretamente com quem conduz o trabalho.
+      <section className="secao secao--online-home">
+        <div className="envolucro online-home">
+          <Revelar className="online-home__texto">
+            <span className="olho">Atendimento online</span>
+            <h2>Perto, mesmo à distância.</h2>
+            <p className="chamada">
+              Reuniões, documentos e acompanhamento podem acontecer online. Se algum ato exigir
+              presença física, isso é alinhado desde o início.
             </p>
-            <Link className="botao botao--transparente" para="/sobre-advogado-cuiaba/">
-              Conhecer o advogado
+            <Link className="botao botao--escuro" para="/advogado-online-brasil/">
+              Ver o atendimento online
               <IconeSeta />
             </Link>
+          </Revelar>
+
+          <Revelar className="online-home__etapas" atraso={70}>
+            <article>
+              <span>01</span>
+              <div>
+                <h3>Reunião</h3>
+                <p>O relato e as primeiras orientações podem acontecer por videochamada.</p>
+              </div>
+            </article>
+            <article>
+              <span>02</span>
+              <div>
+                <h3>Documentos</h3>
+                <p>O envio e a organização dos documentos são realizados por meios digitais.</p>
+              </div>
+            </article>
+            <article>
+              <span>03</span>
+              <div>
+                <h3>Acompanhamento</h3>
+                <p>Etapas e eventual necessidade de presença física são alinhadas com clareza.</p>
+              </div>
+            </article>
           </Revelar>
         </div>
       </section>
 
-      <section className="secao">
+      <section className="secao secao--publicacoes-home">
         <div className="envolucro">
           <Revelar className="cabeca-secao">
             <span className="olho">Para ler com calma</span>
@@ -233,29 +188,24 @@ export function Home() {
           </Revelar>
 
           <Revelar atraso={70}>
-            <Link className="capa-artigo capa-artigo--editorial" para="/artigos/">
-              <div className="capa-artigo__texto">
+            <Link className="publicacoes-home" para="/artigos/">
+              <div className="publicacoes-home__texto">
                 <span className="etiqueta">Publicações</span>
-                <h2>Entenda antes de decidir.</h2>
+                <h3>Entenda antes de decidir.</h3>
                 <p>
-                  Conteúdo informativo, escrito para transformar termos técnicos em informação
-                  útil — sem promessas nem atalhos.
+                  Conteúdo informativo sobre problemas reais, escrito para transformar termos
+                  técnicos em informação útil — sem promessas nem atalhos.
                 </p>
                 <span className="cartao__link">
                   Ler os artigos
                   <IconeSeta tamanho={16} />
                 </span>
               </div>
-              <div className="capa-artigo__marca">
-                <img
-                  src="/midia/conteudo-juridico.webp"
-                  srcSet="/midia/conteudo-juridico-720.webp 720w, /midia/conteudo-juridico.webp 1376w"
-                  sizes="(max-width: 860px) 100vw, 420px"
-                  alt="Pedro Montalvão"
-                  width={1376}
-                  height={768}
-                  loading="lazy"
-                />
+              <div className="publicacoes-home__areas" aria-hidden>
+                <span>Trabalho</span>
+                <span>INSS</span>
+                <span>Consumo</span>
+                <span>Família</span>
               </div>
             </Link>
           </Revelar>
@@ -278,6 +228,7 @@ export function Home() {
       </section>
 
       <SecaoCta
+        tom="destaque"
         titulo={conteudo.ctaTitulo}
         texto={conteudo.ctaTexto}
         microcopy={conteudo.ctaMicrocopy}

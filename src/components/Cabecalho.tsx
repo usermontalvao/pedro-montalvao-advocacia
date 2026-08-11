@@ -111,7 +111,7 @@ export function Cabecalho() {
       >
         <div className="envolucro cabecalho__interno">
           <Link para="/" className="cabecalho__marca" aria-label="Pedro Montalvão Advocacia — início">
-            <Marca tom="claro" altura={fixo ? 26 : 30} />
+            <Marca tom="claro" altura={34} semSimbolo />
           </Link>
 
           <nav className="menu" aria-label="Navegação principal">

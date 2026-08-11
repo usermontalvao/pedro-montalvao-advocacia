@@ -221,6 +221,1138 @@
   }
 }
 
+/* Simulador previdenciário profissional — configuração e memorial imprimível. */
+.aposentadoria-configuracao {
+  background:
+    radial-gradient(circle at 8% 6%, rgba(184, 143, 67, 0.08), transparent 28rem),
+    linear-gradient(180deg, #f7f4ec 0, #fff 34rem);
+}
+
+.aposentadoria-configuracao__cabeca {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.aposentadoria-configuracao__cabeca h2,
+.aposentadoria-configuracao__cabeca p {
+  margin-bottom: 0;
+}
+
+.aposentadoria-etapas {
+  display: flex;
+  gap: 0.35rem;
+  flex: 0 0 auto;
+}
+
+.aposentadoria-etapas span {
+  padding: 0.55rem 0.75rem;
+  border: 1px solid rgba(22, 55, 43, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  color: #69635b;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.aposentadoria-etapas .is-ativa {
+  background: #173d30;
+  border-color: #173d30;
+  color: #fff;
+}
+
+.aposentadoria-painel {
+  position: relative;
+  padding: clamp(1.15rem, 2.8vw, 2rem);
+  border: 1px solid rgba(21, 58, 45, 0.13);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 18px 55px rgba(18, 45, 35, 0.06);
+}
+
+.aposentadoria-painel > legend {
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: #173d30;
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.aposentadoria-painel h3 {
+  margin: 0 0 0.35rem;
+}
+
+.aposentadoria-dados-grade {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.aposentadoria-campo-largo {
+  grid-column: span 2;
+}
+
+.aposentadoria-upload__grade > div:first-child {
+  padding: 0.25rem 0;
+}
+
+.aposentadoria-upload__botao {
+  position: relative;
+}
+
+.aposentadoria-privacidade {
+  display: grid;
+  align-content: center;
+  min-height: 150px;
+  padding: 1.3rem;
+  border: 0;
+  background:
+    linear-gradient(135deg, rgba(23, 61, 48, 0.98), rgba(29, 77, 59, 0.94));
+  color: #fff;
+}
+
+.aposentadoria-privacidade strong {
+  color: #e5c788;
+  font-family: var(--fonte-titulo, Georgia, serif);
+  font-size: 1.1rem;
+}
+
+.aposentadoria-privacidade p {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.aposentadoria-importacao-ok {
+  display: grid;
+  gap: 0.25rem;
+  border: 1px solid rgba(34, 112, 76, 0.18);
+  border-left: 4px solid #26704d;
+  border-radius: 12px;
+  background: #f0f8f3;
+}
+
+.aposentadoria-importacao-ok span {
+  color: #4f5d56;
+}
+
+.aposentadoria-painel__intro {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.aposentadoria-painel__intro p {
+  max-width: 770px;
+  margin: 0;
+  color: #66615a;
+}
+
+.aposentadoria-contador {
+  flex: 0 0 auto;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  background: #f7e9d8;
+  color: #7b4b24;
+  font-size: 0.78rem;
+  font-weight: 750;
+}
+
+.aposentadoria-periodo__cabeca > div {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 0.65rem;
+}
+
+.aposentadoria-periodo__cabeca > div > span {
+  display: grid;
+  place-items: center;
+  flex: 0 0 30px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #e7efe9;
+  color: #173d30;
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
+.aposentadoria-periodo__cabeca strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.aposentadoria-chave {
+  position: relative;
+  padding: 0.35rem 0.55rem;
+  border-radius: 999px;
+  background: #e9f5ed;
+  color: #1b6845;
+  font-size: 0.78rem;
+  font-weight: 750;
+}
+
+.aposentadoria-periodo--excluido .aposentadoria-chave {
+  background: #eeeae4;
+  color: #706960;
+}
+
+.aposentadoria-remuneracoes__detalhes {
+  overflow: hidden;
+  border: 1px solid rgba(23, 61, 48, 0.13);
+  border-radius: 16px;
+}
+
+.aposentadoria-remuneracoes__detalhes > summary {
+  padding: 1rem 1.15rem;
+  background: #f5f7f3;
+  color: #173d30;
+  cursor: pointer;
+  font-weight: 750;
+}
+
+.aposentadoria-remuneracoes__detalhes[open] > summary {
+  border-bottom: 1px solid rgba(23, 61, 48, 0.1);
+}
+
+/* As tabelas do memorial têm até 7 colunas. Sem esta rolagem própria elas
+   transbordavam o cartão em telas estreitas e as últimas colunas sumiam. */
+.aposentadoria-tabela-wrap {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.aposentadoria-remuneracoes__detalhes .aposentadoria-tabela-wrap {
+  max-height: 560px;
+  overflow: auto;
+}
+
+.aposentadoria-tabela {
+  width: 100%;
+  border-collapse: collapse;
+  color: #303832;
+  font-size: 0.84rem;
+}
+
+.aposentadoria-tabela th {
+  padding: 0.72rem 0.8rem;
+  background: #173d30;
+  color: #fff;
+  text-align: left;
+  font-size: 0.71rem;
+  font-weight: 800;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+}
+
+.aposentadoria-tabela td {
+  padding: 0.7rem 0.8rem;
+  border-bottom: 1px solid rgba(23, 61, 48, 0.09);
+  vertical-align: top;
+}
+
+.aposentadoria-tabela tbody tr:nth-child(even) {
+  background: #f7f8f5;
+}
+
+.aposentadoria-tabela tbody tr.is-selecionada {
+  background: #edf6ef;
+  box-shadow: inset 4px 0 #26704d;
+}
+
+.aposentadoria-tabela tr.is-excluida,
+.aposentadoria-tabela tr.is-excluida:nth-child(even) {
+  background: #f4f1ed;
+  color: #777069;
+  opacity: 0.7;
+}
+
+.aposentadoria-tabela td strong,
+.aposentadoria-tabela td small {
+  display: block;
+}
+
+.aposentadoria-tabela td small {
+  margin-top: 0.2rem;
+  color: #716c64;
+  line-height: 1.35;
+}
+
+.aposentadoria-tabela--edicao thead {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.aposentadoria-tabela--edicao input[type='number'] {
+  width: 120px;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid rgba(23, 61, 48, 0.16);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.aposentadoria-calcular {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.4rem 1.55rem;
+  border-radius: 20px;
+  background: #173d30;
+  color: #fff;
+  box-shadow: 0 20px 50px rgba(15, 47, 35, 0.16);
+}
+
+.aposentadoria-calcular p {
+  margin: 0.25rem 0 0;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.aposentadoria-calcular > div:last-child {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 0.6rem;
+}
+
+.aposentadoria-calcular .botao--contorno {
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
+}
+
+.aposentadoria-simular {
+  animation: aposentadoria-simular-pulso 1.8s ease-in-out infinite;
+}
+
+.aposentadoria-simular.is-simulando {
+  min-width: 150px;
+  cursor: progress;
+  animation: none;
+  box-shadow: 0 0 0 5px rgba(229, 199, 136, 0.18), 0 12px 28px rgba(10, 28, 21, 0.24);
+}
+
+.aposentadoria-simular__spinner {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+  border: 2px solid rgba(23, 61, 48, 0.3);
+  border-top-color: #173d30;
+  border-radius: 50%;
+  animation: aposentadoria-simular-giro 0.7s linear infinite;
+}
+
+@keyframes aposentadoria-simular-giro {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes aposentadoria-simular-pulso {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(229, 199, 136, 0.15), 0 10px 24px rgba(10, 28, 21, 0.18);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(229, 199, 136, 0.3), 0 14px 34px rgba(10, 28, 21, 0.28);
+  }
+}
+
+/* Tela de resultado e memorial. */
+body:has(.aposentadoria-relatorio-modo) .cabecalho {
+  background: #0e0e10;
+  border-bottom-color: rgba(201, 168, 106, 0.24);
+  box-shadow: 0 10px 30px rgba(10, 12, 14, 0.2);
+  padding-block: 0.55rem;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.aposentadoria-relatorio-modo {
+  min-height: 100vh;
+  padding: 7rem 1.25rem 4rem;
+  background:
+    radial-gradient(circle at 80% 0, rgba(194, 154, 77, 0.12), transparent 34rem),
+    #e9ece7;
+}
+
+.aposentadoria-relatorio-acoes {
+  position: sticky;
+  top: 5.8rem;
+  z-index: 8;
+  display: grid;
+  grid-template-columns: auto minmax(260px, 1fr) auto;
+  align-items: end;
+  gap: 1rem;
+  width: min(100%, 1120px);
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+  border: 1px solid rgba(23, 61, 48, 0.12);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 10px 35px rgba(19, 45, 35, 0.1);
+  backdrop-filter: blur(14px);
+}
+
+.aposentadoria-regra-seletor {
+  gap: 0.25rem;
+}
+
+.aposentadoria-regra-seletor span {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.aposentadoria-regra-seletor select {
+  min-height: 42px;
+}
+
+.aposentadoria-relatorio {
+  width: min(100%, 1120px);
+  padding: clamp(1.5rem, 4vw, 3.8rem);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 28px 85px rgba(16, 40, 31, 0.15);
+}
+
+.aposentadoria-relatorio__capa {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 2.2rem;
+  min-height: 200px;
+  padding-bottom: 2.2rem;
+  border-bottom: 3px solid #173d30;
+}
+
+.aposentadoria-relatorio__capa span,
+.aposentadoria-relatorio__capa small {
+  color: #a4772f;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.aposentadoria-relatorio__capa h1 {
+  margin: 0.35rem 0;
+  color: #173d30;
+  font-size: clamp(2rem, 4vw, 3.6rem);
+}
+
+.aposentadoria-relatorio__capa p {
+  margin: 0;
+  color: #66615a;
+}
+
+.aposentadoria-relatorio__capa small {
+  align-self: start;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid rgba(164, 119, 47, 0.35);
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.aposentadoria-direito-atual {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding: 1.35rem 1.5rem;
+  border: 2px solid;
+  border-radius: 16px;
+}
+
+.aposentadoria-direito-atual.is-positivo {
+  border-color: #2e7658;
+  background: #edf7f1;
+  color: #174d38;
+}
+
+.aposentadoria-direito-atual.is-negativo {
+  border-color: #b92d35;
+  background: #fff0f1;
+  color: #8f1821;
+}
+
+.aposentadoria-direito-atual__icone {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  font-size: 1.55rem;
+  font-weight: 900;
+}
+
+.aposentadoria-direito-atual span {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.aposentadoria-direito-atual h2,
+.aposentadoria-direito-atual p {
+  margin: 0;
+  color: inherit;
+}
+
+.aposentadoria-direito-atual h2 {
+  font-size: clamp(1.3rem, 2.5vw, 2rem);
+}
+
+.aposentadoria-direito-atual p {
+  margin-top: 0.35rem;
+  line-height: 1.55;
+}
+
+.aposentadoria-melhor-beneficio {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 1rem;
+  padding: 1.35rem 1.5rem;
+  border: 1px solid rgba(164, 119, 47, 0.42);
+  border-radius: 16px;
+  background: linear-gradient(135deg, #173d30, #225340);
+  color: #fff;
+  box-shadow: 0 16px 38px rgba(23, 61, 48, 0.14);
+}
+
+.aposentadoria-melhor-beneficio span,
+.aposentadoria-melhor-beneficio small {
+  color: #e5c788;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.aposentadoria-melhor-beneficio h2,
+.aposentadoria-melhor-beneficio p {
+  margin: 0;
+  color: inherit;
+}
+
+.aposentadoria-melhor-beneficio h2 {
+  margin-top: 0.25rem;
+  font-size: clamp(1.3rem, 2.5vw, 2rem);
+}
+
+.aposentadoria-melhor-beneficio p {
+  margin-top: 0.35rem;
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.aposentadoria-melhor-beneficio__valor {
+  min-width: 230px;
+  padding-left: 1.5rem;
+  border-left: 1px solid rgba(229, 199, 136, 0.35);
+  text-align: right;
+}
+
+.aposentadoria-melhor-beneficio__valor strong,
+.aposentadoria-melhor-beneficio__valor span {
+  display: block;
+}
+
+/* Valor monetário na mesma família das tabelas, com algarismos alinhados.
+   A variável --fonte-titulo não existe no projeto: caía no Georgia, cujos
+   algarismos old-style deixam o "3" e o "0" em alturas diferentes. */
+.aposentadoria-melhor-beneficio__valor strong {
+  margin: 0.15rem 0;
+  color: #fff;
+  font-family: var(--sans);
+  font-size: clamp(1.55rem, 2.8vw, 2.2rem);
+  font-weight: 700;
+  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+}
+
+.aposentadoria-melhor-beneficio__valor span {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.68rem;
+}
+
+.aposentadoria-disclaimer {
+  padding: 1rem 1.15rem;
+  border: 1px solid rgba(139, 91, 30, 0.28);
+  border-left: 5px solid #a4772f;
+  border-radius: 12px;
+  background: #fff8e9;
+  color: #5f4b2d;
+}
+
+.aposentadoria-disclaimer strong {
+  display: block;
+  color: #704e1e;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.aposentadoria-disclaimer p {
+  margin: 0.3rem 0 0;
+  line-height: 1.55;
+}
+
+.aposentadoria-disclaimer--relatorio {
+  margin-top: 1rem;
+}
+
+.aposentadoria-apontamento-local {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.9rem;
+  margin-top: 0.65rem;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid rgba(151, 48, 31, 0.42);
+  border-radius: 10px;
+  background: #ffebe7;
+  color: #762617;
+  transition: border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+}
+
+.aposentadoria-apontamento-local.is-confirmado {
+  border-color: rgba(38, 112, 77, 0.42);
+  background: #eff8f2;
+  color: #174c34;
+}
+
+.aposentadoria-apontamento-local:focus,
+.aposentadoria-apontamento-tabela:focus {
+  outline: 3px solid rgba(151, 48, 31, 0.28);
+  outline-offset: 3px;
+}
+
+.aposentadoria-apontamento-local p {
+  margin: 0.2rem 0 0;
+  font-size: 0.8rem;
+}
+
+.aposentadoria-apontamento-local label,
+.aposentadoria-apontamento-tabela label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex: 0 0 auto;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.aposentadoria-apontamento-local input,
+.aposentadoria-apontamento-tabela input {
+  width: 1.2rem;
+  height: 1.2rem;
+  accent-color: #26704d;
+}
+
+.aposentadoria-apontamento-tabela {
+  display: grid;
+  gap: 0.45rem;
+  color: #8a2418;
+}
+
+.aposentadoria-tabela tr.is-apontamento,
+.aposentadoria-tabela tr.is-apontamento:nth-child(even),
+.aposentadoria-tabela tr.is-apontamento.is-excluida {
+  background: #fff0ed;
+  color: #762617;
+  opacity: 1;
+}
+
+.aposentadoria-concomitancia {
+  margin-bottom: 1rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(23, 61, 48, 0.16);
+  border-left: 5px solid #26704d;
+  border-radius: 12px;
+  background: #f0f7f2;
+  color: #284e3e;
+}
+
+.aposentadoria-concomitancia strong {
+  display: block;
+  margin-bottom: 0.2rem;
+  color: #173d30;
+  font-size: 0.75rem;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+}
+
+.aposentadoria-concomitancia p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.aposentadoria-tabela td small.aposentadoria-concomitante-marca {
+  color: #1d6545;
+  font-weight: 900;
+}
+
+.aposentadoria-relatorio__secao {
+  padding: 2.6rem 0;
+  border-bottom: 1px solid rgba(23, 61, 48, 0.13);
+}
+
+.aposentadoria-relatorio__titulo {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.4rem;
+}
+
+.aposentadoria-relatorio__titulo > span {
+  display: grid;
+  place-items: center;
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #173d30;
+  color: #fff;
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
+.aposentadoria-relatorio__titulo h2,
+.aposentadoria-relatorio__titulo p {
+  margin: 0;
+}
+
+.aposentadoria-relatorio__titulo h2 {
+  color: #173d30;
+}
+
+.aposentadoria-relatorio__titulo p {
+  margin-top: 0.2rem;
+  color: #6f6a62;
+}
+
+.aposentadoria-identificacao {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  border: 1px solid rgba(23, 61, 48, 0.12);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.aposentadoria-identificacao > div {
+  min-height: 88px;
+  padding: 1rem;
+  border-right: 1px solid rgba(23, 61, 48, 0.1);
+  border-bottom: 1px solid rgba(23, 61, 48, 0.1);
+}
+
+.aposentadoria-identificacao dt,
+.aposentadoria-memorial-grade span,
+.aposentadoria-regra-destaque span {
+  color: #817a70;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.aposentadoria-identificacao dd {
+  margin: 0.3rem 0 0;
+  color: #173d30;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.aposentadoria-relatorio .aposentadoria-resumo > div {
+  background: #f5f7f3;
+}
+
+.aposentadoria-tabela--compacta td:first-child {
+  min-width: 150px;
+}
+
+.aposentadoria-tabela--regras tbody tr.is-status-direito_adquirido,
+.aposentadoria-tabela--regras tbody tr.is-status-cumprido {
+  background: #f0f8f3;
+}
+
+.aposentadoria-tabela--regras tbody tr.is-status-projetado {
+  background: #fff8e8;
+}
+
+.aposentadoria-tabela--regras tbody tr.is-status-inaplicavel {
+  background: #fff0f1;
+  color: #7e2028;
+}
+
+.aposentadoria-tabela--regras tbody tr.is-selecionada {
+  box-shadow: inset 4px 0 #26704d;
+}
+
+.aposentadoria-tabela--regras tbody tr.is-melhor-beneficio {
+  box-shadow: inset 5px 0 #b1843e;
+}
+
+.aposentadoria-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.34rem 0.55rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.67rem;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.aposentadoria-status--direito_adquirido,
+.aposentadoria-status--cumprido {
+  background: #e3f3e9;
+  color: #1d6545;
+}
+
+.aposentadoria-status--projetado {
+  background: #fff1c9;
+  color: #805c14;
+}
+
+.aposentadoria-status--inaplicavel {
+  background: #ffe1e4;
+  color: #a1202a;
+}
+
+.aposentadoria-tabela td small.aposentadoria-status__melhor {
+  margin-top: 0.35rem;
+  color: #8c621f;
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
+.aposentadoria-regra-destaque {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1rem;
+  padding: 1.3rem 1.4rem;
+  border-radius: 16px;
+  background: #173d30;
+  color: #fff;
+}
+
+.aposentadoria-regra-destaque h3 {
+  margin: 0.25rem 0;
+  color: #fff;
+}
+
+.aposentadoria-regra-destaque p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.aposentadoria-regra-destaque > strong {
+  color: #e5c788;
+  font-family: var(--sans);
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  font-weight: 700;
+  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+}
+
+.aposentadoria-memorial-grade {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 1rem;
+  border: 1px solid rgba(23, 61, 48, 0.12);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.aposentadoria-memorial-grade > div {
+  min-height: 90px;
+  padding: 1rem;
+  border-right: 1px solid rgba(23, 61, 48, 0.1);
+  border-bottom: 1px solid rgba(23, 61, 48, 0.1);
+}
+
+.aposentadoria-memorial-grade strong {
+  display: block;
+  margin-top: 0.35rem;
+  color: #173d30;
+}
+
+.aposentadoria-formula,
+.aposentadoria-declaracao {
+  margin: 1rem 0;
+  padding: 1.1rem 1.2rem;
+  border-left: 4px solid #b1843e;
+  border-radius: 0 12px 12px 0;
+  background: #faf6ed;
+}
+
+.aposentadoria-formula p,
+.aposentadoria-declaracao p {
+  margin: 0.35rem 0 0;
+}
+
+.aposentadoria-lista-requisitos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem 1.5rem;
+  padding-left: 1.2rem;
+}
+
+.aposentadoria-fatores {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 1fr;
+  gap: 0.7rem;
+  margin-top: 1rem;
+  padding: 0.9rem 1rem;
+  border-radius: 12px;
+  background: #edf3ee;
+  color: #173d30;
+  font-size: 0.82rem;
+}
+
+.aposentadoria-tabela--salarios {
+  font-size: 0.77rem;
+}
+
+.aposentadoria-tabela--salarios td:nth-child(2) {
+  max-width: 280px;
+}
+
+.aposentadoria-ressalvas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.aposentadoria-ressalvas p {
+  position: relative;
+  margin: 0;
+  padding: 0.85rem 0.9rem 0.85rem 2.1rem;
+  border: 1px solid rgba(134, 86, 37, 0.15);
+  border-radius: 10px;
+  background: #fbf7f0;
+}
+
+.aposentadoria-ressalvas p::before {
+  position: absolute;
+  left: 0.85rem;
+  content: '•';
+  color: #a4772f;
+  font-weight: 900;
+}
+
+.aposentadoria-relatorio__rodape {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.4rem;
+  color: #777169;
+  font-size: 0.72rem;
+}
+
+@media (max-width: 900px) {
+  .aposentadoria-dados-grade,
+  .aposentadoria-identificacao,
+  .aposentadoria-memorial-grade {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .aposentadoria-relatorio-acoes {
+    position: static;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .aposentadoria-regra-seletor {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .aposentadoria-relatorio__capa {
+    grid-template-columns: 150px 1fr;
+  }
+
+  .aposentadoria-relatorio__capa small {
+    display: none;
+  }
+
+  .aposentadoria-fatores {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .aposentadoria-configuracao__cabeca,
+  .aposentadoria-painel__intro,
+  .aposentadoria-calcular,
+  .aposentadoria-regra-destaque {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .aposentadoria-etapas {
+    overflow-x: auto;
+  }
+
+  .aposentadoria-dados-grade,
+  .aposentadoria-identificacao,
+  .aposentadoria-memorial-grade,
+  .aposentadoria-lista-requisitos,
+  .aposentadoria-ressalvas {
+    grid-template-columns: 1fr;
+  }
+
+  .aposentadoria-campo-largo {
+    grid-column: auto;
+  }
+
+  .aposentadoria-calcular > div:last-child,
+  .aposentadoria-relatorio-acoes {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .aposentadoria-relatorio-modo {
+    padding: 5.5rem 0 0;
+  }
+
+  .aposentadoria-relatorio {
+    padding: 1.1rem;
+    border-radius: 0;
+  }
+
+  .aposentadoria-relatorio__capa {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .aposentadoria-direito-atual {
+    grid-template-columns: 40px minmax(0, 1fr);
+    padding: 1rem;
+  }
+
+  .aposentadoria-melhor-beneficio {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .aposentadoria-melhor-beneficio__valor {
+    min-width: 0;
+    padding: 1rem 0 0;
+    border-top: 1px solid rgba(229, 199, 136, 0.35);
+    border-left: 0;
+    text-align: left;
+  }
+
+  .aposentadoria-direito-atual__icone {
+    width: 40px;
+    height: 40px;
+  }
+
+  .aposentadoria-relatorio__rodape {
+    flex-direction: column;
+  }
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 12mm 10mm 14mm;
+  }
+
+  body:has(.aposentadoria-relatorio-modo) .cabecalho,
+  body:has(.aposentadoria-relatorio-modo) .rodape,
+  body:has(.aposentadoria-relatorio-modo) .botao-whatsapp-flutuante,
+  .aposentadoria-relatorio-acoes {
+    display: none !important;
+  }
+
+  body:has(.aposentadoria-relatorio-modo),
+  .aposentadoria-relatorio-modo {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+  }
+
+  .aposentadoria-relatorio {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .aposentadoria-relatorio__capa {
+    min-height: 150px;
+  }
+
+  .aposentadoria-relatorio__secao {
+    padding: 8mm 0;
+  }
+
+  .aposentadoria-quebra-pagina {
+    break-before: page;
+  }
+
+  .aposentadoria-relatorio__titulo,
+  .aposentadoria-direito-atual,
+  .aposentadoria-disclaimer,
+  .aposentadoria-resumo > div,
+  .aposentadoria-memorial-grade > div,
+  .aposentadoria-regra-destaque,
+  .aposentadoria-formula,
+  .aposentadoria-declaracao,
+  .aposentadoria-fatores,
+  tr {
+    break-inside: avoid;
+  }
+
+  .aposentadoria-tabela {
+    font-size: 7.4pt;
+  }
+
+  .aposentadoria-tabela th,
+  .aposentadoria-tabela td {
+    padding: 4px 5px;
+  }
+
+  .aposentadoria-tabela thead {
+    display: table-header-group;
+  }
+
+  .aposentadoria-tabela tr.is-excluida {
+    opacity: 1;
+    color: #777;
+  }
+
+  .aposentadoria-relatorio__rodape {
+    padding-top: 5mm;
+  }
+}
+
 /* Cartão de área no hub: é a escolha principal da página, então tem mais ar
    que um cartão de ferramenta e mostra os blocos que existem lá dentro. */
 .calculadora-cartao--categoria {
@@ -6979,7 +8111,8 @@ html {
 }
 
 .calculadora-campo input,
-.calculadora-campo select {
+.calculadora-campo select,
+.calculadora-campo textarea {
   width: 100%;
   min-height: 50px;
   padding: 0.78rem 0.88rem;
@@ -6988,10 +8121,12 @@ html {
   background: #fff;
   color: var(--texto);
   font: inherit;
+  resize: vertical;
 }
 
 .calculadora-campo input:focus,
-.calculadora-campo select:focus {
+.calculadora-campo select:focus,
+.calculadora-campo textarea:focus {
   border-color: var(--dourado-escuro);
   outline: 2px solid rgba(143, 114, 56, 0.16);
   outline-offset: 1px;
@@ -7736,6 +8871,15 @@ html {
     background: #fff !important;
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
+  }
+
+  .aposentadoria-relatorio__capa {
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    gap: 18pt !important;
+  }
+
+  .aposentadoria-relatorio__capa small {
+    display: block !important;
   }
 
   .relatorio-pensao .envolucro {
@@ -9402,5 +10546,731 @@ html {
 @media (prefers-reduced-motion: reduce) {
   .abertura-marca {
     display: none;
+  }
+}
+
+/* Simulador previdenciário: o CNIS vira uma mesa de conferência, não uma caixa-preta. */
+.aposentadoria-largura {
+  width: min(100%, 1180px);
+}
+
+.aposentadoria-formulario {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.aposentadoria-upload__grade {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.aposentadoria-upload__botao {
+  margin-top: 0.8rem;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.aposentadoria-upload__botao input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.aposentadoria-privacidade {
+  border: 1px solid rgba(171, 132, 61, 0.28);
+  border-radius: 16px;
+  padding: 1rem 1.1rem;
+  background: rgba(250, 247, 238, 0.78);
+}
+
+.aposentadoria-privacidade strong,
+.aposentadoria-importacao-ok strong {
+  color: var(--cor-verde, #123c2e);
+}
+
+.aposentadoria-privacidade p {
+  margin: 0.35rem 0 0;
+}
+
+.aposentadoria-importacao-ok {
+  margin: 1rem 0 0;
+  padding: 0.8rem 1rem;
+  border-left: 3px solid var(--cor-dourado, #a97d35);
+  background: rgba(250, 247, 238, 0.72);
+}
+
+.aposentadoria-avisos {
+  margin: 0.75rem 0 0;
+  padding-left: 1.2rem;
+  color: #674f27;
+}
+
+.aposentadoria-periodos__intro {
+  max-width: 850px;
+  margin: 0 0 1rem;
+}
+
+/* A lista acompanha a rolagem da página: caixa com rolagem própria espremia os 40 vínculos de um CNIS. */
+.aposentadoria-periodos__lista {
+  display: grid;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.aposentadoria-periodo {
+  border: 1px solid rgba(30, 58, 47, 0.16);
+  border-radius: 13px;
+  padding: 0.7rem 0.85rem;
+  background: #fff;
+  transition: opacity 180ms ease, border-color 180ms ease;
+}
+
+.aposentadoria-periodo--excluido {
+  opacity: 0.56;
+  border-style: dashed;
+}
+
+.aposentadoria-periodo--apontamento,
+.aposentadoria-periodo--apontamento.aposentadoria-periodo--excluido {
+  opacity: 1;
+  border: 2px solid rgba(151, 48, 31, 0.58);
+  background: #fff8f6;
+  box-shadow: 0 0 0 4px rgba(151, 48, 31, 0.05);
+}
+
+.aposentadoria-periodo--apontamento .aposentadoria-periodo__cabeca > div > span {
+  background: #f5d8d2;
+  color: #8a2418;
+}
+
+.aposentadoria-periodo__cabeca,
+.aposentadoria-periodo__rodape {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.aposentadoria-periodo__cabeca {
+  margin-bottom: 0.5rem;
+  gap: 0.75rem;
+}
+
+/* Cartão denso: um CNIS traz dezenas de vínculos e cada um precisa caber na tela. */
+.aposentadoria-periodo__cabeca > div {
+  flex: 1 1 auto;
+}
+
+.aposentadoria-periodo__cabeca > div > span {
+  flex-basis: 24px;
+  width: 24px;
+  height: 24px;
+  font-size: 0.68rem;
+}
+
+/* O título é o próprio campo de origem: sem borda até o mouse ou o foco chegarem. */
+.aposentadoria-periodo__titulo {
+  width: 100%;
+  min-width: 0;
+  padding: 0.28rem 0.45rem;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+}
+
+.aposentadoria-periodo__titulo::placeholder {
+  color: var(--cor-cinza, #655f57);
+  font-weight: 500;
+}
+
+.aposentadoria-periodo__titulo:hover {
+  border-color: rgba(30, 58, 47, 0.22);
+  background: rgba(30, 58, 47, 0.035);
+}
+
+.aposentadoria-periodo__titulo:focus {
+  border-color: var(--dourado-escuro, #8f7238);
+  background: #fff;
+  outline: 2px solid rgba(143, 114, 56, 0.16);
+  outline-offset: 1px;
+  text-overflow: clip;
+}
+
+.aposentadoria-periodo .aposentadoria-chave {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.72rem;
+}
+
+.aposentadoria-periodo__cabeca label,
+.aposentadoria-periodo__rodape label {
+  display: inline-flex;
+  gap: 0.45rem;
+  align-items: center;
+}
+
+.aposentadoria-periodo__grade {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(140px, 210px)) minmax(220px, 1fr);
+  gap: 0.55rem;
+}
+
+.aposentadoria-periodo__grade .calculadora-campo {
+  gap: 0.22rem;
+}
+
+.aposentadoria-periodo__grade .calculadora-campo label {
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+}
+
+.aposentadoria-periodo__grade .calculadora-campo input,
+.aposentadoria-periodo__grade .calculadora-campo select,
+.aposentadoria-periodo__grade .calculadora-campo textarea {
+  min-height: 0;
+  border-radius: 9px;
+  font-size: 0.87rem;
+}
+
+/* Altura fixa alinha data e select, que o navegador mede de formas diferentes. */
+.aposentadoria-periodo__grade .calculadora-campo input,
+.aposentadoria-periodo__grade .calculadora-campo select {
+  height: 38px;
+  padding: 0 0.6rem;
+}
+
+.aposentadoria-periodo__rodape {
+  margin-top: 0.5rem;
+  gap: 0.75rem;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  color: var(--cor-cinza, #655f57);
+  font-size: 0.76rem;
+}
+
+.aposentadoria-periodo__rodape button {
+  margin-left: auto;
+  border: 0;
+  background: transparent;
+  color: #7d3c32;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.aposentadoria-vazio {
+  padding: 1.5rem;
+  text-align: center;
+  border: 1px dashed rgba(30, 58, 47, 0.28);
+  border-radius: 17px;
+}
+
+.aposentadoria-vazio p {
+  margin: 0.3rem 0 0;
+}
+
+.aposentadoria-resumo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 0.8rem;
+  margin: 1.3rem 0;
+}
+
+.aposentadoria-resumo > div {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid rgba(30, 58, 47, 0.12);
+}
+
+.aposentadoria-resumo span {
+  color: var(--cor-cinza, #655f57);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.aposentadoria-regras {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.aposentadoria-regra {
+  border: 1px solid rgba(30, 58, 47, 0.14);
+  border-radius: 18px;
+  padding: 1.1rem;
+  background: #fff;
+}
+
+.aposentadoria-regra--direito_adquirido,
+.aposentadoria-regra--cumprido {
+  border-color: rgba(31, 103, 70, 0.42);
+  box-shadow: inset 0 3px 0 rgba(31, 103, 70, 0.7);
+}
+
+.aposentadoria-regra--projetado {
+  box-shadow: inset 0 3px 0 rgba(171, 132, 61, 0.7);
+}
+
+.aposentadoria-regra--inaplicavel {
+  opacity: 0.72;
+}
+
+.aposentadoria-regra__cabeca {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.7rem;
+  color: var(--cor-cinza, #655f57);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.aposentadoria-regra h3 {
+  margin: 0.7rem 0 0.4rem;
+}
+
+.aposentadoria-regra__data {
+  display: block;
+  color: var(--cor-verde, #123c2e);
+  font-family: var(--fonte-titulo, Georgia, serif);
+  font-size: clamp(1.25rem, 2vw, 1.65rem);
+}
+
+.aposentadoria-regra details {
+  margin-top: 0.8rem;
+  border-top: 1px solid rgba(30, 58, 47, 0.1);
+  padding-top: 0.7rem;
+}
+
+.aposentadoria-regra summary {
+  cursor: pointer;
+  color: var(--cor-verde, #123c2e);
+  font-weight: 650;
+}
+
+.aposentadoria-regra details ul {
+  padding-left: 1.1rem;
+}
+
+.aposentadoria-alertas {
+  margin-top: 1rem;
+}
+
+@media (max-width: 960px) {
+  .aposentadoria-periodo__grade {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* Sobram três campos para duas colunas: a classificação ocupa a linha inteira. */
+  .aposentadoria-periodo__grade .calculadora-campo:last-child {
+    grid-column: 1 / -1;
+  }
+
+  /* No toque o cartão volta a respirar: abaixo de 16px o iOS dá zoom ao focar o campo. */
+  .aposentadoria-periodo__titulo,
+  .aposentadoria-periodo__grade .calculadora-campo input,
+  .aposentadoria-periodo__grade .calculadora-campo select,
+  .aposentadoria-periodo__grade .calculadora-campo textarea {
+    font-size: 1rem;
+  }
+
+  .aposentadoria-periodo__grade .calculadora-campo input,
+  .aposentadoria-periodo__grade .calculadora-campo select {
+    height: 44px;
+  }
+}
+
+@media (max-width: 720px) {
+  .aposentadoria-upload__grade,
+  .aposentadoria-regras,
+  .aposentadoria-periodo__grade {
+    grid-template-columns: 1fr;
+  }
+
+  .aposentadoria-periodo__cabeca,
+  .aposentadoria-periodo__rodape {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  /* Empilhado, o título continua ocupando a largura toda do cartão. */
+  .aposentadoria-periodo__cabeca > div {
+    width: 100%;
+  }
+
+  .aposentadoria-periodo__rodape button {
+    margin-left: 0;
+  }
+
+  .aposentadoria-configuracao .aposentadoria-painel > legend {
+    max-width: calc(100% - 1.5rem);
+    white-space: normal;
+    line-height: 1.25;
+  }
+}
+
+/* Prioridade visual do novo configurador sobre os estilos legados da primeira versão. */
+.aposentadoria-configuracao .aposentadoria-painel {
+  padding: clamp(1.15rem, 2.8vw, 2rem);
+  border: 1px solid rgba(21, 58, 45, 0.13);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 18px 55px rgba(18, 45, 35, 0.06);
+}
+
+.aposentadoria-configuracao .aposentadoria-painel > legend {
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: #173d30;
+  color: #fff;
+}
+
+.aposentadoria-configuracao .aposentadoria-privacidade {
+  min-height: 150px;
+  padding: 1.3rem;
+  border: 0;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #173d30, #21543f);
+  color: #fff;
+}
+
+.aposentadoria-configuracao .aposentadoria-privacidade strong {
+  color: #e5c788;
+}
+
+.aposentadoria-configuracao .aposentadoria-privacidade p {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.aposentadoria-configuracao .aposentadoria-importacao-ok {
+  border: 1px solid rgba(34, 112, 76, 0.18);
+  border-left: 4px solid #26704d;
+  border-radius: 12px;
+  background: #f0f8f3;
+}
+
+/* Escala tipográfica do memorial.
+   O relatório herdava os tamanhos de título do site institucional — h2 de até
+   2,85rem (45px) — o que é escala de landing page, não de documento técnico.
+   Aqui ele passa a ter uma escala própria, densa e hierarquizada. */
+.aposentadoria-relatorio {
+  padding: clamp(1.2rem, 2.6vw, 2.4rem);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+/* O corpo herdava 17px com entrelinha de 29px — leitura de artigo, não de memorial.
+   Como as regras acima usam rem, a base menor não as multiplica. */
+.aposentadoria-relatorio p {
+  margin-bottom: 0.6em;
+}
+
+.aposentadoria-relatorio p:last-child {
+  margin-bottom: 0;
+}
+
+.aposentadoria-relatorio__capa {
+  min-height: 0;
+  gap: 1.4rem;
+  padding-bottom: 1.3rem;
+  border-bottom-width: 2px;
+}
+
+.aposentadoria-relatorio__capa h1 {
+  margin: 0.2rem 0 0.3rem;
+  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  line-height: 1.15;
+}
+
+.aposentadoria-relatorio__capa p {
+  font-size: 0.85rem;
+}
+
+.aposentadoria-relatorio .aposentadoria-direito-atual {
+  grid-template-columns: 40px minmax(0, 1fr);
+  margin-top: 1.3rem;
+  padding: 1rem 1.15rem;
+}
+
+.aposentadoria-relatorio .aposentadoria-direito-atual__icone {
+  width: 40px;
+  height: 40px;
+  font-size: 1.15rem;
+}
+
+.aposentadoria-relatorio .aposentadoria-direito-atual h2 {
+  font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+  line-height: 1.25;
+}
+
+.aposentadoria-relatorio .aposentadoria-direito-atual p {
+  font-size: 0.87rem;
+  line-height: 1.5;
+}
+
+.aposentadoria-relatorio__secao {
+  padding: 1.6rem 0;
+}
+
+.aposentadoria-relatorio__titulo {
+  gap: 0.75rem;
+  margin-bottom: 0.9rem;
+}
+
+.aposentadoria-relatorio__titulo > span {
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  font-size: 0.68rem;
+}
+
+.aposentadoria-relatorio__titulo h2 {
+  font-size: 1.15rem;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+}
+
+.aposentadoria-relatorio__titulo p {
+  font-size: 0.83rem;
+  line-height: 1.45;
+}
+
+.aposentadoria-relatorio h3 {
+  font-size: 1rem;
+}
+
+/* Fichas de dados: rótulo pequeno e valor logo abaixo, sem altura mínima ociosa. */
+.aposentadoria-relatorio .aposentadoria-identificacao > div,
+.aposentadoria-relatorio .aposentadoria-memorial-grade > div,
+.aposentadoria-relatorio .aposentadoria-resumo > div {
+  min-height: 0;
+  padding: 0.6rem 0.7rem;
+}
+
+.aposentadoria-relatorio .aposentadoria-identificacao dd,
+.aposentadoria-relatorio .aposentadoria-memorial-grade strong,
+.aposentadoria-relatorio .aposentadoria-resumo strong {
+  font-size: 0.92rem;
+  line-height: 1.3;
+}
+
+.aposentadoria-relatorio .aposentadoria-resumo {
+  gap: 0.6rem;
+  margin: 0.9rem 0;
+}
+
+.aposentadoria-relatorio .aposentadoria-resumo > div {
+  gap: 0.2rem;
+  border-radius: 11px;
+}
+
+.aposentadoria-relatorio .aposentadoria-resumo span {
+  font-size: 0.68rem;
+}
+
+.aposentadoria-relatorio .aposentadoria-memorial-grade > div {
+  border-radius: 11px;
+}
+
+/* Tabelas do memorial: a linha precisa caber, não impressionar. */
+.aposentadoria-relatorio .aposentadoria-tabela {
+  font-size: 0.79rem;
+}
+
+.aposentadoria-relatorio .aposentadoria-tabela th {
+  padding: 0.5rem 0.7rem;
+  font-size: 0.66rem;
+}
+
+.aposentadoria-relatorio .aposentadoria-tabela td {
+  padding: 0.45rem 0.7rem;
+  line-height: 1.3;
+}
+
+/* Memorial é documento de números: algarismos de largura fixa alinham as
+   colunas de R$, datas e tempos entre uma linha e outra. */
+.aposentadoria-relatorio .aposentadoria-tabela td,
+.aposentadoria-relatorio .aposentadoria-resumo strong,
+.aposentadoria-relatorio .aposentadoria-memorial-grade strong,
+.aposentadoria-relatorio .aposentadoria-identificacao dd {
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+/* A linha de apoio (fundamento, datas do vínculo) é referência, não leitura corrida. */
+.aposentadoria-relatorio .aposentadoria-tabela td small {
+  margin-top: 0.1rem;
+  font-size: 0.72rem;
+  line-height: 1.25;
+}
+
+.aposentadoria-relatorio .aposentadoria-regra-destaque,
+.aposentadoria-relatorio .aposentadoria-melhor-beneficio {
+  padding: 0.9rem 1.1rem;
+}
+
+/* O nome da regra é o título do bloco: precisa pesar mais que a frase de apoio,
+   que estava saindo maior que ele. */
+.aposentadoria-relatorio .aposentadoria-regra-destaque h3,
+.aposentadoria-relatorio .aposentadoria-melhor-beneficio h2 {
+  margin: 0.15rem 0 0.25rem;
+  font-size: 1.15rem;
+  line-height: 1.25;
+}
+
+/* text-wrap: pretty equilibrava as duas linhas e deixava um vão entre o texto
+   e o filete do valor; aqui a frase volta a preencher a coluna. */
+.aposentadoria-relatorio .aposentadoria-regra-destaque p,
+.aposentadoria-relatorio .aposentadoria-melhor-beneficio p {
+  margin-top: 0.25rem;
+  font-size: 0.83rem;
+  line-height: 1.45;
+  text-wrap: normal;
+}
+
+/* A coluna do valor era `auto`: encolhia até o número e ia para a borda, abrindo
+   um vão morto no meio do cartão. Proporcional, o filete acompanha o texto. */
+.aposentadoria-relatorio .aposentadoria-melhor-beneficio {
+  grid-template-columns: minmax(0, 1fr) minmax(200px, 0.42fr);
+  gap: 1.25rem;
+  margin-top: 0.8rem;
+}
+
+.aposentadoria-relatorio .aposentadoria-melhor-beneficio__valor {
+  min-width: 0;
+  padding-left: 1.25rem;
+  text-align: center;
+}
+
+.aposentadoria-relatorio .aposentadoria-regra-destaque > strong,
+.aposentadoria-relatorio .aposentadoria-melhor-beneficio strong {
+  font-size: clamp(1.35rem, 2.4vw, 1.8rem);
+  line-height: 1.15;
+}
+
+.aposentadoria-relatorio .aposentadoria-formula,
+.aposentadoria-relatorio .aposentadoria-declaracao,
+.aposentadoria-relatorio .aposentadoria-fatores,
+.aposentadoria-relatorio .aposentadoria-disclaimer {
+  padding: 0.8rem 1rem;
+  font-size: 0.85rem;
+}
+
+.aposentadoria-relatorio .aposentadoria-ressalvas p,
+.aposentadoria-relatorio .aposentadoria-lista-requisitos li {
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+/* A regra global de impressão usa página sem margem para os demais relatórios.
+   Por isso o memorial previdenciário cria sua própria área segura em todas as
+   folhas e remove qualquer contêiner rolável antes da paginação. */
+@media print {
+  html,
+  body:has(.aposentadoria-relatorio-modo),
+  body:has(.aposentadoria-relatorio-modo) #raiz,
+  body:has(.aposentadoria-relatorio-modo) #conteudo,
+  .aposentadoria-relatorio-modo {
+    width: auto !important;
+    max-width: none !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    background: #fff !important;
+  }
+
+  body:has(.aposentadoria-relatorio-modo) #conteudo,
+  .aposentadoria-relatorio-modo {
+    display: block !important;
+  }
+
+  .aposentadoria-relatorio {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 12mm 10mm 14mm !important;
+    overflow: visible !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  .aposentadoria-tabela-wrap {
+    width: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .aposentadoria-tabela {
+    width: 100% !important;
+    table-layout: fixed;
+    font-size: 7pt;
+  }
+
+  .aposentadoria-tabela thead {
+    position: static !important;
+    display: table-header-group;
+  }
+
+  .aposentadoria-tabela th,
+  .aposentadoria-tabela td {
+    padding: 3.5pt 4pt;
+    overflow-wrap: anywhere;
+  }
+
+  .aposentadoria-tabela--regras th:nth-child(1) { width: 37%; }
+  .aposentadoria-tabela--regras th:nth-child(2) { width: 24%; }
+  .aposentadoria-tabela--regras th:nth-child(3) { width: 15%; }
+  .aposentadoria-tabela--regras th:nth-child(4) { width: 24%; }
+
+  .aposentadoria-tabela--salarios th:nth-child(1) { width: 11%; }
+  .aposentadoria-tabela--salarios th:nth-child(2) { width: 30%; }
+  .aposentadoria-tabela--salarios th:nth-child(3) { width: 14%; }
+  .aposentadoria-tabela--salarios th:nth-child(4) { width: 13%; }
+  .aposentadoria-tabela--salarios th:nth-child(5) { width: 15%; }
+  .aposentadoria-tabela--salarios th:nth-child(6) { width: 17%; }
+
+  .aposentadoria-relatorio__titulo,
+  .aposentadoria-direito-atual,
+  .aposentadoria-melhor-beneficio,
+  .aposentadoria-disclaimer,
+  .aposentadoria-concomitancia,
+  .aposentadoria-identificacao,
+  .aposentadoria-regra-destaque,
+  .aposentadoria-formula,
+  .aposentadoria-declaracao,
+  .aposentadoria-fatores,
+  .aposentadoria-resumo > div,
+  .aposentadoria-memorial-grade > div,
+  tr {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .aposentadoria-relatorio__titulo {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  .aposentadoria-quebra-pagina {
+    break-before: page;
+    page-break-before: always;
   }
 }

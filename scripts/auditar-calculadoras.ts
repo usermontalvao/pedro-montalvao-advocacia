@@ -7,6 +7,8 @@ import { MOTORES, type MotorCalculadora, type ValoresCalculadora } from '../src/
 import { montarMensagemCalculadora } from '../src/lib/mensagemCalculadora';
 import { calcularPensao, dataPtParaIsoPensao, mascararDataPensao, validarEntradaPensao } from '../src/lib/calculoPensao';
 import { calcularTaxasLegaisBcb } from '../src/lib/dadosPensao';
+import { calcularAposentadoria, fatorEspecialParaComum, formatarIdadeCivil, selecionarMelhorBeneficioAtual, type PeriodoPrevidenciario } from '../src/lib/calculoAposentadoria';
+import { interpretarTextoCnis } from '../src/lib/importarCnis';
 
 let verificacoes = 0;
 
@@ -56,9 +58,9 @@ const cenarios: Record<string, ValoresCalculadora> = {
 };
 
 // Integridade editorial e ligação entre as páginas e os motores.
-igual(calculadoras.length, 27, 'A biblioteca deve conter 27 calculadoras jurídicas.');
-igual(new Set(calculadoras.map((item) => item.slug)).size, 27, 'Os slugs precisam ser únicos.');
-igual(new Set(calculadoras.map((item) => item.motor)).size, 27, 'Os identificadores de motor precisam ser únicos.');
+igual(calculadoras.length, 28, 'A biblioteca deve conter 28 calculadoras jurídicas.');
+igual(new Set(calculadoras.map((item) => item.slug)).size, 28, 'Os slugs precisam ser únicos.');
+igual(new Set(calculadoras.map((item) => item.motor)).size, 28, 'Os identificadores de motor precisam ser únicos.');
 
 for (const calculadora of calculadoras) {
   // Sem o ano no fim, "Calculadora de FGTS" é o título legítimo mais curto.
@@ -75,7 +77,7 @@ for (const calculadora of calculadoras) {
   );
   ok(calculadora.fonteUrl.startsWith('https://'), `${calculadora.slug}: fonte oficial sem HTTPS.`);
   ok(/^2026-08-(10|11)$/.test(calculadora.atualizadoEm), `${calculadora.slug}: data de revisão inesperada.`);
-  if (!['rescisao', 'pensao_alimenticia'].includes(calculadora.motor)) {
+  if (!['rescisao', 'pensao_alimenticia', 'aposentadoria_cnis'].includes(calculadora.motor)) {
     ok(Boolean(MOTORES[calculadora.motor]), `${calculadora.slug}: motor não encontrado.`);
   }
 }
@@ -344,4 +346,166 @@ ok(mensagem.includes('RESULTADO ESTIMADO: R$ 2.751,40'), 'Mensagem deve levar o 
 ok(mensagem.includes('Salário bruto mensal: R$ 3.000,00'), 'Mensagem deve levar os dados informados.');
 ok(mensagem.includes('INSS sobre o 13º: − R$ 248,60'), 'Mensagem deve levar a memória do cálculo.');
 
-console.log(`Auditoria concluída: ${calculadoras.length} calculadoras, ${Object.keys(MOTORES).length + 2} motores e ${verificacoes} verificações aprovadas.`);
+const periodosAposentadoria: PeriodoPrevidenciario[] = [{
+  id: 'comum-1', inicio: '2000-01-01', fim: '2026-08-11', origem: 'Vínculo comum', tipo: 'comum',
+  incluir: true, contaCarencia: true, indicadores: [],
+}];
+igual(formatarIdadeCivil('1959-09-21', '2024-09-20'), '64 ano(s), 11 mês(es) e 30 dia(s)', 'Idade civil: a véspera do 65º aniversário não pode ser exibida como 65 anos por arredondamento decimal.');
+igual(formatarIdadeCivil('1959-09-21', '2024-09-21'), '65 ano(s), 0 mês(es) e 0 dia(s)', 'Idade civil: o requisito de 65 anos deve aparecer no aniversário correspondente.');
+const aposentadoriaUrbana = calcularAposentadoria({
+  nascimento: '1964-01-01', sexo: 'feminino', dataReferencia: '2026-08-11',
+  atividadeFutura: 'comum', periodos: periodosAposentadoria,
+});
+ok(aposentadoriaUrbana.tempoComumDias > 26 * 365, 'Aposentadoria: deve contar o vínculo comum importado.');
+igual(aposentadoriaUrbana.carenciaMeses, 320, 'Aposentadoria: carência deve usar competências únicas do período.');
+igual(aposentadoriaUrbana.regras.find((regra) => regra.id === 'idade_transicao')?.status, 'cumprido', 'Aposentadoria: mulher com 62 anos e mais de 15 anos deve cumprir a transição por idade.');
+
+const aposentadoriaEspecial = calcularAposentadoria({
+  nascimento: '1980-01-01', sexo: 'feminino', dataReferencia: '2026-08-11', atividadeFutura: 'especial25',
+  periodos: [{ id: 'esp', inicio: '2000-01-01', fim: '2025-01-01', origem: 'PPP conferido', tipo: 'especial25', incluir: true, contaCarencia: true, indicadores: [] }],
+});
+igual(aposentadoriaEspecial.regras.find((regra) => regra.id === 'especial25_permanente')?.status, 'cumprido', 'Especial: após a ADI 6309, 25 anos reconhecidos devem dispensar idade mínima na regra permanente.');
+ok(aposentadoriaEspecial.tempoComumDias > aposentadoriaEspecial.tempoEspecial['25'], 'Especial: conversão anterior à reforma deve acrescer tempo comum para mulher.');
+
+const cnisSintetico = interpretarTextoCnis([
+  { pagina: 1, y: 700, texto: 'Data de nascimento: 10/05/1970 Sexo: Feminino' },
+  { pagina: 1, y: 650, texto: '1 123.45678.90-1 12.345.678/0001-90 EMPRESA TESTE 01/01/2000 31/12/2010 12/2010' },
+  { pagina: 1, y: 620, texto: '01/2011 1.000,00 PREC-MENOR-MIN' },
+], 1);
+igual(cnisSintetico.nascimento, '1970-05-10', 'CNIS: deve extrair e normalizar a data de nascimento.');
+igual(cnisSintetico.sexo, 'feminino', 'CNIS: deve extrair o sexo previdenciário.');
+ok(cnisSintetico.periodos.some((periodo) => periodo.inicio === '2000-01-01' && periodo.fim === '2010-12-31'), 'CNIS: deve extrair um vínculo com início e fim.');
+ok(cnisSintetico.periodos.some((periodo) => periodo.incluir), 'CNIS: pendência de remuneração não deve excluir automaticamente o vínculo inteiro.');
+ok(cnisSintetico.remuneracoes.some((remuneracao) => !remuneracao.incluir && remuneracao.indicadores.includes('PREC-MENOR-MIN')), 'CNIS: competência abaixo do mínimo deve exigir conferência e vir desmarcada.');
+
+const cnisRotacionadoAnonimizado = interpretarTextoCnis([
+  { pagina: 1, y: 121.5, texto: 'NIT: 123.45678.90-1 CPF: 123.456.789-00 Nome: SEGURADO TESTE' },
+  { pagina: 1, y: 136.5, texto: 'Data de nascimento: 06/04/1981 Nome da mãe: NOME TESTE' },
+  { pagina: 1, y: 200, texto: 'Seq. NIT Código Emp. Origem do Vínculo Trabalhador Vínculo Data Início Data Fim Últ. Remun.' },
+  { pagina: 1, y: 211, texto: 'Empregado ou Agente' },
+  { pagina: 1, y: 214.5, texto: '1 123.45678.90-1 12.345.678/0001-90 EMPRESA ANONIMIZADA 01/01/2020 31/12/2020 12/2020' },
+  { pagina: 1, y: 251, texto: 'Remunerações' },
+  { pagina: 1, y: 282, texto: 'PSC-MEN-SM-', partes: [{ texto: 'PSC-MEN-SM-', x: 220 }] },
+  { pagina: 1, y: 285.5, texto: '01/2020 900,00', partes: [{ texto: '01/2020', x: 55 }, { texto: '900,00', x: 148 }] },
+  { pagina: 1, y: 291.5, texto: 'EC103', partes: [{ texto: 'EC103', x: 234 }] },
+], 1);
+igual(cnisRotacionadoAnonimizado.identificacao.nome, 'SEGURADO TESTE', 'CNIS rotacionado: deve separar o nome do titular do nascimento.');
+igual(cnisRotacionadoAnonimizado.nascimento, '1981-04-06', 'CNIS rotacionado: deve ler a data após aplicar as coordenadas da página.');
+igual(cnisRotacionadoAnonimizado.periodos[0]?.origem, 'EMPRESA ANONIMIZADA', 'CNIS rotacionado: deve preservar a origem real do vínculo.');
+ok(cnisRotacionadoAnonimizado.remuneracoes[0]?.indicadores.includes('PSC-MEN-SM-EC103') && !cnisRotacionadoAnonimizado.remuneracoes[0]?.incluir, 'CNIS: indicador quebrado em três linhas deve ser recomposto e desmarcar a competência.');
+
+const cnisComPextEIrem = interpretarTextoCnis([
+  { pagina: 1, y: 200, texto: 'Seq. NIT Código Emp. Origem do Vínculo Trabalhador Vínculo Data Início Data Fim Últ. Remun.' },
+  { pagina: 1, y: 214.5, texto: '1 123.45678.90-1 12.345.678/0001-90 EMPRESA COM RESSALVA 01/01/2020 31/12/2020 12/2020' },
+  { pagina: 1, y: 230, texto: 'Indicadores: PEXT IREM-INDPEND' },
+], 1);
+ok(cnisComPextEIrem.periodos[0]?.incluir, 'CNIS: PEXT e IREM-INDPEND devem gerar ressalva sem excluir automaticamente o vínculo.');
+ok(!cnisComPextEIrem.periodos[0]?.indicadores.includes('PEND'), 'CNIS: PEND não pode ser criado por correspondência parcial dentro de IREM-INDPEND.');
+
+const cnisEntePublicoSemRegime = interpretarTextoCnis([
+  { pagina: 1, y: 200, texto: 'Seq. NIT Código Emp. Origem do Vínculo Trabalhador Vínculo Data Início Data Fim Últ. Remun.' },
+  { pagina: 1, y: 214.5, texto: '1 123.45678.90-1 12.345.678/0001-90 MUNICIPIO DE CUIABA 08/04/1981 29/03/2017 03/2017' },
+], 1);
+ok(cnisEntePublicoSemRegime.periodos[0]?.incluir && cnisEntePublicoSemRegime.periodos[0]?.contaCarencia && cnisEntePublicoSemRegime.periodos[0]?.indicadores.includes('POSSIVEL-RPPS'), 'CNIS: vínculo com ente público sem regime identificado deve vir incluído por padrão e sinalizado para conferência.');
+ok(cnisEntePublicoSemRegime.avisos.some((aviso) => aviso.includes('incluído por padrão') && aviso.includes('pode alterar significativamente')), 'CNIS: possível RPPS incluído precisa gerar orientação explícita sobre o impacto no resultado.');
+
+const aposentadoriaComEntePublicoDesmarcado = calcularAposentadoria({
+  nascimento: '1959-09-21', sexo: 'masculino', dataReferencia: '2024-09-20', atividadeFutura: 'comum',
+  periodos: [
+    { id: 'rgps-confirmado', inicio: '2004-09-01', fim: '2024-09-20', origem: 'EMPRESA RGPS', tipo: 'comum', incluir: true, contaCarencia: true, indicadores: [] },
+    { id: 'publico-pendente', inicio: '1981-04-08', fim: '2017-03-29', origem: 'MUNICIPIO DE CUIABA', tipo: 'comum', incluir: false, contaCarencia: false, indicadores: ['POSSIVEL-RPPS'], sequenciaCnis: 2 },
+  ],
+  remuneracoes: [
+    { id: 'salario-rgps', competencia: '2024-08', valor: 2500, origem: 'EMPRESA RGPS', indicadores: [], incluir: true, sequencia: 1 },
+    { id: 'salario-publico', competencia: '2024-08', valor: 7000, origem: 'MUNICIPIO DE CUIABA', indicadores: [], incluir: true, sequencia: 2 },
+  ],
+});
+const rmiSemEntePublico = aposentadoriaComEntePublicoDesmarcado.regras.find((regra) => regra.id === 'idade_transicao')?.rmi;
+igual(rmiSemEntePublico?.salarios.find((salario) => salario.competencia === '2024-08')?.nominal, 2500, 'CNIS: remuneração de vínculo público desmarcado não pode entrar no PBC do RGPS.');
+ok(rmiSemEntePublico?.alertas.some((alerta) => alerta.includes('relações desmarcadas')), 'CNIS: retirada da remuneração vinculada à relação desmarcada deve ficar explícita no memorial.');
+
+igual(fatorEspecialParaComum('especial25', 'feminino'), 1.2, 'Especial: mulher deve converter atividade de 25 anos pelo fator 1,20 até a reforma.');
+igual(fatorEspecialParaComum('especial25', 'masculino'), 1.4, 'Especial: homem deve converter atividade de 25 anos pelo fator 1,40 até a reforma.');
+igual(fatorEspecialParaComum('especial15', 'feminino'), 2, 'Especial: mulher deve converter atividade de 15 anos pelo fator 2,00 até a reforma.');
+
+const aposentadoriaComRmi = calcularAposentadoria({
+  nascimento: '1960-01-01', sexo: 'feminino', dataReferencia: '2026-07-20', atividadeFutura: 'comum',
+  salarioContribuicaoFuturo: 2000,
+  periodos: [{ id: 'rmi-tempo', inicio: '2000-01-01', fim: '2026-07-20', origem: 'Vínculo para teste de RMI', tipo: 'comum', incluir: true, contaCarencia: true, indicadores: [] }],
+  remuneracoes: Array.from({ length: 180 }, (_, indice) => {
+    const data = new Date(Date.UTC(2011, indice, 1));
+    const competencia = data.toISOString().slice(0, 7);
+    return { id: `rmi-${competencia}`, competencia, valor: 2000, origem: 'Vínculo para teste de RMI', indicadores: [], incluir: true };
+  }),
+});
+const rmiIdade = aposentadoriaComRmi.regras.find((regra) => regra.id === 'idade_transicao')?.rmi;
+ok(rmiIdade?.disponivel && rmiIdade.rmiEstimada >= 1621 && rmiIdade.salariosUtilizados > 0, 'RMI: regra cumprida deve abrir PBC, salários utilizados e renda respeitando o piso.');
+const melhorRmiAtual = selecionarMelhorBeneficioAtual(aposentadoriaComRmi.regras);
+const maiorRmiAtual = Math.max(...aposentadoriaComRmi.regras
+  .filter((regra) => (regra.status === 'direito_adquirido' || regra.status === 'cumprido') && regra.rmi?.disponivel)
+  .map((regra) => regra.rmi?.rmiEstimada ?? 0));
+igual(melhorRmiAtual?.rmi?.rmiEstimada, maiorRmiAtual, 'RMI: o melhor benefício deve ser a maior renda entre as regras preenchidas na DER.');
+ok(aposentadoriaComRmi.memorialMarcos.some((marco) => marco.rotulo === 'Lei 9.876/1999'), 'Memorial: deve expor os marcos históricos do cálculo.');
+
+const aposentadoriaConcomitante = calcularAposentadoria({
+  nascimento: '1960-01-01', sexo: 'feminino', dataReferencia: '2026-08-11', atividadeFutura: 'comum',
+  periodos: [
+    { id: 'concom-a', inicio: '2020-01-01', fim: '2020-12-31', origem: 'Emprego A', tipo: 'comum', incluir: true, contaCarencia: true, indicadores: [] },
+    { id: 'concom-b', inicio: '2020-01-01', fim: '2020-12-31', origem: 'Emprego B', tipo: 'comum', incluir: true, contaCarencia: true, indicadores: [] },
+    { id: 'ctc', inicio: '2020-01-01', fim: '2020-12-31', origem: 'RPPS com CTC', tipo: 'rpps_ctc', incluir: true, contaCarencia: true, indicadores: [], sequenciaCnis: 9 },
+    { id: 'tempo-anterior', inicio: '2000-01-01', fim: '2019-12-31', origem: 'Tempo anterior', tipo: 'comum', incluir: true, contaCarencia: true, indicadores: [] },
+  ],
+  remuneracoes: [
+    { id: 'salario-a', competencia: '2025-01', valor: 5000, origem: 'Emprego A', indicadores: [], incluir: true },
+    { id: 'salario-b', competencia: '2025-01', valor: 4000, origem: 'Emprego B', indicadores: [], incluir: true },
+    { id: 'salario-rpps', competencia: '2025-01', valor: 10000, origem: 'RPPS com CTC', indicadores: [], incluir: true, sequencia: 9 },
+  ],
+});
+igual(aposentadoriaConcomitante.carenciaMeses, 252, 'Concomitância: a mesma competência deve contar uma única vez para carência.');
+ok(aposentadoriaConcomitante.tempoComumDias < 21 * 366, 'Concomitância: dois vínculos sobrepostos não podem dobrar o tempo de contribuição.');
+const salarioConcomitante = aposentadoriaConcomitante.regras.find((regra) => regra.id === 'idade_transicao')?.rmi?.salarios.find((salario) => salario.competencia === '2025-01');
+igual(salarioConcomitante?.nominal, 9000, 'Concomitância: remunerações do mesmo mês devem ser somadas para o PBC.');
+igual(salarioConcomitante?.nominalConsiderado, 8157.41, 'Concomitância: a soma deve ser limitada ao teto vigente na competência antes da atualização.');
+ok(salarioConcomitante?.concomitante && salarioConcomitante.quantidadeRemuneracoes === 2, 'Concomitância: o memorial deve identificar as duas remunerações somadas.');
+ok(aposentadoriaConcomitante.regras.find((regra) => regra.id === 'idade_transicao')?.rmi?.alertas.some((alerta) => alerta.includes('RPPS/CTC')), 'Concomitância: remuneração de RPPS/CTC deve ficar fora da RMI do RGPS e gerar alerta.');
+
+const aposentadoriaConcomitanteAnteriorLei9876 = calcularAposentadoria({
+  nascimento: '1936-01-01', sexo: 'feminino', dataReferencia: '2026-08-11', atividadeFutura: 'comum',
+  periodos: [{ id: 'historico', inicio: '1970-01-01', fim: '2010-12-31', origem: 'Atividade histórica', tipo: 'comum', incluir: true, contaCarencia: true, indicadores: [] }],
+  remuneracoes: [
+    { id: 'historico-a', competencia: '1995-05', valor: 500, origem: 'Atividade principal', indicadores: [], incluir: true },
+    { id: 'historico-b', competencia: '1995-05', valor: 300, origem: 'Atividade secundária', indicadores: [], incluir: true },
+  ],
+});
+const rmiHistoricaConcomitante = aposentadoriaConcomitanteAnteriorLei9876.regras.find((regra) => regra.id === 'direito_adquirido_idade')?.rmi;
+ok(rmiHistoricaConcomitante?.disponivel === false && rmiHistoricaConcomitante.metodo.includes('atividade principal'), 'Concomitância anterior à Lei 9.876/1999: a ferramenta não pode aplicar soma simples nem apresentar RMI automática.');
+
+const remuneracoesParaDescarte = Array.from({ length: 240 }, (_, indice) => {
+  const data = new Date(Date.UTC(2004, 8 + indice, 1));
+  const competencia = data.toISOString().slice(0, 7);
+  return {
+    id: `descarte-${competencia}`, competencia, valor: indice < 60 ? 1000 : 4000,
+    origem: 'Vínculo para descarte', indicadores: [], incluir: true,
+  };
+});
+const aposentadoriaComDescarte = calcularAposentadoria({
+  nascimento: '1959-09-20', sexo: 'masculino', dataReferencia: '2024-09-20', atividadeFutura: 'comum',
+  periodos: [{ id: 'periodo-descarte', inicio: '2004-09-20', fim: '2024-09-20', origem: 'Vínculo para descarte', tipo: 'comum', incluir: true, contaCarencia: true, indicadores: [] }],
+  remuneracoes: remuneracoesParaDescarte,
+});
+const rmiComDescarte = aposentadoriaComDescarte.regras.find((regra) => regra.id === 'idade_transicao')?.rmi;
+ok(rmiComDescarte?.descarteAplicado && (rmiComDescarte.competenciasDescartadas ?? 0) >= 60, 'Descarte: menores contribuições devem sair quando aumentarem a RMI e restarem tempo e carência mínimos.');
+ok((rmiComDescarte?.tempoAposDescarteDias ?? Number.POSITIVE_INFINITY) < 16 * 365 && (rmiComDescarte?.carenciaAposDescarte ?? 0) >= 180, 'Descarte: o tempo excluído não pode compor o coeficiente, mas devem permanecer 15 anos e 180 competências.');
+igual(rmiComDescarte?.competenciaMonetaria, '2024-09', 'RMI: o valor inicial deve ser expresso na competência da DIB, não na data atual da tabela de fatores.');
+igual(rmiComDescarte?.salarios.find((salario) => salario.competencia === '2024-08')?.fatorAtualizacao, 1, 'RMI: a última competência anterior à DIB deve ser a referência monetária do PBC.');
+
+const aposentadoriaProjetadaComRmi = calcularAposentadoria({
+  nascimento: '1981-04-06', sexo: 'masculino', dataReferencia: '2026-08-11', atividadeFutura: 'comum',
+  salarioContribuicaoFuturo: 3000,
+  periodos: [{ id: 'projecao-rmi', inicio: '2018-01-01', fim: '2026-08-11', origem: 'Vínculo projetado', tipo: 'comum', incluir: true, contaCarencia: true, indicadores: [] }],
+  remuneracoes: [{ id: 'projecao-rmi-2026-06', competencia: '2026-06', valor: 3000, origem: 'Vínculo projetado', indicadores: [], incluir: true }],
+});
+const rmiIdadeProjetada = aposentadoriaProjetadaComRmi.regras.find((regra) => regra.id === 'idade_transicao')?.rmi;
+ok(Boolean(rmiIdadeProjetada && rmiIdadeProjetada.coeficiente > 0.7), 'RMI projetada: coeficiente deve considerar o tempo futuro até a DIB, não apenas o tempo existente na DER.');
+
+console.log(`Auditoria concluída: ${calculadoras.length} calculadoras, ${Object.keys(MOTORES).length + 3} motores e ${verificacoes} verificações aprovadas.`);

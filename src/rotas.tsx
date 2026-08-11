@@ -21,6 +21,7 @@ import { MapaDoSite, GRUPOS_DO_MAPA } from './pages/MapaDoSite';
 import { CalculadoraRescisao, FAQ_RESCISAO, ListaCalculadoras } from './pages/Calculadoras';
 import { CalculadoraTrabalhista, faqDaCalculadora } from './pages/CalculadorasTrabalhistas';
 import { CalculadoraPensao, FAQ_PENSAO } from './pages/CalculadoraPensao';
+import { CalculadoraAposentadoria, FAQ_APOSENTADORIA } from './pages/CalculadoraAposentadoria';
 import { CategoriaCalculadoras } from './pages/CalculadorasCategoria';
 import {
   CATEGORIAS_PUBLICADAS,
@@ -308,7 +309,39 @@ export const ROTAS: Rota[] = [
     elemento: <CalculadoraPensao />,
   },
 
-  ...calculadoras.filter((calculadora) => !['rescisao', 'pensao_alimenticia'].includes(calculadora.motor)).map((calculadora) => {
+  {
+    caminho: '/calculadoras/simulador-aposentadoria-cnis/',
+    prioridade: 0.95,
+    seo: {
+      titulo: 'Simulador de aposentadoria com CNIS e RMI | Grátis',
+      descricao: 'Importe o CNIS no navegador, confira vínculos e salários e gere regras, conversão especial, RMI e memorial completo para imprimir.',
+      caminho: '/calculadoras/simulador-aposentadoria-cnis/',
+      atualizadoEm: '2026-08-11',
+      dados: [
+        {
+          '@type': 'WebApplication',
+          '@id': urlAbsoluta('/calculadoras/simulador-aposentadoria-cnis/#aplicativo'),
+          name: 'Simulador de aposentadoria com CNIS, RMI e memorial',
+          applicationCategory: 'FinanceApplication',
+          operatingSystem: 'Qualquer navegador moderno',
+          inLanguage: 'pt-BR',
+          isAccessibleForFree: true,
+          description: 'Ferramenta gratuita para importar o CNIS localmente, comparar regras, estimar RMI e gerar memorial imprimível.',
+          url: urlAbsoluta('/calculadoras/simulador-aposentadoria-cnis/'),
+          offers: { '@type': 'Offer', price: '0', priceCurrency: 'BRL' },
+          author: { '@id': urlAbsoluta('/#advogado') },
+        },
+        dadosDePerguntas(FAQ_APOSENTADORIA),
+        trilhaDaCalculadora(
+          { categoria: 'Direito Previdenciário', nomeCurto: 'Aposentadoria e CNIS' },
+          '/calculadoras/simulador-aposentadoria-cnis/',
+        ),
+      ],
+    },
+    elemento: <CalculadoraAposentadoria />,
+  },
+
+  ...calculadoras.filter((calculadora) => !['rescisao', 'pensao_alimenticia', 'aposentadoria_cnis'].includes(calculadora.motor)).map((calculadora) => {
     const caminho = `/calculadoras/${calculadora.slug}/`;
     return {
       caminho,

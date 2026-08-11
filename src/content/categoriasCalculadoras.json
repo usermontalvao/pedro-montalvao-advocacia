@@ -58,14 +58,19 @@
     "categoria": "Direito Previdenciário",
     "nome": "Previdenciário",
     "titulo": "Calculadoras previdenciárias",
-    "seoTitle": "Calculadoras previdenciárias | Pedro Montalvão",
-    "seoDescription": "Ferramentas previdenciárias em preparo: tempo de contribuição, salário de benefício e revisões.",
-    "olho": "Em preparo",
-    "chamada": "Tempo de contribuição, salário de benefício e revisões.",
-    "resumoHub": "Tempo de contribuição, carência, salário de benefício e revisões — em preparo, com as mesmas regras de memória de cálculo das demais.",
+    "seoTitle": "Calculadoras previdenciárias | Aposentadoria e CNIS",
+    "seoDescription": "Simule aposentadoria com importação privada do CNIS, conversão especial, RMI por regra e memorial completo pronto para imprimir.",
+    "olho": "Planejamento previdenciário",
+    "chamada": "Importe o CNIS, confira períodos e salários e gere um memorial com regras, conversões e RMI estimada.",
+    "resumoHub": "Aposentadoria e CNIS: identificação, vínculos, salários, tempo, carência, conversão especial, regras, RMI e relatório imprimível.",
     "areaNome": "Direito Previdenciário",
     "areaCaminho": "/advogado-previdenciario-cuiaba/",
-    "grupos": []
+    "grupos": [
+      {
+        "nome": "Aposentadoria e planejamento",
+        "descricao": "Tempo, carência, CNIS e comparação de regras para organizar o planejamento previdenciário."
+      }
+    ]
   },
   {
     "slug": "consumidor",

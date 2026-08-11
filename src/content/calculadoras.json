@@ -403,5 +403,20 @@
     "fonte": "eSocial Doméstico e Lei Complementar nº 150/2015",
     "fonteUrl": "https://www.gov.br/esocial/pt-br/empregador-domestico/manual-do-empregador-domestico",
     "atualizadoEm": "2026-08-10"
+  },
+  {
+    "slug": "simulador-aposentadoria-cnis",
+    "motor": "aposentadoria_cnis",
+    "titulo": "Simulador de aposentadoria com CNIS e RMI",
+    "nomeCurto": "Aposentadoria e CNIS",
+    "categoria": "Direito Previdenciário",
+    "grupo": "Aposentadoria e planejamento",
+    "resumo": "Importe o PDF do CNIS no navegador, confira vínculos e salários, compare regras e gere RMI e memorial de cálculo pronto para imprimir.",
+    "comoFunciona": "Extrai identificação, períodos, remunerações e indicadores sem enviar o arquivo; permite a conferência e calcula tempo, conversão especial, regras e RMI.",
+    "limites": "CNIS, cargo ou remuneração não provam atividade especial, rural, de professor, deficiência ou CTC. Documentos, indicadores e critérios do INSS precisam ser conferidos.",
+    "formula": "Tempo e carência são deconcomitados; salários são consolidados por competência e atualizados; cada regra abre média, divisor, coeficiente, fator previdenciário e RMI.",
+    "fonte": "EC 103/2019, Lei 8.213/1991, Ministério da Previdência, IBGE e ADI 6309/STF",
+    "fonteUrl": "https://www.gov.br/inss/pt-br/direitos-e-deveres/aposentadorias/regras-de-aposentadorias",
+    "atualizadoEm": "2026-08-11"
   }
 ]

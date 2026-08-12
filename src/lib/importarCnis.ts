@@ -3,6 +3,7 @@ import type {
   RemuneracaoPrevidenciaria,
   SexoPrevidenciario,
 } from './calculoAposentadoria';
+import PdfWorker from 'pdfjs-dist/legacy/build/pdf.worker.min.mjs?worker';
 
 export type IdentificacaoCnis = {
   nome: string;
@@ -351,10 +352,7 @@ export async function importarCnisPdf(arquivo: File): Promise<ResultadoImportaca
   }
   if (arquivo.size > 20 * 1024 * 1024) throw new Error('O PDF deve ter no máximo 20 MB.');
   const pdfjs = await import('pdfjs-dist/legacy/build/pdf.mjs');
-  pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-    'pdfjs-dist/legacy/build/pdf.worker.min.mjs',
-    import.meta.url,
-  ).toString();
+  pdfjs.GlobalWorkerOptions.workerPort = new PdfWorker();
   const bytes = new Uint8Array(await arquivo.arrayBuffer());
   const documento = await pdfjs.getDocument({ data: bytes }).promise;
   const linhas: LinhaPdf[] = [];

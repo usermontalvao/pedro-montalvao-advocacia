@@ -8,3 +8,7 @@ ErrorDocument 404 /404.html
 <IfModule mod_negotiation.c>
   Options -MultiViews
 </IfModule>
+
+<IfModule mod_mime.c>
+  AddType application/javascript .js .mjs
+</IfModule>

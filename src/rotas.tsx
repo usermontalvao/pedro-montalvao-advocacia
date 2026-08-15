@@ -18,6 +18,7 @@ import { AtendimentoBrasil, FAQ_ATENDIMENTO_BRASIL } from './pages/AtendimentoBr
 import { ListaArtigos, PaginaArtigo } from './pages/Artigos';
 import { Juridico, type PaginaJuridica } from './pages/Juridico';
 import { MapaDoSite, GRUPOS_DO_MAPA } from './pages/MapaDoSite';
+import { ContaEncerrada } from './pages/ContaEncerrada';
 import { CalculadoraRescisao, FAQ_RESCISAO, ListaCalculadoras } from './pages/Calculadoras';
 import { CalculadoraTrabalhista, faqDaCalculadora } from './pages/CalculadorasTrabalhistas';
 import { CalculadoraPensao, FAQ_PENSAO } from './pages/CalculadoraPensao';
@@ -44,6 +45,22 @@ export type Rota = {
   elemento: ReactNode;
   /** Peso no sitemap.xml — a home e o artigo carro-chefe puxam mais. */
   prioridade: number;
+  /**
+   * Página de anúncio: entra sem cabeçalho, sem rodapé e sem menu.
+   *
+   * Cada saída visível numa landing paga é dinheiro indo embora — o visitante
+   * chegou por um clique comprado e a única porta que interessa é a conversa.
+   */
+  semLayout?: boolean;
+  /**
+   * Fica de fora do sitemap.xml.
+   *
+   * Landing de campanha não disputa busca orgânica: ela repete, em tom de
+   * anúncio, um assunto que o site já trata em página própria. Deixá-la no
+   * sitemap seria pedir ao Google que escolhesse entre as duas — e ele
+   * escolheria sozinho. Anda junto com `naoIndexar` no SEO da rota.
+   */
+  foraDoSitemap?: boolean;
 };
 
 /** Todas as perguntas de um artigo viram FAQPage nos dados estruturados. */
@@ -490,6 +507,29 @@ export const ROTAS: Rota[] = [
       caminho: `/${juridico.termos.slug}/`,
     },
     elemento: <Juridico pagina={juridico.termos as PaginaJuridica} />,
+  },
+
+  /*
+    Campanha paga — conta bancária bloqueada ou encerrada.
+
+    Não é indexada e não entra no sitemap: o tráfego dela vem do anúncio, e o
+    assunto em busca orgânica pertence às páginas do site. Continua sendo
+    pré-renderizada como todas as outras, porque um anúncio que abre uma tela
+    branca até o JavaScript carregar perde o clique que acabou de ser pago.
+  */
+  {
+    caminho: '/conta-encerrada/',
+    prioridade: 0.1,
+    semLayout: true,
+    foraDoSitemap: true,
+    seo: {
+      titulo: 'Encerramento e bloqueio de conta bancária | Pedro Montalvão Advocacia',
+      descricao:
+        'Conteúdo informativo sobre o que o Código de Defesa do Consumidor e a regulação do Banco Central preveem quanto à comunicação prévia e à devolução do saldo em conta encerrada.',
+      caminho: '/conta-encerrada/',
+      naoIndexar: true,
+    },
+    elemento: <ContaEncerrada />,
   },
 
   {

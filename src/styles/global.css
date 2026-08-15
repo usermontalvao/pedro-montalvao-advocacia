@@ -11274,3 +11274,543 @@ html {
     page-break-before: always;
   }
 }
+
+/* ==========================================================================
+   Campanha — conta bancária bloqueada ou encerrada (/conta-encerrada/)
+
+   Uma pergunta por tela, no formato do Typeform. A página é destino de
+   anúncio: não tem cabeçalho do site, não tem menu, não tem nada abaixo. Quem
+   chegou veio de um clique pago e existe uma única coisa a fazer — responder a
+   pergunta que está na tela.
+
+   O que sustenta o formato: a pessoa nunca vê o tamanho do que falta. Vê a
+   pergunta, três ou quatro botões grandes e uma barra fina embaixo que anda
+   rápido. Dez campos empilhados numa página só mostrariam o trabalho inteiro de
+   uma vez, e é aí que se desiste.
+
+   Tudo aqui é prefixado (`campanha`, `tf`). Nada abaixo desta linha alcança as
+   páginas institucionais.
+   ========================================================================== */
+
+.campanha {
+  position: relative;
+  /*
+    `dvh` e não `vh`: no Safari do iPhone a barra de endereço entra e sai da
+    tela, e `100vh` mede a altura SEM ela — o rodapé ficava escondido atrás da
+    barra justamente enquanto a pessoa digitava.
+  */
+  height: 100dvh;
+  display: grid;
+  /*
+    `minmax(0, 1fr)` e não `1fr`. Uma faixa `1fr` guarda um piso implícito do
+    tamanho do conteúdo: bastava uma pergunta com cinco opções para a faixa
+    crescer, estourar a tela e levar a barra de progresso para fora da janela.
+  */
+  grid-template-rows: auto minmax(0, 1fr);
+  background: var(--tinta);
+  color: var(--texto-claro);
+  overflow: hidden;
+}
+
+.campanha__luz {
+  position: absolute;
+  inset: -35% -20% auto -20%;
+  height: 100%;
+  pointer-events: none;
+  background:
+    radial-gradient(48% 52% at 28% 22%, rgba(201, 168, 106, 0.2), transparent 70%),
+    radial-gradient(40% 42% at 88% 0%, rgba(37, 211, 102, 0.07), transparent 72%);
+}
+
+.campanha__topo {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: clamp(0.9rem, 3vw, 1.5rem) clamp(1.15rem, 5vw, 3rem);
+}
+
+.campanha__oab {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--dourado);
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   A triagem
+   ========================================================================== */
+
+.tf {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  min-height: 0;
+}
+
+.tf__tela {
+  display: flex;
+  align-items: center;
+  min-height: 0;
+  padding: clamp(1rem, 4vh, 2.5rem) clamp(1.15rem, 5vw, 3rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /*
+    A tela inteira é remontada a cada pergunta (a `key` do React muda), e é isso
+    que faz a animação tocar de novo em vez de só na primeira. Subindo quando
+    avança, descendo quando volta.
+  */
+  animation: tf-sobe 420ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.tf__tela[data-recuando='true'] {
+  animation-name: tf-desce;
+}
+
+@keyframes tf-sobe {
+  from {
+    opacity: 0;
+    transform: translateY(34px);
+  }
+}
+
+@keyframes tf-desce {
+  from {
+    opacity: 0;
+    transform: translateY(-28px);
+  }
+}
+
+.tf__bloco {
+  width: 100%;
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+/* ------------------------------------------------------------- tipografia */
+
+.tf__olho {
+  display: inline-block;
+  margin-bottom: 1.1rem;
+  padding: 0.36rem 0.75rem;
+  border: 1px solid rgba(201, 168, 106, 0.32);
+  background: rgba(201, 168, 106, 0.08);
+  color: var(--dourado-claro);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.tf__numero {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.9rem;
+  color: var(--dourado);
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.tf__numero i {
+  font-style: normal;
+  opacity: 0.65;
+}
+
+.tf__titulo {
+  margin: 0;
+  color: var(--texto-claro);
+  font-size: clamp(2rem, 6.4vw, 3.5rem);
+  line-height: 1.04;
+}
+
+.tf__pergunta {
+  margin: 0;
+  color: var(--texto-claro);
+  font-size: clamp(1.65rem, 5.2vw, 2.65rem);
+  line-height: 1.1;
+}
+
+.tf__apoio {
+  max-width: 46ch;
+  margin: 0.85rem 0 0;
+  color: var(--texto-claro-suave);
+  font-size: clamp(0.95rem, 2.4vw, 1.06rem);
+  line-height: 1.6;
+}
+
+/* ---------------------------------------------------------------- opções */
+
+.tf__opcoes {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: clamp(1.5rem, 4vh, 2.2rem);
+  max-width: 560px;
+}
+
+.tf__opcao {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  width: 100%;
+  min-height: 54px;
+  padding: 0.7rem 1rem;
+  text-align: left;
+  background: rgba(201, 168, 106, 0.06);
+  border: 1px solid rgba(201, 168, 106, 0.3);
+  border-radius: 4px;
+  color: var(--texto-claro);
+  font-family: var(--sans);
+  cursor: pointer;
+  transition: background var(--transicao), border-color var(--transicao), transform 140ms ease;
+}
+
+.tf__opcao:hover {
+  background: rgba(201, 168, 106, 0.15);
+  border-color: var(--dourado);
+}
+
+.tf__opcao:active {
+  transform: scale(0.99);
+}
+
+/* A letra do atalho. No celular ela não serve para nada, mas dá o alinhamento
+   que faz a lista parecer uma lista de escolhas, e não uma pilha de botões. */
+.tf__letra {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid rgba(201, 168, 106, 0.45);
+  border-radius: 3px;
+  color: var(--dourado);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.tf__rotulo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.tf__rotulo small {
+  color: var(--texto-claro-suave);
+  font-size: 0.82rem;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+/* ------------------------------------------------------- campo de texto */
+
+.tf__campo {
+  margin-top: clamp(1.4rem, 4vh, 2rem);
+  max-width: 560px;
+}
+
+.tf__sugestoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 1.1rem;
+}
+
+.tf__sugestao {
+  padding: 0.4rem 0.8rem;
+  background: transparent;
+  border: 1px solid rgba(201, 168, 106, 0.3);
+  border-radius: 999px;
+  color: var(--dourado-claro);
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transicao), border-color var(--transicao), color var(--transicao);
+}
+
+.tf__sugestao:hover {
+  background: rgba(201, 168, 106, 0.14);
+  border-color: var(--dourado);
+  color: var(--texto-claro);
+}
+
+/* Sem caixa: só uma linha embaixo. A resposta é do tamanho da pergunta. */
+.tf__campo input {
+  width: 100%;
+  padding: 0.35rem 0 0.65rem;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid rgba(201, 168, 106, 0.35);
+  border-radius: 0;
+  color: var(--texto-claro);
+  font-family: var(--sans);
+  font-size: clamp(1.25rem, 4vw, 1.7rem);
+  font-weight: 500;
+  transition: border-color var(--transicao);
+}
+
+.tf__campo input::placeholder {
+  color: rgba(169, 164, 154, 0.5);
+  font-weight: 400;
+}
+
+.tf__campo input:focus {
+  outline: none;
+  border-bottom-color: var(--dourado);
+}
+
+/* -------------------------------------------------------------- ações */
+
+.tf__acao {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+  margin-top: clamp(1.4rem, 4vh, 2rem);
+}
+
+.tf__botao {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.7rem;
+  background: linear-gradient(135deg, var(--dourado-escuro), var(--dourado) 45%, var(--dourado-claro));
+  border: none;
+  border-radius: 3px;
+  color: #241b06;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 10px 28px rgba(201, 168, 106, 0.24);
+  transition: transform var(--transicao), box-shadow var(--transicao);
+}
+
+.tf__botao i {
+  font-style: normal;
+}
+
+.tf__botao:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px rgba(201, 168, 106, 0.32);
+}
+
+.tf__botao:active {
+  transform: translateY(0);
+}
+
+.tf__dica {
+  color: var(--texto-claro-suave);
+  font-size: 0.78rem;
+}
+
+.tf__dica b {
+  color: var(--texto-claro);
+  font-weight: 600;
+}
+
+/* O atalho de teclado só existe onde há teclado. */
+.tf__dica--teclado {
+  display: none;
+}
+
+.tf__erro {
+  margin: 1rem 0 0;
+  color: #e8a49a;
+  font-size: 0.88rem;
+}
+
+/* ---------------------------------------------------------------- fecho */
+
+.tf__bloco--fim {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.tf__selo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.1rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  background: rgba(201, 168, 106, 0.1);
+  border: 1px solid rgba(201, 168, 106, 0.32);
+  color: var(--dourado-claro);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.tf__titulo--fim {
+  font-size: clamp(1.85rem, 5.6vw, 3rem);
+}
+
+/*
+  Marcador neutro, e de propósito. Um "confere" verde ao lado de cada linha
+  faria a tela dizer, sem escrever, que o caso passou num teste — que é
+  exatamente o parecer que esta página não pode dar.
+*/
+.tf__pontos {
+  display: grid;
+  gap: 0.6rem;
+  margin: clamp(1.3rem, 3.5vh, 1.9rem) 0 0;
+  padding: 0;
+  list-style: none;
+  max-width: 52ch;
+}
+
+.tf__pontos li {
+  position: relative;
+  padding-left: 1.3rem;
+  color: var(--texto-claro-suave);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.tf__pontos li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.72em;
+  width: 10px;
+  height: 1px;
+  background: var(--dourado);
+}
+
+.tf__zap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: clamp(1.6rem, 4vh, 2.2rem);
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #1fbe5b, #25d366);
+  border-radius: 3px;
+  color: #04270f;
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: 0 12px 32px rgba(37, 211, 102, 0.3);
+  transition: transform var(--transicao), box-shadow var(--transicao);
+}
+
+.tf__zap:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(37, 211, 102, 0.38);
+}
+
+.tf__bloco--fim .tf__dica {
+  margin-top: 0.75rem;
+}
+
+/* ==========================================================================
+   O pé: barra de progresso, aviso legal e o voltar
+   ========================================================================== */
+
+.tf__pe {
+  border-top: 1px solid rgba(201, 168, 106, 0.14);
+  background: rgba(14, 14, 16, 0.6);
+  backdrop-filter: blur(8px);
+}
+
+.tf__barra {
+  height: 4px;
+  background: rgba(201, 168, 106, 0.14);
+}
+
+.tf__barra i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--dourado-escuro), var(--dourado-claro));
+  transition: width 460ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.tf__pe-linha {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem clamp(1.15rem, 5vw, 3rem);
+}
+
+.tf__legal {
+  color: rgba(169, 164, 154, 0.7);
+  font-size: 0.63rem;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+.tf__legal a {
+  color: var(--dourado);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.tf__voltar {
+  flex: none;
+  padding: 0.4rem 0.7rem;
+  background: transparent;
+  border: 1px solid rgba(201, 168, 106, 0.25);
+  border-radius: 3px;
+  color: var(--texto-claro-suave);
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: border-color var(--transicao), color var(--transicao);
+}
+
+.tf__voltar:hover {
+  border-color: var(--dourado);
+  color: var(--texto-claro);
+}
+
+/* ==========================================================================
+   Telas maiores
+   ========================================================================== */
+
+@media (min-width: 820px) {
+  .tf__bloco {
+    max-width: 700px;
+  }
+
+  .tf__dica--teclado {
+    display: inline;
+  }
+
+  .tf__legal {
+    font-size: 0.68rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tf__tela {
+    animation: none;
+  }
+
+  .tf__barra i {
+    transition: none;
+  }
+
+  .tf__botao:hover,
+  .tf__zap:hover {
+    transform: none;
+  }
+}

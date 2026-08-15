@@ -10,6 +10,22 @@ function Conteudo() {
   const { caminho } = useRota();
   const rota = acharRota(caminho);
 
+  /*
+    Landing de anúncio entra sozinha, sem a moldura do site.
+
+    Ela traz o próprio cabeçalho e o próprio rodapé, enxutos: quem chegou por um
+    clique pago não deve encontrar um menu com dez caminhos para sair antes de
+    responder a primeira pergunta.
+  */
+  if (rota?.semLayout) {
+    return (
+      <>
+        <RolarAoTrocarDePagina caminho={caminho} />
+        <main id="conteudo">{rota.elemento}</main>
+      </>
+    );
+  }
+
   return (
     <>
       <RolarAoTrocarDePagina caminho={caminho} />

@@ -51,6 +51,24 @@ A publicação somente é aprovada quando todas as calculadoras respondem HTTP
 200, constam no sitemap e entregam canonical, `index, follow` e HTML
 pré-renderizado. Só então envie novamente o sitemap no Google Search Console.
 
+### Ativar o Meta Pixel na landing de campanha
+
+Crie um arquivo `.env.local` a partir de `.env.example` e informe o ID do
+dataset/pixel exibido no Gerenciador de Eventos:
+
+```env
+VITE_META_PIXEL_ID=123456789012345
+```
+
+Na hospedagem com build automático, cadastre a mesma variável no painel do
+projeto antes de executar `npm run build`. Na publicação estática da Hostinger,
+o valor deve existir na máquina que gera `site-hostinger.zip`.
+
+O rastreamento é carregado somente em `/conta-encerrada/` e envia os eventos
+`PageView`, `ViewContent`, `Lead` (triagem concluída) e `Contact` (clique para
+abrir o WhatsApp). As respostas e o número de telefone não são enviados ao
+Pixel.
+
 ## Antes de publicar
 
 | O quê | Onde |

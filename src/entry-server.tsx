@@ -23,6 +23,9 @@ export function listarRotas() {
       confiar no `lastmod` do site inteiro.
     */
     atualizadoEm: rota.seo.atualizadoEm,
+    // As landings de campanha são geradas em HTML como todas as outras, mas
+    // não entram no sitemap — quem filtra é quem monta o XML.
+    foraDoSitemap: rota.foraDoSitemap,
   }));
 }
 

@@ -27,7 +27,9 @@ export function gerarSitemap(rotas, raiz, enderecoBase) {
   return [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-    ...rotas.map((rota) =>
+    // Landings de anúncio ficam de fora: são `noindex` e pedir indexação de
+    // uma página que manda o robô embora é contradição no mesmo arquivo.
+    ...rotas.filter((rota) => !rota.foraDoSitemap).map((rota) =>
       [
         '  <url>',
         `    <loc>${enderecoBase}${rota.caminho}</loc>`,
@@ -87,6 +89,13 @@ function fontesDaRota(caminho) {
   }
   if (caminho === '/politica-de-privacidade/' || caminho === '/termos-de-uso/') {
     return ['src/content/juridico.json'];
+  }
+  if (caminho === '/conta-encerrada/') {
+    return [
+      'src/pages/ContaEncerrada.tsx',
+      'src/components/TriagemContaEncerrada.tsx',
+      'src/lib/triagemContaEncerrada.ts',
+    ];
   }
   // O mapa muda quando muda qualquer coleção que ele lista.
   if (caminho === '/mapa-do-site/') {

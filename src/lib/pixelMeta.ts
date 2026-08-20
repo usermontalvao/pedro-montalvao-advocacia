@@ -12,7 +12,7 @@
  * oficial por Git não depende de configuração externa na hospedagem.
  */
 export const META_PIXEL_ID =
-  import.meta.env.VITE_META_PIXEL_ID?.trim() || '1761556441358818';
+  import.meta.env.VITE_META_PIXEL_ID?.trim() || '1715491819680381';
 
 type Fbq = ((...argumentos: unknown[]) => void) & {
   callMethod?: (...argumentos: unknown[]) => void;

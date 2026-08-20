@@ -47,11 +47,11 @@ pré-renderizado. Só então envie novamente o sitemap no Google Search Console.
 
 ### Meta Pixel
 
-O ID público `1761556441358818` está configurado no código e segue no deploy por
+O ID público `1715491819680381` está configurado no código e segue no deploy por
 Git. Para apontar um build de teste a outro dataset/pixel, use opcionalmente:
 
 ```env
-VITE_META_PIXEL_ID=1761556441358818
+VITE_META_PIXEL_ID=1715491819680381
 ```
 
 O rastreamento envia `PageView` em todas as páginas e `Contact` nos cliques que

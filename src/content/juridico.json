@@ -4,7 +4,7 @@
     "titulo": "Política de Privacidade",
     "seoTitle": "Política de Privacidade | Pedro Montalvão Advocacia",
     "seoDescription": "Como o escritório Pedro Montalvão Advocacia trata os dados informados pelo site, com quais finalidades e por quanto tempo.",
-    "atualizadoEm": "2026-08-10",
+    "atualizadoEm": "2026-08-20",
     "blocos": [
       {
         "t": "p",
@@ -15,7 +15,8 @@
         "t": "ul",
         "itens": [
           "Dados que você informa voluntariamente no formulário de contato: nome, telefone ou WhatsApp, e-mail, área relacionada à dúvida e a mensagem escrita por você;",
-          "Dados que você envia ao iniciar uma conversa pelo WhatsApp, por sua própria iniciativa."
+          "Dados que você envia ao iniciar uma conversa pelo WhatsApp, por sua própria iniciativa;",
+          "Dados estatísticos de navegação coletados pelo Meta Pixel, como páginas visitadas, cliques em botões de contato e informações técnicas do navegador e do dispositivo. Mensagens, campos de formulário e respostas da triagem não são enviados ao Pixel."
         ]
       },
       { "t": "h2", "texto": "Para que os dados são usados" },
@@ -30,7 +31,7 @@
       { "t": "h2", "texto": "Compartilhamento" },
       {
         "t": "p",
-        "texto": "Os dados não são vendidos nem cedidos para fins comerciais. O compartilhamento ocorre apenas quando necessário ao funcionamento escolhido pelo visitante — como o provedor de mensageria ao abrir uma comunicação pelo WhatsApp — ou quando exigido por autoridade competente."
+        "texto": "Os dados não são vendidos nem cedidos para fins comerciais. O compartilhamento ocorre apenas quando necessário ao funcionamento escolhido pelo visitante — como o provedor de mensageria ao abrir uma comunicação pelo WhatsApp —, com a Meta Platforms para medição de anúncios, ou quando exigido por autoridade competente."
       },
       { "t": "h2", "texto": "Sigilo profissional" },
       {
@@ -50,7 +51,7 @@
       { "t": "h2", "texto": "Cookies e medição de audiência" },
       {
         "t": "p",
-        "texto": "O site não utiliza cookies de publicidade. Caso ferramentas de medição de audiência sejam ativadas, elas serão informadas nesta página e coletarão apenas dados estatísticos de navegação."
+        "texto": "O site utiliza o Meta Pixel para medir visitas, páginas acessadas e cliques que abrem o WhatsApp do escritório, permitindo avaliar campanhas e criar públicos de publicidade. A ferramenta pode utilizar cookies e informações técnicas do navegador e do dispositivo. Mensagens, campos de formulário e respostas da triagem não são enviados ao Pixel. O bloqueio pode ser realizado nas configurações de privacidade ou de cookies do navegador."
       },
       { "t": "h2", "texto": "Alterações" },
       {
@@ -64,7 +65,7 @@
     "titulo": "Termos de Uso",
     "seoTitle": "Termos de Uso | Pedro Montalvão Advocacia",
     "seoDescription": "Condições de uso do site institucional do escritório Pedro Montalvão Advocacia e limites do conteúdo informativo publicado.",
-    "atualizadoEm": "2026-08-10",
+    "atualizadoEm": "2026-08-20",
     "blocos": [
       { "t": "h2", "texto": "Natureza do conteúdo" },
       {
@@ -100,6 +101,11 @@
       {
         "t": "p",
         "texto": "Eventuais links para sites de terceiros são disponibilizados por conveniência. O escritório não responde pelo conteúdo, pelas práticas de privacidade ou pela disponibilidade desses endereços."
+      },
+      { "t": "h2", "texto": "Medição de audiência e anúncios" },
+      {
+        "t": "p",
+        "texto": "O site utiliza o Meta Pixel para medir visitas, páginas acessadas e cliques que abrem o WhatsApp oficial do escritório. Esses dados ajudam a avaliar campanhas e podem ser usados para formar públicos de publicidade. A ferramenta pode utilizar cookies e informações técnicas do navegador e do dispositivo. Mensagens, campos de formulário, respostas da triagem e o conteúdo das conversas no WhatsApp não são enviados ao Pixel. Mais informações estão disponíveis na [Política de Privacidade](/politica-de-privacidade/)."
       }
     ]
   }

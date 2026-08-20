@@ -1,19 +1,18 @@
 /**
- * Meta Pixel — só nas páginas de campanha.
+ * Meta Pixel global.
  *
- * O site institucional não carrega rastreador nenhum, e continua assim: este
- * módulo não faz nada até uma página pedir explicitamente por `iniciarPixel()`.
- * Quem paga anúncio, porém, precisa saber quantas pessoas terminaram a triagem
- * e quantas foram para o WhatsApp — sem isso o Meta otimiza no escuro, pelo
- * clique, e o clique não é o que o escritório quer comprar.
- *
- * Para ligar: defina `VITE_META_PIXEL_ID` no ambiente do build. Enquanto ele
- * estiver vazio ou inválido, nada é carregado e nenhum evento é enviado — a
- * landing funciona normalmente, apenas sem medição.
+ * O script não entra no HTML estático: o componente global o carrega quando a
+ * aplicação assume a página. Formulários, mensagens e respostas de triagem
+ * nunca são incluídos nos eventos.
  */
 
-/** Identificador do pixel (Gerenciador de Eventos › Fontes de dados). */
-export const META_PIXEL_ID = import.meta.env.VITE_META_PIXEL_ID?.trim() ?? '';
+/**
+ * Identificador público do dataset/pixel (Gerenciador de Eventos › Fontes de
+ * dados). A variável permite trocar o destino em builds de teste, mas o deploy
+ * oficial por Git não depende de configuração externa na hospedagem.
+ */
+export const META_PIXEL_ID =
+  import.meta.env.VITE_META_PIXEL_ID?.trim() || '1761556441358818';
 
 type Fbq = ((...argumentos: unknown[]) => void) & {
   callMethod?: (...argumentos: unknown[]) => void;
@@ -46,11 +45,7 @@ function ativo(): boolean {
  * nas páginas orgânicas: quem lê um artigo não baixa nada do Facebook.
  */
 export function iniciarPixel(): void {
-  if (!ativo()) return;
-  if (window.fbq) {
-    window.fbq('track', 'PageView');
-    return;
-  }
+  if (!ativo() || window.fbq) return;
 
   const fila: Fbq = function (...argumentos: unknown[]) {
     if (fila.callMethod) fila.callMethod(...argumentos);
@@ -71,7 +66,13 @@ export function iniciarPixel(): void {
   document.head.appendChild(script);
 
   fila('init', META_PIXEL_ID);
-  fila('track', 'PageView');
+}
+
+/** Registra uma visita depois que o consentimento já foi concedido. */
+export function visualizarPagina(): void {
+  if (!ativo()) return;
+  iniciarPixel();
+  window.fbq?.('track', 'PageView');
 }
 
 /** Evento padrão do catálogo do Meta (ViewContent, Lead, Contact…). */

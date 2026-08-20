@@ -4,6 +4,7 @@ import { linkWhatsApp } from '../site.config';
 import { listar, mensagemDoLead, registrar } from '../lib/leads';
 import { IconeWhatsApp } from './Icones';
 import areas from '../content/areas.json';
+import { evento as eventoMeta } from '../lib/pixelMeta';
 
 const VAZIO = {
   nome: '',
@@ -49,6 +50,7 @@ export function FormularioContato({ origem = 'site' }: { origem?: string }) {
     registrar(lead);
     setEnviado(true);
     setJaContatou(true);
+    eventoMeta('Contact', { content_name: 'formulario', page_path: window.location.pathname });
 
     // Abre o WhatsApp numa aba nova, já com o resumo preenchido.
     window.open(linkWhatsApp(mensagemDoLead(lead)), '_blank', 'noopener,noreferrer');

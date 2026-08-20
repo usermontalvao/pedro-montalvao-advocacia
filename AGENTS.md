@@ -1,5 +1,15 @@
 # Instruções permanentes do repositório
 
+## Publicação
+
+1. A publicação oficial do site é feita pelo repositório Git: validar as
+   alterações, criar um commit e fazer push para `origin/main`.
+2. Não gerar `site-hostinger.zip`, não atualizar a pasta `site-hostinger/` e não
+   fazer upload manual na hospedagem, salvo se o responsável pedir isso
+   expressamente.
+3. Antes do commit, preservar alterações preexistentes do responsável e incluir
+   somente os arquivos pertencentes à tarefa atual.
+
 ## Artigos e jurisprudência
 
 Antes de criar, importar, revisar ou publicar qualquer artigo ou jurisprudência,
@@ -24,4 +34,3 @@ Regras que não podem ser ignoradas:
    compartilhados. Não criar formatação isolada para um único artigo.
 6. Antes de concluir, executar `npm run test:artigos`, `npm run typecheck` e
    `npm run build`.
-

@@ -4,6 +4,7 @@ import { ProgressoPagina, TransicaoPagina, useRolagemSuave } from './components/
 import { Roteador, RolarAoTrocarDePagina, useRota } from './lib/router';
 import { acharRota } from './rotas';
 import { NaoEncontrada } from './pages/Juridico';
+import { RastreamentoMeta } from './components/RastreamentoMeta';
 
 function Conteudo() {
   useRolagemSuave();
@@ -44,6 +45,7 @@ function Conteudo() {
 export function App({ caminho }: { caminho: string }) {
   return (
     <Roteador caminhoInicial={caminho}>
+      <RastreamentoMeta />
       <Conteudo />
     </Roteador>
   );

@@ -1,6 +1,4 @@
-import { useEffect, useRef } from 'react';
 import { TriagemContaEncerrada } from '../components/TriagemContaEncerrada';
-import { META_PIXEL_ID, evento, iniciarPixel, pixelConfigurado } from '../lib/pixelMeta';
 import { oabFormatada } from '../site.config';
 import { Marca } from '../components/Marca';
 
@@ -16,18 +14,6 @@ import { Marca } from '../components/Marca';
  * disputar espaço com a pergunta.
  */
 export function ContaEncerrada() {
-  const rastreamentoIniciado = useRef(false);
-
-  useEffect(() => {
-    // O StrictMode repete efeitos no desenvolvimento. O ref impede que o
-    // Gerenciador de Eventos receba PageView/ViewContent duplicados no teste.
-    if (rastreamentoIniciado.current) return;
-    rastreamentoIniciado.current = true;
-
-    iniciarPixel();
-    evento('ViewContent', { content_name: 'Landing conta bloqueada ou encerrada' });
-  }, []);
-
   return (
     <div className="campanha">
       <div className="campanha__luz" aria-hidden />
@@ -36,18 +22,6 @@ export function ContaEncerrada() {
         <Marca tom="claro" altura={30} compacta tipografiaEditorial />
         <span className="campanha__oab">{oabFormatada()}</span>
       </header>
-
-      {pixelConfigurado() ? (
-        <noscript>
-          <img
-            src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
-            width="1"
-            height="1"
-            alt=""
-            style={{ display: 'none' }}
-          />
-        </noscript>
-      ) : null}
 
       {/*
         O <h1> da página é o título da tela de abertura, dentro da triagem — é

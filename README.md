@@ -28,20 +28,14 @@ A pasta **`dist/`** é o site pronto: é ela inteira que você envia para a
 hospedagem (Netlify, Vercel, Hostinger, cPanel — qualquer uma serve, porque
 são só arquivos).
 
-### Publicar na Hostinger sem perder as páginas internas
+### Publicar
 
-Gere um pacote completo:
+A publicação oficial é feita pelo repositório Git. Depois de validar a alteração,
+crie o commit e faça push para `origin/main`; a hospedagem faz o deploy conectado
+ao repositório. Não gere nem envie ZIP manualmente, salvo quando esse procedimento
+for solicitado expressamente.
 
-```bash
-npm run publicacao:preparar
-```
-
-O comando cria `site-hostinger.zip`. No Gerenciador de Arquivos da Hostinger,
-envie o ZIP e extraia **todo o conteúdo diretamente dentro de `public_html`**.
-Não envie apenas os arquivos soltos da raiz: as pastas `calculadoras/`,
-`assets/` e `midia/` fazem parte do site e precisam ser substituídas juntas.
-
-Depois da extração e da limpeza do cache da hospedagem, confirme o domínio:
+Depois do deploy, confirme o domínio:
 
 ```bash
 npm run test:publicacao
@@ -51,23 +45,19 @@ A publicação somente é aprovada quando todas as calculadoras respondem HTTP
 200, constam no sitemap e entregam canonical, `index, follow` e HTML
 pré-renderizado. Só então envie novamente o sitemap no Google Search Console.
 
-### Ativar o Meta Pixel na landing de campanha
+### Meta Pixel
 
-Crie um arquivo `.env.local` a partir de `.env.example` e informe o ID do
-dataset/pixel exibido no Gerenciador de Eventos:
+O ID público `1761556441358818` está configurado no código e segue no deploy por
+Git. Para apontar um build de teste a outro dataset/pixel, use opcionalmente:
 
 ```env
-VITE_META_PIXEL_ID=123456789012345
+VITE_META_PIXEL_ID=1761556441358818
 ```
 
-Na hospedagem com build automático, cadastre a mesma variável no painel do
-projeto antes de executar `npm run build`. Na publicação estática da Hostinger,
-o valor deve existir na máquina que gera `site-hostinger.zip`.
-
-O rastreamento é carregado somente em `/conta-encerrada/` e envia os eventos
-`PageView`, `ViewContent`, `Lead` (triagem concluída) e `Contact` (clique para
-abrir o WhatsApp). As respostas e o número de telefone não são enviados ao
-Pixel.
+O rastreamento envia `PageView` em todas as páginas e `Contact` nos cliques que
+abrem o WhatsApp do escritório. A landing `/conta-encerrada/` também envia
+`ViewContent`, `Lead` (triagem concluída) e eventos próprios de andamento.
+Mensagens, respostas da triagem e dados do formulário não são enviados ao Pixel.
 
 ## Antes de publicar
 

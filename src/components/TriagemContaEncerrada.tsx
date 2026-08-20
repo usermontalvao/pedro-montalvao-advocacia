@@ -162,7 +162,6 @@ export function TriagemContaEncerrada() {
   }
 
   function aoAbrirWhatsApp() {
-    evento('Contact', { content_name: 'Questionário conta bloqueada ou encerrada' });
     try {
       window.localStorage.removeItem(CHAVE_RASCUNHO);
     } catch {

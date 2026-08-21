@@ -29,6 +29,9 @@ export function RastreamentoMeta() {
     if (caminho === '/conta-encerrada/') {
       evento('ViewContent', { content_name: 'Landing conta bloqueada ou encerrada' });
     }
+    if (caminho === '/trabalho-sem-registro/') {
+      evento('ViewContent', { content_name: 'Landing trabalho sem registro' });
+    }
     ultimaRota.current = caminho;
   }, [caminho]);
 

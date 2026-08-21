@@ -19,6 +19,7 @@ import { ListaArtigos, PaginaArtigo } from './pages/Artigos';
 import { Juridico, type PaginaJuridica } from './pages/Juridico';
 import { MapaDoSite, GRUPOS_DO_MAPA } from './pages/MapaDoSite';
 import { ContaEncerrada } from './pages/ContaEncerrada';
+import { SemRegistro } from './pages/SemRegistro';
 import { CalculadoraRescisao, FAQ_RESCISAO, ListaCalculadoras } from './pages/Calculadoras';
 import { CalculadoraTrabalhista, faqDaCalculadora } from './pages/CalculadorasTrabalhistas';
 import { CalculadoraPensao, FAQ_PENSAO } from './pages/CalculadoraPensao';
@@ -530,6 +531,29 @@ export const ROTAS: Rota[] = [
       naoIndexar: true,
     },
     elemento: <ContaEncerrada />,
+  },
+
+  /*
+    Campanha paga — trabalho sem registro em carteira.
+
+    Mesmas regras da campanha acima: fora do índice e fora do sitemap, porque o
+    tráfego vem do anúncio e o assunto em busca orgânica pertence às páginas de
+    área. Continua pré-renderizada, porque um anúncio que abre uma tela branca
+    até o JavaScript carregar perde o clique que acabou de ser pago.
+  */
+  {
+    caminho: '/trabalho-sem-registro/',
+    prioridade: 0.1,
+    semLayout: true,
+    foraDoSitemap: true,
+    seo: {
+      titulo: 'Trabalho sem registro em carteira | Pedro Montalvão Advocacia',
+      descricao:
+        'Questionário sobre trabalho sem registro em carteira: prazo para reclamar, tipo de empregador e os elementos que a CLT considera na relação de emprego.',
+      caminho: '/trabalho-sem-registro/',
+      naoIndexar: true,
+    },
+    elemento: <SemRegistro />,
   },
 
   {

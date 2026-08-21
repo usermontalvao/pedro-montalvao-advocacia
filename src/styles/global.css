@@ -11355,7 +11355,18 @@ html {
 
 .tf__tela {
   display: flex;
-  align-items: center;
+  /*
+    `flex-start` + `margin-block: auto` no filho, e NÃO `align-items: center`.
+
+    As duas receitas centram igual enquanto sobra espaço. A diferença aparece
+    quando o conteúdo é mais alto que a área: `align-items: center` empurra o
+    bloco para cima do início do contêiner, e o que passa da borda superior
+    fica INALCANÇÁVEL — `scrollTop` já está em 0 e ainda assim a pergunta está
+    fora da tela. Foi o que aconteceu na pergunta de 11 opções: dava para ver a
+    lista e nunca a pergunta. Com `margin: auto` o centro vira "o espaço que
+    sobrou", que é zero quando não sobra nada, e a rolagem alcança o topo.
+  */
+  align-items: flex-start;
   min-height: 0;
   padding: clamp(1rem, 4vh, 2.5rem) clamp(1.15rem, 5vw, 3rem);
   overflow-y: auto;
@@ -11390,6 +11401,8 @@ html {
   width: 100%;
   max-width: 640px;
   margin-inline: auto;
+  /* Centra na vertical sem cortar o topo — ver o comentário em `.tf__tela`. */
+  margin-block: auto;
 }
 
 /* ------------------------------------------------------------- tipografia */
@@ -11812,5 +11825,202 @@ html {
   .tf__botao:hover,
   .tf__zap:hover {
     transform: none;
+  }
+}
+
+/* ==========================================================================
+   Campanha — trabalho sem registro em carteira (/trabalho-sem-registro/)
+
+   Esta landing REAPROVEITA a moldura (`.campanha`) e a triagem (`.tf`) da
+   campanha de conta encerrada: é o mesmo escritório, o mesmo formato de uma
+   pergunta por tela e a mesma barra fina no rodapé. Nada acima desta linha
+   precisou mudar.
+
+   O que existe aqui embaixo é só o que o roteiro novo trouxe e o antigo não
+   tinha: pergunta de múltipla escolha (que precisa de estado "marcado" e de um
+   botão para confirmar), campo de data, campo de dinheiro, o formulário de
+   contato do fim e a tela de recusa — que é neutra de propósito, sem vermelho
+   e sem nada que pareça reprovação.
+
+   Continua tudo prefixado (`tf`). Nada abaixo desta linha alcança as páginas
+   institucionais.
+   ========================================================================== */
+
+/* -------------------------------------------------------- múltipla escolha */
+
+.tf__opcao--marcada {
+  background: rgba(201, 168, 106, 0.18);
+  border-color: var(--dourado);
+}
+
+.tf__opcao--marcada .tf__letra {
+  background: var(--dourado);
+  border-color: var(--dourado);
+  color: #241b06;
+}
+
+/*
+  A lista longa fica mais densa.
+
+  Com onze opções o formato "uma pergunta por tela" só se sustenta se a lista
+  couber em poucas rolagens. O que encolhe é o respiro, nunca o alvo do dedo:
+  44px é o mínimo da Apple para toque e é onde esta régua para.
+*/
+.tf__opcoes[data-denso='true'] {
+  gap: 0.35rem;
+}
+
+.tf__opcoes[data-denso='true'] .tf__opcao {
+  min-height: 44px;
+  padding: 0.5rem 0.85rem;
+}
+
+.tf__opcoes[data-denso='true'] .tf__rotulo {
+  font-size: 0.94rem;
+}
+
+/* ---------------------------------------------------------------- dinheiro */
+
+/*
+  O campo de dinheiro herda o sublinhado dourado de `.tf__campo input`. O que
+  falta é só o botão parar de convidar enquanto o valor estiver vazio: sem
+  isto, "OK" fica dourado e brilhante sobre um campo em branco e a pessoa toca,
+  vê a mensagem de erro e conclui que a tela travou.
+*/
+.tf__botao:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.tf__botao:disabled:hover {
+  transform: none;
+}
+
+/* ------------------------------------------------------ formulário final */
+
+.tf__botao--grande {
+  margin-top: clamp(1.5rem, 4vh, 2.1rem);
+  padding: 1rem 2rem;
+  font-size: 0.86rem;
+}
+
+.tf__contato {
+  display: grid;
+  gap: 1.1rem;
+  width: 100%;
+  max-width: 420px;
+  margin-top: clamp(1.5rem, 4vh, 2.1rem);
+}
+
+.tf__contato .tf__botao--grande {
+  margin-top: 0.2rem;
+  justify-content: center;
+}
+
+/*
+  O verde como <button> de envio.
+
+  `.tf__zap` nasceu para um <a>, e botão não herda `font-family` nem perde a
+  borda sozinho — sem estas linhas o texto voltava para a fonte do sistema no
+  meio de uma tela inteira na tipografia da marca.
+*/
+.tf__zap--envio {
+  width: 100%;
+  margin-top: 0.2rem;
+  border: none;
+  font-family: var(--sans);
+  cursor: pointer;
+}
+
+.tf__linha {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.tf__linha > label {
+  color: var(--texto-claro-suave);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Mesma linha dourada do campo da triagem: um campo só, sem caixa. */
+.tf__linha input {
+  width: 100%;
+  padding: 0.3rem 0 0.5rem;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid rgba(201, 168, 106, 0.35);
+  border-radius: 0;
+  color: var(--texto-claro);
+  font-family: var(--sans);
+  font-size: 1.15rem;
+  font-weight: 500;
+  transition: border-color var(--transicao);
+}
+
+.tf__linha input::placeholder {
+  color: rgba(169, 164, 154, 0.45);
+  font-weight: 400;
+}
+
+.tf__linha input:focus {
+  outline: none;
+  border-bottom-color: var(--dourado);
+}
+
+.tf__linha input[aria-invalid='true'] {
+  border-bottom-color: #e8a49a;
+}
+
+.tf__linha small {
+  color: #e8a49a;
+  font-size: 0.78rem;
+}
+
+.tf__nota {
+  max-width: 46ch;
+  margin: 0.9rem 0 0;
+  color: rgba(169, 164, 154, 0.75);
+  font-size: 0.76rem;
+  line-height: 1.55;
+}
+
+.tf__nota a {
+  color: var(--dourado);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* --------------------------------------------------------- tela de recusa */
+
+/*
+  Sem vermelho, sem ícone de erro e sem borda de alerta.
+
+  A pessoa respondeu com honestidade a dez perguntas; o que a tela informa é
+  que este atendimento tem um recorte, não que ela fez algo errado nem que não
+  tem direito a nada. Um selo cinza e o mesmo tipo do resto é o que sustenta
+  essa diferença sem precisar escrevê-la.
+*/
+.tf__selo--neutro {
+  background: rgba(169, 164, 154, 0.08);
+  border-color: rgba(169, 164, 154, 0.22);
+  color: var(--texto-claro-suave);
+}
+
+.tf__bloco--negado .tf__titulo--fim {
+  font-size: clamp(1.5rem, 4.4vw, 2.25rem);
+  text-wrap: pretty;
+}
+
+.tf__bloco--negado .tf__apoio {
+  max-width: 52ch;
+}
+
+@media (min-width: 820px) {
+  .tf__contato {
+    max-width: 460px;
   }
 }

@@ -147,6 +147,13 @@ function fontesDaRota(caminho) {
       'src/lib/triagemContaEncerrada.ts',
     ];
   }
+  if (caminho === '/trabalho-sem-registro/') {
+    return [
+      'src/pages/SemRegistro.tsx',
+      'src/components/TriagemSemRegistro.tsx',
+      'src/lib/triagemSemRegistro.ts',
+    ];
+  }
   // O mapa muda quando muda qualquer coleção que ele lista.
   if (caminho === '/mapa-do-site/') {
     return [

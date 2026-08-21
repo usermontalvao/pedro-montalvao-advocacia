@@ -205,8 +205,59 @@ export function TriagemSemRegistro() {
   const chave = tela === 'abertura' ? 'abertura' : concluida ? 'fim' : passo?.chave;
   const negado = concluida && leitura.desfecho === 'desclassificado';
 
+  const podeVoltar = tela === 'perguntas' && (!concluida || negado);
+
   return (
     <div className="tf">
+      {/*
+        A barra do app.
+
+        Voltar à esquerda, progresso no meio, posição à direita — a mesma
+        disposição de qualquer aplicativo com etapas, e é justamente por ser a
+        de qualquer um que ninguém precisa aprender. Antes o progresso ficava no
+        rodapé e o "voltar" no canto inferior direito, que é onde ninguém
+        procura sair de uma tela.
+
+        Ela é renderizada sempre, mesmo na abertura, com o voltar invisível: se
+        aparecesse só depois, a primeira resposta empurraria a tela inteira
+        para baixo.
+      */}
+      <header className="tf__topo">
+        <button
+          type="button"
+          className="tf__voltar-app"
+          onClick={voltar}
+          aria-label="Voltar para a pergunta anterior"
+          hidden={!podeVoltar}
+        >
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden focusable="false">
+            <path
+              d="M15 5l-7 7 7 7"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+
+        <div
+          className="tf__barra"
+          role="progressbar"
+          aria-valuenow={avanco}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-label="Andamento da triagem"
+        >
+          <i style={{ width: `${avanco}%` }} />
+        </div>
+
+        <span className="tf__contador">
+          {tela === 'abertura' ? '' : `${Math.min(posicao, visiveis.length)}/${visiveis.length}`}
+        </span>
+      </header>
+
       <div className="tf__tela" key={chave} data-recuando={recuando ? 'true' : 'false'}>
         {tela === 'abertura' ? (
           <div className="tf__bloco">
@@ -215,15 +266,39 @@ export function TriagemSemRegistro() {
             <p className="tf__apoio">{ABERTURA.texto}</p>
 
             <div className="tf__acao">
-              <button type="button" className="tf__botao" onClick={comecar} data-cta="triagem-comecar">
+              <button
+                type="button"
+                className="tf__botao tf__botao--pulsa"
+                onClick={comecar}
+                data-cta="triagem-comecar"
+              >
                 {ABERTURA.botao}
                 {/*
-                  O tempo entra DENTRO do botão. Ele era uma linha cinza
-                  embaixo, e é o argumento que mais derruba objeção numa
-                  landing de anúncio: o dedo que hesita quer saber em quanto
-                  tempo isso acaba, não depois de clicar.
+                  A seta ocupa o lugar do "2 min" que ficava aqui. Ela não
+                  informa, aponta: diz para onde o toque leva e dá ao botão a
+                  direção que o rótulo sozinho não tem.
+
+                  É filha do botão, e é isso que a deixa deslizar no hover — a
+                  batida come o `transform` do próprio botão, mas não o de quem
+                  está dentro dele.
                 */}
-                <em>{ABERTURA.tempo}</em>
+                <svg
+                  className="tf__seta"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  aria-hidden
+                  focusable="false"
+                >
+                  <path
+                    d="M5 12h13m-5-6l6 6-6 6"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
               </button>
             </div>
 
@@ -243,11 +318,11 @@ export function TriagemSemRegistro() {
 
         {tela === 'perguntas' && passo ? (
           <div className="tf__bloco">
-            <span className="tf__numero">
-              {posicao}
-              <i aria-hidden>→</i>
-            </span>
-
+            {/*
+              Sem o número grande e dourado que ficava aqui: a barra de cima
+              diz a mesma coisa, e melhor, porque diz também quanto falta. Duas
+              indicações de posição na mesma tela é uma a mais.
+            */}
             <h2 className="tf__pergunta">{passo.pergunta}</h2>
             {passo.ajuda ? <p className="tf__apoio">{passo.ajuda}</p> : null}
 
@@ -278,51 +353,24 @@ export function TriagemSemRegistro() {
         ) : null}
 
         {concluida ? (
-          <Fecho leitura={leitura} mensagem={mensagem} aoAbrir={limparRascunho} />
+          <Fecho
+            leitura={leitura}
+            mensagem={mensagem}
+            aoAbrir={limparRascunho}
+            aoVoltar={voltar}
+          />
         ) : null}
       </div>
 
+      {/*
+        O rodapé guarda apenas o que a norma exige que esteja visível. O
+        progresso e o voltar subiram para a barra do app.
+      */}
       <footer className="tf__pe tf__pe--enxuto">
-        <div
-          className="tf__barra"
-          role="progressbar"
-          aria-valuenow={avanco}
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-label="Andamento da triagem"
-        >
-          <i style={{ width: `${avanco}%` }} />
-        </div>
-
-        <div className="tf__pe-linha">
-          {/*
-            A identificação e a ressalva ficam em toda tela, não só no fim: a
-            página é impulsionada, e o Provimento 205/2021 pede que o caráter
-            informativo seja visível — não escondido atrás de mais um clique.
-
-            Por isso este rodapé encolheu em vez de sair. Ele chegou a ocupar
-            9% da altura do celular, com quatro linhas de letra miúda logo
-            abaixo do botão verde — e nada aqui precisa dessa presença. O texto
-            foi cortado ao osso do que a norma pede (quem é o escritório, o
-            número da OAB, o caráter informativo e a ausência de promessa de
-            resultado); o resto era repetição do que a própria tela já diz.
-          */}
-          <span className="tf__legal">
-            {SITE.nome} · OAB/{SITE.uf} {SITE.oab} · conteúdo informativo, sem promessa de
-            resultado · <Link para="/politica-de-privacidade/">privacidade</Link>
-          </span>
-
-          {/*
-            O voltar continua de pé na tela de recusa. Um toque errado na
-            primeira pergunta não pode ser um beco sem saída — e é justamente
-            na primeira pergunta que o toque errado desclassifica.
-          */}
-          {tela === 'perguntas' && (!concluida || negado) ? (
-            <button type="button" className="tf__voltar" onClick={voltar}>
-              ← voltar
-            </button>
-          ) : null}
-        </div>
+        <span className="tf__legal">
+          {SITE.nome} · OAB/{SITE.uf} {SITE.oab} · conteúdo informativo, sem promessa de
+          resultado · <Link para="/politica-de-privacidade/">privacidade</Link>
+        </span>
       </footer>
     </div>
   );
@@ -349,10 +397,12 @@ function Fecho({
   leitura,
   mensagem,
   aoAbrir,
+  aoVoltar,
 }: {
   leitura: Leitura;
   mensagem: string;
   aoAbrir: () => void;
+  aoVoltar: () => void;
 }) {
   if (leitura.desfecho === 'desclassificado') {
     const recusa = FECHOS.desclassificado;
@@ -361,8 +411,34 @@ function Fecho({
         <span className="tf__selo tf__selo--neutro">{recusa.selo}</span>
         <h2 className="tf__titulo tf__titulo--fim">{recusa.titulo}</h2>
         {leitura.motivo ? <p className="tf__apoio">{leitura.motivo}</p> : null}
+
+        {/*
+          O voltar existe na barra de cima, como em toda tela — mas ali ele é
+          uma seta pequena, e esta é a única tela em que voltar é a ação mais
+          provável: quem chegou aqui por um toque errado precisa de uma saída
+          que se leia como saída, não de um ícone no canto.
+
+          É contorno, e não tinta sólida: convida sem empurrar. Empurrar quem
+          foi desclassificado a "tentar de novo" seria ensinar a mudar a
+          resposta até passar, que é o oposto do que esta triagem existe para
+          fazer.
+        */}
+        <button type="button" className="tf__refazer" onClick={aoVoltar}>
+          <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden focusable="false">
+            <path
+              d="M15 5l-7 7 7 7"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          Voltar
+        </button>
+
         <p className="tf__nota">
-          Se você respondeu alguma pergunta por engano, use o “voltar” aqui embaixo para corrigir.
+          Respondeu alguma pergunta por engano? Você pode voltar e corrigir.
         </p>
       </div>
     );

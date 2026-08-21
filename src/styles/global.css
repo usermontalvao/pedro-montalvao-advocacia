@@ -11846,6 +11846,238 @@ html {
    institucionais.
    ========================================================================== */
 
+/* ==========================================================================
+   O TEMA CLARO desta campanha
+
+   A landing de conta encerrada é preta e dourada. Esta é branca — decisão do
+   responsável, para um registro mais próximo do Typeform: limpo, sem cabeçalho
+   e sem nada além da pergunta.
+
+   Como isto não quebra a outra landing: o modificador redefine os TOKENS no
+   próprio elemento raiz. Como propriedade personalizada é resolvida onde é
+   usada e herda para baixo, `background: var(--tinta)` do `.campanha` e todo
+   `var(--texto-claro)` lá dentro passam a ler os valores daqui. Só sobra
+   escrever à mão as regras que tinham cor fixa em rgba, que são as de baixo.
+
+   Os nomes ficam ao contrário de propósito: `--texto-claro` aqui é escuro.
+   Renomear obrigaria a mexer nas regras compartilhadas, que é justamente o que
+   não se pode fazer sem arrastar a outra campanha junto.
+   ========================================================================== */
+
+.campanha--claro {
+  /*
+    UMA faixa, não duas.
+
+    O `.campanha` nasceu com `auto minmax(0, 1fr)`: a de cima era o cabeçalho,
+    a de baixo a triagem. Aqui o cabeçalho não existe, e os dois irmãos que
+    sobraram (o halo e a carteira) são absolutos — logo, fora do fluxo do grid.
+    A triagem caía sozinha na faixa `auto`, dimensionada pelo conteúdo em vez
+    de esticar, e o rodapé aparecia no meio da tela com o resto em branco.
+  */
+  grid-template-rows: minmax(0, 1fr);
+
+  --tinta: #fdfcfa;
+  --texto-claro: #17171c;
+  --texto-claro-suave: #5d5d69;
+  /* O dourado da marca não tem contraste sobre branco; escurece para servir. */
+  --dourado: #a07a34;
+  --dourado-claro: #8a682a;
+  --dourado-escuro: #b89050;
+
+  --linha: #e4dfd5;
+  --realce-fraco: rgba(160, 122, 52, 0.07);
+}
+
+/* O halo dourado é para fundo escuro; no claro vira só um calor no topo. */
+.campanha--claro .campanha__luz {
+  background: radial-gradient(58% 46% at 50% 0%, rgba(160, 122, 52, 0.07), transparent 72%);
+}
+
+.campanha--claro .campanha__carteira {
+  opacity: 0.16;
+}
+
+.campanha--claro .tf__olho {
+  border-color: rgba(160, 122, 52, 0.28);
+  background: var(--realce-fraco);
+}
+
+/* A alternativa: branca, com fio fino. É o que dá o ar de formulário limpo. */
+.campanha--claro .tf__opcao {
+  background: #fff;
+  border: 1px solid var(--linha);
+  border-radius: 6px;
+}
+
+.campanha--claro .tf__opcao:hover {
+  background: var(--realce-fraco);
+  border-color: var(--dourado);
+}
+
+.campanha--claro .tf__letra {
+  border-color: var(--linha);
+  border-radius: 4px;
+}
+
+/*
+  O botão principal é tinta sólida, sem degradê e sem brilho.
+
+  Dourado sobre branco desbota e puxa para o dourado de banner; preto sólido
+  com texto branco é o contraste máximo da tela e o que mais lê como
+  "profissional". O verde do WhatsApp continua verde — aquele é cor de marca
+  alheia e sinaliza para onde o botão leva.
+*/
+.campanha--claro .tf__botao {
+  background: #17171c;
+  color: #fff;
+  border-radius: 6px;
+  box-shadow: none;
+}
+
+.campanha--claro .tf__botao:hover {
+  background: #000;
+  box-shadow: 0 8px 22px rgba(23, 23, 28, 0.18);
+}
+
+.campanha--claro .tf__selo {
+  background: var(--realce-fraco);
+  border-color: rgba(160, 122, 52, 0.28);
+}
+
+.campanha--claro .tf__selo--neutro {
+  background: #f4f2ee;
+  border-color: var(--linha);
+  color: var(--texto-claro-suave);
+}
+
+.campanha--claro .tf__pe {
+  border-top-color: var(--linha);
+  background: rgba(253, 252, 250, 0.88);
+}
+
+.campanha--claro .tf__barra {
+  background: #eeeae2;
+}
+
+.campanha--claro .tf__legal,
+.campanha--claro .tf__pe--enxuto .tf__legal {
+  color: #8b8b95;
+}
+
+.campanha--claro .tf__nota {
+  color: #8b8b95;
+}
+
+.campanha--claro .tf__voltar {
+  border-color: var(--linha);
+  border-radius: 6px;
+}
+
+.campanha--claro .tf__voltar:hover {
+  border-color: var(--dourado);
+  color: var(--texto-claro);
+}
+
+.campanha--claro .tf__erro {
+  color: #b4392a;
+}
+
+/* ==========================================================================
+   A barra do app (só nesta campanha)
+   ========================================================================== */
+
+/*
+  Três faixas em vez de duas: barra de cima, conteúdo, rodapé.
+
+  `minmax(0, 1fr)` no meio, e não `1fr`, pelo mesmo motivo do `.campanha`: uma
+  faixa `1fr` guarda piso implícito do tamanho do conteúdo e uma pergunta longa
+  empurraria o rodapé para fora da janela.
+*/
+.campanha--claro .tf {
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+
+.tf__topo {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  /*
+    `env(safe-area-inset-*)` porque a página roda em tela cheia no navegador do
+    Instagram e do Facebook, de onde vem o tráfego: sem isto a barra fica sob o
+    entalhe do iPhone.
+  */
+  padding: calc(0.7rem + env(safe-area-inset-top)) clamp(1.15rem, 5vw, 3rem) 0.7rem;
+}
+
+.tf__voltar-app {
+  flex: none;
+  display: grid;
+  place-items: center;
+  /* 40px é o alvo de toque; o ícone dentro tem 20. */
+  width: 40px;
+  height: 40px;
+  margin-left: -0.6rem;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  color: var(--texto-claro-suave);
+  cursor: pointer;
+  transition: background var(--transicao), color var(--transicao);
+}
+
+.tf__voltar-app:hover {
+  background: rgba(23, 23, 28, 0.06);
+  color: var(--texto-claro);
+}
+
+/*
+  `hidden` no botão guarda o espaço porque o pai é flex com `gap`: o elemento
+  some, mas a barra e o contador não pulam de lugar entre a abertura e a
+  primeira pergunta.
+*/
+.tf__voltar-app[hidden] {
+  display: block;
+  visibility: hidden;
+}
+
+.tf__topo .tf__barra {
+  flex: 1;
+  height: 4px;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.tf__contador {
+  flex: none;
+  min-width: 3.2rem;
+  text-align: right;
+  color: var(--texto-claro-suave);
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/*
+  Sem a linha interna, o rodapé recebe o próprio respiro — e a própria
+  entrelinha.
+
+  O `font-size` e o `line-height` precisam estar AQUI, no bloco, e não só no
+  `<span>` de dentro. Um bloco desenha um "strut" invisível do tamanho da
+  própria entrelinha em cada linha que contém, e ele não encolhe porque o texto
+  dentro é menor: o rodapé media 72px de altura para duas linhas de 13px,
+  porque o strut herdado do corpo valia 28px cada.
+*/
+.tf__pe--enxuto {
+  padding: 0.5rem clamp(1.15rem, 5vw, 3rem) calc(0.5rem + env(safe-area-inset-bottom));
+  font-size: 0.56rem;
+  line-height: 1.5;
+}
+
+.tf__pe--enxuto .tf__legal {
+  display: block;
+}
+
 /* ----------------------------------------------------- abertura e âncora */
 
 /*
@@ -11869,14 +12101,24 @@ html {
   }
 }
 
-/* O tempo, dentro do botão. */
-.tf__botao em {
-  margin-left: 0.2rem;
-  padding-left: 0.6rem;
-  border-left: 1px solid rgba(36, 27, 6, 0.28);
-  font-style: normal;
-  font-weight: 600;
-  opacity: 0.75;
+.tf__seta {
+  flex: none;
+  margin-left: 0.15rem;
+  transition: transform var(--transicao);
+}
+
+.tf__botao:hover .tf__seta {
+  transform: translateX(3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tf__seta {
+    transition: none;
+  }
+
+  .tf__botao:hover .tf__seta {
+    transform: none;
+  }
 }
 
 .tf__garantias {
@@ -11926,9 +12168,9 @@ html {
 */
 .campanha__carteira {
   position: absolute;
-  right: -14%;
-  bottom: 4%;
-  width: min(52vw, 215px);
+  right: -12%;
+  bottom: 12%;
+  width: min(46vw, 190px);
   height: auto;
   color: var(--dourado);
   opacity: 0.1;
@@ -11989,6 +12231,32 @@ html {
   color: var(--dourado);
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+/* ------------------------------------------------- o botão que bate */
+
+/*
+  A mesma batida do verde, no botão que começa o questionário. Regra igual: a
+  animação come o `transform` do `:hover`, então quem responde ao mouse é a cor.
+*/
+.tf__botao--pulsa {
+  transform-origin: center;
+  animation: tf-batida 1s ease-in-out infinite;
+}
+
+.campanha--claro .tf__botao--pulsa:hover {
+  background: #000;
+  transform: scale(1.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tf__botao--pulsa {
+    animation: none;
+  }
+
+  .campanha--claro .tf__botao--pulsa:hover {
+    transform: none;
+  }
 }
 
 /* --------------------------------------------------- o verde que bate */
@@ -12090,28 +12358,12 @@ html {
   linha de base de 44px do alvo de toque do "voltar", que é o piso real da
   altura deste rodapé.
 */
-.tf__pe--enxuto .tf__barra {
-  height: 3px;
-}
-
-.tf__pe--enxuto .tf__pe-linha {
-  gap: 0.75rem;
-  padding: 0.4rem clamp(1.15rem, 5vw, 3rem);
-}
-
 .tf__pe--enxuto .tf__legal {
-  font-size: 0.56rem;
-  line-height: 1.45;
   color: rgba(169, 164, 154, 0.55);
 }
 
-.tf__pe--enxuto .tf__voltar {
-  padding: 0.3rem 0.6rem;
-  font-size: 0.68rem;
-}
-
 @media (min-width: 820px) {
-  .tf__pe--enxuto .tf__legal {
+  .tf__pe--enxuto {
     font-size: 0.62rem;
   }
 }
@@ -12130,6 +12382,42 @@ html {
   background: rgba(169, 164, 154, 0.08);
   border-color: rgba(169, 164, 154, 0.22);
   color: var(--texto-claro-suave);
+}
+
+/*
+  O voltar da tela de recusa.
+
+  Contorno em vez de tinta sólida, e 48px de altura porque é alvo de dedo. O
+  `--linha` só existe no tema claro; o valor de reserva mantém a regra íntegra
+  caso um dia ela seja usada sobre fundo escuro.
+*/
+.tf__refazer {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  margin-top: clamp(1.4rem, 4vh, 1.9rem);
+  padding: 0.75rem 1.5rem 0.75rem 1.2rem;
+  background: transparent;
+  border: 1px solid var(--linha, rgba(201, 168, 106, 0.3));
+  border-radius: 6px;
+  color: var(--texto-claro);
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background var(--transicao), border-color var(--transicao);
+}
+
+.tf__refazer:hover {
+  background: var(--realce-fraco, rgba(201, 168, 106, 0.1));
+  border-color: var(--dourado);
+}
+
+.tf__bloco--negado .tf__nota {
+  margin-top: 0.7rem;
 }
 
 .tf__bloco--negado .tf__titulo--fim {

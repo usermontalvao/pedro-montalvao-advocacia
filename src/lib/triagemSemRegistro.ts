@@ -117,8 +117,6 @@ export const ABERTURA = {
   */
   texto: 'Sem férias, sem 13º, sem FGTS, sem INSS — e nada assinado no fim.',
   botao: 'Verificar meu caso',
-  /* Vai DENTRO do botão: é a objeção número um, e estava em cinza embaixo. */
-  tempo: '2 min',
   /*
     A promessa que só pôde ser feita depois de o formulário de contato sair.
     Cada campo removido virou uma palavra desta linha — e é provavelmente o que

@@ -1,6 +1,4 @@
 import { TriagemSemRegistro } from '../components/TriagemSemRegistro';
-import { oabFormatada } from '../site.config';
-import { Marca } from '../components/Marca';
 
 /**
  * Landing da campanha "trabalhou sem registro em carteira".
@@ -9,25 +7,26 @@ import { Marca } from '../components/Marca';
  * convencimento abaixo: quem chega aqui veio de um anúncio que já explicou o
  * assunto, e qualquer outra coisa na tela é um caminho para não responder.
  *
- * A identificação do escritório e o aviso de que ali não há promessa de
- * resultado — o que a publicidade da advocacia exige — ficam na moldura, sem
- * disputar espaço com a pergunta.
+ * NÃO HÁ CABEÇALHO, e a ausência é a decisão de projeto desta tela.
  *
- * A moldura é a mesma de `/conta-encerrada/` (`.campanha`), de propósito: são
- * duas campanhas do mesmo escritório e a pessoa que já viu uma reconhece a
- * outra. O que muda entre elas é o roteiro, não a casca.
+ * Havia logo à esquerda e OAB à direita, ocupando os primeiros 59px do
+ * aparelho e sendo a primeira coisa que o visitante lia — quando a primeira
+ * coisa tem de ser a pergunta. Num formulário do gênero, tudo que emoldura
+ * rouba da pergunta: o que fica é o texto sobre o branco.
+ *
+ * A identificação do escritório e a ressalva de conteúdo informativo, que a
+ * publicidade da advocacia exige, continuam visíveis em toda tela — mudaram de
+ * lugar, não sumiram: vivem no rodapé da triagem, em uma linha discreta.
+ *
+ * A moldura é a mesma de `/conta-encerrada/` (`.campanha`), mas com o tema
+ * claro por cima (`.campanha--claro`). O roteiro e a casca mudam; o mecanismo
+ * de uma pergunta por tela é o mesmo das duas campanhas.
  */
 export function SemRegistro() {
   return (
-    <div className="campanha">
+    <div className="campanha campanha--claro">
       <div className="campanha__luz" aria-hidden />
-
       <MarcaDaCarteira />
-
-      <header className="campanha__topo">
-        <Marca tom="claro" altura={30} compacta tipografiaEditorial />
-        <span className="campanha__oab">{oabFormatada()}</span>
-      </header>
 
       {/*
         O <h1> da página é o título da tela de abertura, dentro da triagem — é

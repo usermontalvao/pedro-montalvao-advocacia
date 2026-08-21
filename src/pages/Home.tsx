@@ -5,6 +5,7 @@ import { Revelar } from '../components/Revelar';
 import { Faq } from '../components/Faq';
 import { SecaoCta } from '../components/SecaoCta';
 import { AberturaMarca } from '../components/AberturaMarca';
+import { AvisoDeGolpe } from '../components/AvisoDeGolpe';
 import { Parallax } from '../components/movimento';
 import conteudo from '../content/home.json';
 import areas from '../content/areas.json';
@@ -13,6 +14,8 @@ export function Home() {
   return (
     <>
       <AberturaMarca />
+      {/* Só a home interrompe o visitante — ver o cabeçalho de AvisoDeGolpe. */}
+      <AvisoDeGolpe />
 
       <section className="heroi-cine heroi-cine--principal">
         <div className="heroi-cine__midia" aria-hidden>

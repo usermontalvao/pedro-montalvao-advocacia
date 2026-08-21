@@ -148,3 +148,36 @@ export const ICONES_AREA = {
 } as const;
 
 export type NomeIcone = keyof typeof ICONES_AREA;
+
+/** Triângulo de atenção — usado no aviso de golpe. */
+export function IconeAlerta({ tamanho = 24, className }: Props) {
+  return (
+    <svg {...base(tamanho)} className={className}>
+      <path d="M10.3 3.9 1.9 18.3a2 2 0 0 0 1.7 3h16.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" />
+      <path d="M12 9v4.5M12 17.2h.01" />
+    </svg>
+  );
+}
+
+/** Telefone cortado — "esta instituição não liga para você". */
+export function IconeTelefoneCortado({ tamanho = 24, className }: Props) {
+  return (
+    <svg {...base(tamanho)} className={className}>
+      <path d="M10.7 5.3 9.5 3.4a1.4 1.4 0 0 0-1.8-.5L5.1 4.2A2.4 2.4 0 0 0 3.9 6.7c.5 3 2.1 5.8 4.3 8" />
+      <path d="M12.6 14.4c2 1.7 4.4 2.9 7 3.3a2.4 2.4 0 0 0 2.4-1.2l1.2-2.6a1.4 1.4 0 0 0-.5-1.8l-1.9-1.2" />
+      <path d="M3 3l18 18" />
+    </svg>
+  );
+}
+
+/** Cifrão barrado — o dinheiro que o golpe pede e o escritório não pede. */
+export function IconeSemCobranca({ tamanho = 24, className }: Props) {
+  return (
+    <svg {...base(tamanho)} className={className}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M14.6 9.2a2.8 2.8 0 0 0-2.6-1.4c-1.5 0-2.6.8-2.6 2s1 1.7 2.6 2.1c1.7.4 2.8 1 2.8 2.2s-1.1 2.1-2.8 2.1a3 3 0 0 1-2.8-1.6" />
+      <path d="M12 6v12" />
+      <path d="M4 20 20 4" />
+    </svg>
+  );
+}

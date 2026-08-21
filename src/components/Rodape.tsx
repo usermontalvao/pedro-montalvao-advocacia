@@ -53,6 +53,7 @@ export function Rodape() {
             <Link para="/calculadoras/">Calculadoras</Link>
             <Link para="/artigos/">Artigos</Link>
             <Link para="/contato-advogado-cuiaba/">Contato e localização</Link>
+            <Link para="/alerta-de-golpe/">Alerta de golpe</Link>
           </nav>
 
           <nav className="rodape-novo__areas" aria-label="Áreas jurídicas">

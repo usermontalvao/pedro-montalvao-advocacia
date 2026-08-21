@@ -68,7 +68,10 @@ function atualizacaoDe(rota, raiz, cacheDatas) {
 
 /** De quais arquivos esta rota é feita. */
 function fontesDaRota(caminho) {
-  if (caminho === '/') return ['src/content/home.json', 'src/pages/Home.tsx'];
+  // O aviso de golpe é da home: mudou o aviso, mudou a data da home.
+  if (caminho === '/') {
+    return ['src/content/home.json', 'src/pages/Home.tsx', 'src/components/AvisoDeGolpe.tsx'];
+  }
   if (caminho === '/areas-de-atuacao/') return ['src/content/areas.json', 'src/pages/AreasAtuacao.tsx'];
   if (caminho === '/sobre-advogado-cuiaba/') return ['src/content/sobre.json', 'src/pages/Sobre.tsx'];
   if (caminho === '/contato-advogado-cuiaba/') return ['src/pages/Contato.tsx', 'src/site.config.ts'];
@@ -89,6 +92,14 @@ function fontesDaRota(caminho) {
   }
   if (caminho === '/politica-de-privacidade/' || caminho === '/termos-de-uso/') {
     return ['src/content/juridico.json'];
+  }
+  if (caminho === '/alerta-de-golpe/') {
+    return [
+      'src/pages/AlertaGolpe.tsx',
+      'src/components/FitaCena.tsx',
+      'src/lib/numeroOficial.ts',
+      'src/site.config.ts',
+    ];
   }
   if (caminho === '/conta-encerrada/') {
     return [

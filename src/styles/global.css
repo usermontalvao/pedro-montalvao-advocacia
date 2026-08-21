@@ -12428,3 +12428,1375 @@ html {
 .tf__bloco--negado .tf__apoio {
   max-width: 52ch;
 }
+
+/* ==========================================================================
+   ALERTA DE GOLPE — /alerta-de-golpe/ e o aviso da home
+
+   Página institucional, dentro do layout do site, com dois acentos que o resto
+   dele não tem: o vermelho do alerta e o amarelo da fita de isolamento. Os
+   dois aparecem só onde precisam gritar — a fita no alto, o vermelho no selo,
+   nas marcas da conversa falsa e no veredito negativo. Espalhá-los por tudo
+   transformaria a página no panfleto que ela não é: quem chega aqui já está
+   assustado, e o que acalma é ver o escritório falando, não o alarme piscando.
+
+   O raio dos cantos segue o do site (2px, praticamente reto). A versão
+   anterior desta página usava 10–16px e era o que mais a denunciava como peça
+   colada por cima de um site que não é assim.
+
+   Tudo abaixo é prefixado com `golpe`, `conferidor`, `fita-cena` ou
+   `aviso-golpe`, salvo o que reaproveita componentes já existentes
+   (`.passo`, `.faq`, `.grade`, `.botao`).
+   ========================================================================== */
+
+.heroi--alerta {
+  --alerta: #d3453a;
+  --alerta-claro: #f0a49c;
+  --fita: #f2c200;
+  /*
+    A cena do golpe é o fundo do herói INTEIRO — de borda a borda da tela.
+
+    Ela já morou dentro do painel do topo, e ali virava um quadro pendurado:
+    uma caixa com moldura no meio de uma seção escura, com a fotografia presa
+    dentro dela. Fotografia de fundo tem de sangrar; o que organiza a leitura
+    é o degradê por cima, não uma borda em volta.
+  */
+  background:
+    linear-gradient(
+      100deg,
+      var(--tinta) 4%,
+      rgba(9, 9, 11, 0.95) 32%,
+      rgba(9, 9, 11, 0.72) 62%,
+      rgba(9, 9, 11, 0.86) 100%
+    ),
+    linear-gradient(to bottom, rgba(9, 9, 11, 0.92) 0%, rgba(9, 9, 11, 0.25) 24%),
+    linear-gradient(to top, var(--tinta) 2%, rgba(9, 9, 11, 0) 30%),
+    url('/midia/alerta-golpe-cena-larga.webp') center 42% / cover no-repeat,
+    var(--tinta);
+  /*
+    A altura em que a fita atravessa o herói — logo abaixo do cabeçalho fixo.
+    O respiro do topo é CALCULADO a partir dela, e não escolhido à parte: foi
+    assim que, no celular, o conteúdo encostou na fita com um pixel de folga.
+  */
+  --fita-topo: clamp(88px, 11vh, 124px);
+  padding-block: calc(var(--fita-topo) + clamp(4.5rem, 8vw, 6rem)) clamp(3rem, 6vw, 4.5rem);
+}
+
+/* --- A fita de isolamento ------------------------------------------------ */
+
+/*
+  A fita amarela é a única coisa da página que se entende antes de ler. Ela é
+  desenhada como fita de verdade: texto repetido sem começo nem fim, brilho de
+  vinil na parte de cima, sombra própria projetada na página — e uma inclinação
+  de pouco mais de um grau, o bastante para parecer esticada de ponta a ponta e
+  longe o suficiente do adesivo torto de banner.
+
+  Nada se move. Fita animada viraria pisca-pisca de anúncio e derrubaria a
+  seriedade que o resto da página constrói.
+*/
+.fita-cena {
+  /*
+    O amarelo mora AQUI, e não só no herói: a mesma fita é usada pelo aviso da
+    home, e uma variável declarada apenas na página de alerta deixava o
+    gradiente inválido lá — fita preta, sem erro nenhum no console.
+  */
+  --fita: #f2c200;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #ffdc4a 0%, var(--fita) 42%, #dcae00 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), inset 0 -1px 0 rgba(0, 0, 0, 0.22),
+    0 14px 34px rgba(0, 0, 0, 0.4);
+  user-select: none;
+}
+
+.fita-cena__corrida {
+  display: flex;
+  align-items: center;
+  padding-block: 0.5rem;
+  white-space: nowrap;
+}
+
+.fita-cena__item {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: #17140a;
+}
+
+/* O losango que separa as palavras — o mesmo desenho da fita impressa. */
+.fita-cena__item i {
+  width: 5px;
+  height: 5px;
+  margin-inline: 1.1rem;
+  background: #17140a;
+  transform: rotate(45deg);
+  opacity: 0.85;
+}
+
+/*
+  No herói ela atravessa a página inteira, sangrando pelos dois lados — por
+  isso o exagero de largura: com a inclinação, uma fita da largura exata da
+  tela deixaria os cantos aparecendo.
+*/
+.heroi--alerta .fita-cena {
+  position: absolute;
+  left: -5%;
+  right: -5%;
+  top: var(--fita-topo);
+  z-index: 3;
+  transform: rotate(-1.15deg);
+  pointer-events: none;
+}
+
+.golpe-estreito {
+  max-width: 900px;
+}
+
+/* --- Topo: o texto à esquerda, o conferidor à direita --------------------- */
+
+/*
+  O conferidor fica no alto, e não numa seção mais abaixo: quem abre esta
+  página está com a conversa do golpista na outra mão e com a pressa que o
+  golpe fabricou. Rolar para achar a resposta é tempo a favor do criminoso.
+*/
+.golpe-topo {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-areas: 'texto conferidor';
+  grid-template-columns: minmax(0, 1.02fr) minmax(360px, 0.98fr);
+  gap: clamp(1.6rem, 4vw, 3.5rem);
+  align-items: start;
+}
+
+.golpe-topo__texto {
+  grid-area: texto;
+  position: relative;
+  z-index: 1;
+}
+
+.golpe-selo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: clamp(1.1rem, 3vw, 1.6rem);
+  padding: 0.4rem 0.95rem 0.4rem 0.4rem;
+  border: 1px solid rgba(211, 69, 58, 0.45);
+  border-radius: 999px;
+  background: rgba(211, 69, 58, 0.12);
+  color: var(--alerta-claro);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.golpe-selo__pulso {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--alerta);
+  color: #fff;
+}
+
+/*
+  A pulsação é lenta e curta de propósito: sinaliza "isto está ativo" sem virar
+  pisca-pisca. Quem pediu menos movimento no sistema não vê nenhuma.
+*/
+.golpe-selo__pulso::after {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid var(--alerta);
+  animation: golpe-pulso 2.8s ease-out infinite;
+}
+
+@keyframes golpe-pulso {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  70%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.golpe-titulo {
+  margin-bottom: clamp(1rem, 2.5vw, 1.4rem);
+  font-size: clamp(2.6rem, 5.4vw, 4.15rem);
+  line-height: 0.96;
+  letter-spacing: -0.005em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+/*
+  A segunda linha entra menor e em dourado: o peso fica com "Alerta de golpe",
+  que é o que a pessoa procura e o que ela precisa entender de longe.
+*/
+.golpe-titulo em {
+  display: block;
+  margin-top: 0.15em;
+  font-style: normal;
+  font-size: 0.46em;
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+}
+
+.golpe-atualizado {
+  margin: 1.4rem 0 0;
+  color: var(--texto-claro-suave);
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+}
+
+.golpe-atualizado time {
+  color: var(--dourado-claro);
+}
+
+.heroi--alerta .chamada {
+  max-width: 48ch;
+}
+
+.heroi--alerta .chamada strong {
+  color: var(--texto-claro);
+  font-weight: 650;
+}
+
+/* --- O conferidor -------------------------------------------------------- */
+
+.conferidor {
+  grid-area: conferidor;
+  align-self: start;
+  position: relative;
+  z-index: 2;
+  scroll-margin-top: 90px;
+  padding: clamp(1.35rem, 3.2vw, 1.9rem);
+  background: linear-gradient(180deg, rgba(31, 31, 36, 0.9), rgba(16, 16, 19, 0.95));
+  border: 1px solid rgba(201, 168, 106, 0.26);
+  border-radius: var(--raio-g);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+}
+
+/*
+  O fio no alto do cartão é o resumo do veredito visto de longe: dourado
+  enquanto ninguém digitou, verde quando o contato é do escritório, vermelho
+  quando não é. É a mesma informação da caixa de texto, disponível pelo canto
+  do olho.
+*/
+.conferidor::before {
+  content: '';
+  position: absolute;
+  inset: -1px -1px auto;
+  height: 3px;
+  background: var(--dourado);
+  transition: background var(--transicao);
+}
+
+.conferidor[data-estado='oficial']::before {
+  background: var(--verde-zap);
+}
+
+.conferidor[data-estado='diferente']::before {
+  background: var(--alerta);
+}
+
+.conferidor[data-estado='nome']::before {
+  background: var(--fita, #f2c200);
+}
+
+.conferidor__cabeca h2 {
+  margin: 0 0 0.4rem;
+  font-size: clamp(1.35rem, 2.6vw, 1.6rem);
+  line-height: 1.15;
+  color: var(--texto-claro);
+}
+
+.conferidor__cabeca p {
+  margin: 0;
+  color: var(--texto-claro-suave);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.conferidor__olho {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
+  color: var(--dourado);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.conferidor__campo {
+  margin-top: 1.2rem;
+}
+
+.conferidor__campo label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--texto-claro-suave);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.conferidor__campo input {
+  width: 100%;
+  min-height: 62px;
+  padding: 0.7rem 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(232, 212, 166, 0.22);
+  border-radius: var(--raio);
+  font-family: var(--serif);
+  font-size: clamp(1.6rem, 5vw, 2.1rem);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  color: var(--texto-claro);
+  transition: border-color var(--transicao), background var(--transicao);
+}
+
+.conferidor__campo input::placeholder {
+  color: rgba(169, 164, 154, 0.5);
+}
+
+.conferidor__campo input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.07);
+  border-color: var(--dourado);
+}
+
+.conferidor__campo input:focus-visible {
+  outline: 2px solid var(--dourado);
+  outline-offset: 2px;
+}
+
+/*
+  O veredito muda de cor, nunca de posição: a caixa já ocupa o espaço enquanto
+  a pessoa digita. Um bloco que aparece do nada empurra o texto e faz o dedo
+  errar o alvo justamente na hora em que a resposta importa.
+*/
+.conferidor__veredito {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  min-height: 104px;
+  margin-top: 0.9rem;
+  padding: 0.95rem 1rem;
+  border-left: 3px solid rgba(232, 212, 166, 0.25);
+  background: rgba(255, 255, 255, 0.035);
+  transition: background var(--transicao), border-color var(--transicao);
+}
+
+.conferidor__veredito strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 1.02rem;
+  line-height: 1.25;
+  color: var(--texto-claro);
+}
+
+.conferidor__veredito p {
+  margin: 0;
+  color: var(--texto-claro-suave);
+  font-size: 0.87rem;
+  line-height: 1.55;
+}
+
+.conferidor__espera {
+  align-self: center;
+}
+
+.conferidor__marca {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--texto-claro);
+}
+
+.conferidor__veredito[data-estado='oficial'] {
+  border-left-color: var(--verde-zap);
+  background: rgba(37, 211, 102, 0.1);
+}
+
+.conferidor__veredito[data-estado='oficial'] strong {
+  color: #8ce9b0;
+}
+
+.conferidor__veredito[data-estado='oficial'] .conferidor__marca {
+  background: rgba(37, 211, 102, 0.18);
+  color: #8ce9b0;
+}
+
+.conferidor__veredito[data-estado='diferente'] {
+  border-left-color: var(--alerta, #d3453a);
+  background: rgba(211, 69, 58, 0.12);
+}
+
+.conferidor__veredito[data-estado='diferente'] strong {
+  color: #f5b3ab;
+}
+
+.conferidor__veredito[data-estado='diferente'] .conferidor__marca {
+  background: rgba(211, 69, 58, 0.2);
+  color: #f5b3ab;
+}
+
+/*
+  Amarelo, e não vermelho: quem digitou um nome de perfil não recebeu um "não"
+  — recebeu um "isso não responde nada". Pintar de vermelho seria dizer que o
+  contato é falso, que é exatamente o que a página não pode afirmar a partir de
+  um nome.
+*/
+.conferidor__veredito[data-estado='nome'] {
+  border-left-color: var(--fita, #f2c200);
+  background: rgba(242, 194, 0, 0.11);
+}
+
+.conferidor__veredito[data-estado='nome'] strong {
+  color: #ffdc73;
+}
+
+.conferidor__veredito[data-estado='nome'] .conferidor__marca {
+  background: rgba(242, 194, 0, 0.18);
+  color: #ffdc73;
+}
+
+.conferidor__assinatura {
+  margin: 1rem 0 0;
+  color: var(--texto-claro-suave);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* --- A faixa do que se copia --------------------------------------------- */
+
+/*
+  Três vistos apagados e um X vermelho. É o argumento inteiro da página em uma
+  linha: tudo que identifica o escritório na tela pode ser copiado, menos o
+  número e o nome de usuário.
+*/
+.golpe-copiavel {
+  position: relative;
+  z-index: 2;
+  list-style: none;
+  margin: clamp(2.4rem, 6vw, 3.6rem) 0 0;
+  padding: clamp(0.85rem, 2vw, 1.1rem);
+  border: 1px solid var(--linha-escura);
+  border-radius: var(--raio-g);
+  background: rgba(255, 255, 255, 0.025);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.golpe-copiavel li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  color: var(--texto-claro-suave);
+  font-size: 0.95rem;
+  padding: 0.65rem;
+  border-radius: var(--raio);
+}
+
+.golpe-copiavel li > span[aria-hidden] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: rgba(240, 236, 228, 0.1);
+  font-size: 0.8rem;
+  line-height: 1;
+}
+
+.golpe-copiavel li small {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.golpe-copiavel li[data-copiavel='false'] {
+  color: var(--texto-claro);
+  font-weight: 600;
+  background: rgba(211, 69, 58, 0.08);
+}
+
+.golpe-copiavel li[data-copiavel='false'] > span[aria-hidden] {
+  background: var(--alerta, #d3453a);
+  color: #fff;
+}
+
+/* --- "Tribunal nenhum liga" ---------------------------------------------- */
+
+.golpe-tribunais h2 em {
+  font-style: normal;
+  color: #f0a49c;
+}
+
+.golpe-instituicoes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.9rem, 1.8vw, 1.25rem);
+}
+
+.golpe-instituicao {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(112px, 0.42fr) minmax(0, 1fr);
+  grid-template-rows: 1fr 1fr;
+  column-gap: 1rem;
+  height: 100%;
+  min-height: 126px;
+  padding: 0.9rem 1rem 0.9rem 0.9rem;
+  text-align: left;
+  border: 1px solid var(--linha-escura);
+  border-radius: var(--raio);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015));
+  transition: border-color var(--transicao), transform var(--transicao);
+}
+
+.golpe-instituicao:hover {
+  border-color: rgba(201, 168, 106, 0.3);
+  transform: translateY(-2px);
+}
+
+.golpe-instituicao__corte {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  color: rgba(211, 69, 58, 0.75);
+}
+
+/*
+  Altura fixa para os brasões: eles vêm de seis órgãos diferentes, em
+  proporções diferentes, e sem uma caixa comum a fila fica com seis tamanhos.
+  O cinza é o que os iguala sobre o fundo escuro — e deixa claro que estão ali
+  como referência, não como selo de parceria.
+*/
+.golpe-instituicao__brasao {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-height: 92px;
+  margin: 0;
+  padding: 0.85rem;
+  border-radius: var(--raio);
+  background: #f8f7f3;
+}
+
+.golpe-instituicao__brasao img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: none;
+  opacity: 1;
+}
+
+.golpe-instituicao[data-logo-tema='escuro'] .golpe-instituicao__brasao {
+  background: #111216;
+}
+
+.golpe-instituicao__sigla {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--dourado-claro);
+}
+
+.golpe-instituicao h3 {
+  grid-column: 2;
+  align-self: end;
+  margin: 0 0 0.35rem;
+  font-family: var(--sans);
+  font-size: 0.86rem;
+  font-weight: 650;
+  line-height: 1.35;
+  color: var(--texto-claro);
+  text-wrap: balance;
+}
+
+.golpe-instituicao p {
+  grid-column: 2;
+  align-self: start;
+  margin: 0;
+  font-size: 0.68rem;
+  line-height: 1.4;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(240, 164, 156, 0.8);
+}
+
+.golpe-instituicoes__nota {
+  max-width: 74ch;
+  margin: 1rem 0 0;
+  color: var(--texto-claro-suave);
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+/* --- O caminho real do dinheiro ------------------------------------------ */
+
+.golpe-caminho {
+  margin-top: clamp(2rem, 5vw, 3rem);
+  padding: clamp(1.5rem, 4vw, 2.2rem);
+  border: 1px solid var(--linha-escura);
+  border-radius: var(--raio);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.golpe-caminho__titulo {
+  margin: 0 0 1.4rem;
+  font-size: clamp(1.1rem, 2.4vw, 1.32rem);
+  color: var(--texto-claro);
+}
+
+.golpe-caminho__lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: clamp(1.2rem, 3vw, 2rem);
+  counter-reset: caminho;
+}
+
+.golpe-caminho__lista li {
+  position: relative;
+  padding-top: 2.6rem;
+  counter-increment: caminho;
+}
+
+/*
+  O número é um degrau, e a linha que o atravessa liga um ao outro: a ordem é
+  o argumento — em nenhum dos quatro passos existe pagamento feito por você.
+*/
+.golpe-caminho__lista li::before {
+  content: counter(caminho);
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(201, 168, 106, 0.45);
+  border-radius: 50%;
+  color: var(--dourado);
+  font-family: var(--serif);
+  font-size: 0.9rem;
+}
+
+.golpe-caminho__lista strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 1rem;
+  color: var(--texto-claro);
+}
+
+.golpe-caminho__lista span {
+  color: var(--texto-claro-suave);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.golpe-caminho__nota {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin: clamp(1.4rem, 3vw, 1.9rem) 0 0;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--linha-escura);
+  color: var(--dourado-claro);
+  font-size: 0.92rem;
+}
+
+.golpe-caminho__nota svg {
+  flex-shrink: 0;
+}
+
+/* --- A conversa falsa, desmontada ---------------------------------------- */
+
+.golpe-desmonte {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: clamp(1.6rem, 4vw, 3rem);
+  align-items: start;
+}
+
+.golpe-print {
+  padding: 0 0 1rem;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  background: var(--papel-2);
+  box-shadow: var(--sombra);
+  overflow: hidden;
+}
+
+.golpe-print__topo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  background: var(--tinta-2);
+  color: var(--texto-claro);
+}
+
+.golpe-print__avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--dourado-escuro), var(--dourado));
+  color: #241b06;
+  font-family: var(--serif);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.golpe-print__quem {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.golpe-print__quem strong {
+  font-size: 0.9rem;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.golpe-print__quem small {
+  color: var(--texto-claro-suave);
+  font-size: 0.72rem;
+}
+
+.golpe-print__falso {
+  flex-shrink: 0;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: var(--alerta, #d3453a);
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.golpe-print__conversa {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1rem;
+}
+
+.golpe-bolha {
+  position: relative;
+  max-width: 88%;
+  margin: 0;
+  padding: 0.7rem 3.4rem 0.7rem 0.9rem;
+  border-radius: 0 10px 10px 10px;
+  background: var(--papel);
+  box-shadow: 0 1px 2px rgba(14, 14, 16, 0.08);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--texto);
+}
+
+.golpe-bolha time {
+  position: absolute;
+  right: 0.7rem;
+  bottom: 0.5rem;
+  color: var(--texto-suave);
+  font-size: 0.65rem;
+  opacity: 0.7;
+}
+
+/* A marca numerada amarra a bolha à explicação da lista ao lado. */
+.golpe-marca {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-right: 0.5rem;
+  border-radius: 50%;
+  background: var(--alerta, #d3453a);
+  color: #fff;
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  font-weight: 800;
+  vertical-align: 2px;
+}
+
+.golpe-marca--lista {
+  flex-shrink: 0;
+  margin-right: 0;
+}
+
+.golpe-pistas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.golpe-pistas li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  padding-bottom: 1.15rem;
+  margin-bottom: 1.15rem;
+  border-bottom: 1px solid var(--linha);
+}
+
+.golpe-pistas li:last-child {
+  padding-bottom: 0;
+  margin-bottom: 0;
+  border-bottom: 0;
+}
+
+.golpe-pistas strong {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: 1.02rem;
+}
+
+.golpe-pistas p {
+  margin: 0;
+  color: var(--texto-suave);
+  font-size: 0.93rem;
+  line-height: 1.6;
+}
+
+/* --- Sinais, limites e denúncia ------------------------------------------ */
+
+.golpe-sinal {
+  position: relative;
+  height: 100%;
+  padding: clamp(1.35rem, 3vw, 1.7rem);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  background: var(--papel);
+  transition: border-color var(--transicao), transform var(--transicao);
+}
+
+.golpe-sinais {
+  counter-reset: sinal;
+}
+
+.golpe-sinal::before {
+  content: '0' counter(sinal);
+  display: block;
+  margin-bottom: 1.4rem;
+  color: #a32b21;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  counter-increment: sinal;
+}
+
+.golpe-sinal:hover {
+  border-color: rgba(211, 69, 58, 0.4);
+  transform: translateY(-3px);
+}
+
+.golpe-sinal h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.05rem;
+}
+
+.golpe-sinal p {
+  margin: 0;
+  color: var(--texto-suave);
+  font-size: 0.93rem;
+  line-height: 1.6;
+}
+
+.golpe-nunca {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  padding-inline: clamp(1rem, 3vw, 1.5rem);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio-g);
+  background: var(--papel);
+}
+
+.golpe-nunca li {
+  position: relative;
+  padding: 1.05rem 0 1.05rem 2.6rem;
+  border-bottom: 1px solid var(--linha);
+  font-size: 1.02rem;
+  line-height: 1.55;
+}
+
+.golpe-nunca li::before {
+  content: '✕';
+  position: absolute;
+  left: 0;
+  top: 1.05rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(211, 69, 58, 0.12);
+  color: #a32b21;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.golpe-passos .passo {
+  border-top-color: rgba(211, 69, 58, 0.7);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018));
+}
+
+/* --- Canais oficiais e denúncia ------------------------------------------ */
+
+.golpe-canais__grade {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+.golpe-canal {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  min-height: 92px;
+  padding: 1.2rem;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  background: var(--papel);
+  transition: border-color var(--transicao), box-shadow var(--transicao);
+}
+
+.golpe-canal:hover {
+  border-color: rgba(201, 168, 106, 0.42);
+  box-shadow: 0 12px 34px rgba(29, 26, 20, 0.06);
+}
+
+.golpe-canal--principal {
+  grid-column: 1 / -1;
+  align-items: center;
+  min-height: 104px;
+  background: linear-gradient(115deg, rgba(201, 168, 106, 0.1), var(--papel) 58%);
+}
+
+.golpe-canal--principal a {
+  font-weight: 650;
+  color: var(--dourado-escuro);
+}
+
+.golpe-canal > span[aria-hidden] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(201, 168, 106, 0.1);
+  color: var(--dourado-escuro);
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+.golpe-canal strong {
+  display: block;
+  margin-bottom: 0.2rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+.golpe-canal a,
+.golpe-canal > div > span {
+  font-size: 0.98rem;
+  line-height: 1.45;
+  color: var(--texto);
+  overflow-wrap: anywhere;
+}
+
+.golpe-canal a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.golpe-denuncia {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  counter-reset: denuncia;
+}
+
+.golpe-denuncia article {
+  position: relative;
+  min-height: 190px;
+  padding: clamp(1.3rem, 3vw, 1.7rem);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  background: var(--papel);
+  counter-increment: denuncia;
+}
+
+.golpe-denuncia article::before {
+  content: '0' counter(denuncia);
+  display: block;
+  margin-bottom: 1.4rem;
+  color: var(--dourado-escuro);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.golpe-denuncia h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.golpe-denuncia p {
+  margin: 0;
+  color: var(--texto-suave);
+  font-size: 0.95rem;
+}
+
+.golpe-nota {
+  margin-top: clamp(1.8rem, 4vw, 2.4rem);
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--linha);
+}
+
+/* ==========================================================================
+   O AVISO DA HOME
+
+   A única janela que o site abre por conta própria. As regras de quando ela
+   aparece estão em `components/AvisoDeGolpe.tsx`; aqui está só a aparência.
+   O bloco é curto de propósito: alerta, orientação e uma ação, sem repetir a
+   identidade institucional já visível na própria página.
+   ========================================================================== */
+
+.aviso-golpe {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.8rem, 3vw, 2.5rem);
+  background: rgba(8, 8, 10, 0.7);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  animation: aviso-fundo 260ms ease both;
+}
+
+.aviso-golpe__janela {
+  position: relative;
+  width: min(100%, 540px);
+  max-height: calc(100dvh - clamp(1.6rem, 6vw, 5rem));
+  overflow: auto;
+  background: var(--papel);
+  border: 1px solid var(--linha);
+  border-left: 4px solid #a84339;
+  border-radius: var(--raio-g);
+  box-shadow: 0 32px 90px rgba(0, 0, 0, 0.36);
+  animation: aviso-entrada 360ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+@keyframes aviso-fundo {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes aviso-entrada {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+}
+
+.aviso-golpe__x {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.1rem;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--linha);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--texto-suave);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color var(--transicao), border-color var(--transicao), background var(--transicao);
+}
+
+.aviso-golpe__x:hover {
+  color: var(--texto);
+  border-color: var(--texto);
+  background: var(--papel-2);
+}
+
+.aviso-golpe__corpo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(2rem, 5vw, 2.6rem);
+  background: var(--papel);
+}
+
+.aviso-golpe__selo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.85rem;
+  color: #8f3730;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.aviso-golpe__janela h2 {
+  margin: 0 0 0.8rem;
+  max-width: 20ch;
+  font-size: clamp(1.85rem, 4vw, 2.25rem);
+  line-height: 1.06;
+  color: var(--texto);
+  text-wrap: balance;
+}
+
+.aviso-golpe__janela p {
+  margin: 0;
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.aviso-golpe__regra {
+  margin-top: 1rem !important;
+  padding: 0.9rem 0;
+  border-top: 1px solid var(--linha);
+  border-bottom: 1px solid var(--linha);
+  background: transparent;
+}
+
+.aviso-golpe__regra strong {
+  color: var(--texto);
+  font-weight: 650;
+}
+
+.aviso-golpe__acoes {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1.1rem;
+}
+
+.aviso-golpe__acoes .botao {
+  flex: 1 1 auto;
+}
+
+.aviso-golpe__depois {
+  padding: 0.75rem 0.2rem;
+  background: none;
+  border: 0;
+  color: var(--texto-suave);
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color var(--transicao);
+}
+
+.aviso-golpe__depois:hover {
+  color: var(--texto);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+@media (max-width: 760px) {
+  .aviso-golpe__janela {
+    width: min(100%, 500px);
+  }
+
+  .aviso-golpe__corpo {
+    padding: clamp(1.3rem, 5vw, 1.8rem);
+  }
+
+  .aviso-golpe__janela h2 {
+    max-width: 17ch;
+    font-size: clamp(1.65rem, 7vw, 1.95rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .aviso-golpe {
+    align-items: center;
+    padding: 0.6rem;
+  }
+
+  .aviso-golpe__janela {
+    width: 100%;
+    max-height: calc(100dvh - 1.2rem);
+  }
+
+  .aviso-golpe__corpo {
+    padding: 3.1rem 1.15rem 1.2rem;
+  }
+
+  .aviso-golpe__janela h2 {
+    font-size: 1.58rem;
+  }
+
+  .aviso-golpe__acoes {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .aviso-golpe__acoes .botao,
+  .aviso-golpe__depois {
+    width: 100%;
+  }
+}
+
+/* --- Telas estreitas ------------------------------------------------------ */
+
+@media (max-width: 1100px) {
+  .golpe-instituicoes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .golpe-copiavel {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .golpe-topo,
+  .golpe-desmonte {
+    grid-template-columns: 1fr;
+  }
+
+  .golpe-topo {
+    grid-template-areas:
+      'conferidor'
+      'texto';
+  }
+
+  /*
+    No celular o conferidor sobe: o texto explica, mas quem chegou com a
+    mensagem aberta quer a resposta antes da explicação.
+  */
+  .conferidor {
+    order: -1;
+  }
+
+  /*
+    No celular a tela é alta e estreita: aqui quem serve é a versão em pé,
+    centrada na figura encapuzada. A larga viraria uma tira do meio da cena.
+  */
+  .heroi--alerta {
+    background:
+      linear-gradient(to bottom, rgba(9, 9, 11, 0.88) 0%, rgba(9, 9, 11, 0.6) 22%, rgba(9, 9, 11, 0.93) 62%, var(--tinta) 100%),
+      url('/midia/alerta-golpe-cena-900.webp') 53% 22% / cover no-repeat,
+      var(--tinta);
+  }
+
+  .golpe-bolha {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .golpe-instituicoes {
+    grid-template-columns: 1fr;
+  }
+
+  .golpe-copiavel,
+  .golpe-canais__grade,
+  .golpe-denuncia {
+    grid-template-columns: 1fr;
+  }
+
+  .golpe-instituicao {
+    grid-template-columns: 108px minmax(0, 1fr);
+  }
+
+  .golpe-denuncia article {
+    min-height: 0;
+  }
+
+  .fita-cena__item {
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .golpe-selo__pulso::after {
+    animation: none;
+  }
+
+  .aviso-golpe,
+  .aviso-golpe__janela {
+    animation: none;
+  }
+
+  .golpe-sinal:hover {
+    transform: none;
+  }
+}

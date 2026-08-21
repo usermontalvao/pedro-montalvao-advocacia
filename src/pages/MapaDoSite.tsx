@@ -62,6 +62,11 @@ export const GRUPOS_DO_MAPA: Grupo[] = [
         nota: 'WhatsApp, e-mail, endereço em Cuiabá e horário de atendimento.',
       },
       {
+        caminho: '/alerta-de-golpe/',
+        titulo: 'Alerta de golpe',
+        nota: 'O único número oficial, os sinais do golpe e o que fazer ao receber contato suspeito.',
+      },
+      {
         caminho: '/mapa-do-site/',
         titulo: 'Mapa do site',
         nota: 'Índice de todas as páginas publicadas e acessíveis no site.',

@@ -17,6 +17,7 @@
     "test:artigos": "node scripts/auditar-artigos.mjs",
     "test:calculadoras": "vite build --ssr scripts/auditar-calculadoras.ts --outDir .audit-build && node .audit-build/auditar-calculadoras.js",
     "test:seo-calculadoras": "node scripts/auditar-seo-calculadoras.mjs",
+    "test:numero-oficial": "vite build --ssr scripts/auditar-numero-oficial.ts --outDir .audit-build && node .audit-build/auditar-numero-oficial.js",
     "test:navegacao": "vite build --ssr scripts/auditar-navegacao.ts --outDir .audit-build && node .audit-build/auditar-navegacao.js",
     "test:triagem": "vite build --ssr scripts/auditar-triagem-sem-registro.ts --outDir .audit-build && node .audit-build/auditar-triagem-sem-registro.js",
     "test:triagem-completa": "vite build --ssr scripts/auditar-triagem-completa.ts --outDir .audit-build && node .audit-build/auditar-triagem-completa.js",

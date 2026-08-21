@@ -113,6 +113,20 @@ const FOTOS = [
     qualidade: 82,
   },
   { de: 'escritorio.webp', para: 'escritorio-cuiaba', larguras: [720, 1400], qualidade: 80 },
+  /*
+    A arte do alerta de golpe é a única que já nasce dentro do repositório: ela
+    não veio do acervo do escritório antigo nem de uma foto do celular. O
+    original fica em `public/midia/alerta-golpe-cena.png` e é daqui que saem as
+    duas versões WebP que o herói usa — a original PNG pesa alguns megabytes e
+    nunca deve ser servida ao visitante.
+  */
+  {
+    de: 'alerta-golpe-cena.png',
+    origem: 'midia',
+    para: 'alerta-golpe-cena',
+    larguras: [900, 1600],
+    qualidade: 78,
+  },
 ];
 
 const DOWNLOADS = path.join(process.env.HOME ?? '', 'Downloads');
@@ -126,6 +140,21 @@ const LOGOS = [
   },
   { de: 'advogado/MARCA DAGUA ORIGINAL.png', para: 'marca-dourada.png', largura: 1000 },
 ];
+
+/** Corta uma fração da imagem, em proporção — não em pixels do original. */
+async function recortar(imagem, { esquerda = 0, direita = 0, topo = 0, base = 0 }) {
+  const { width, height } = await sharp(imagem).metadata();
+  const left = Math.round(width * esquerda);
+  const top = Math.round(height * topo);
+  return sharp(imagem)
+    .extract({
+      left,
+      top,
+      width: Math.round(width * (1 - esquerda - direita)),
+      height: Math.round(height * (1 - topo - base)),
+    })
+    .toBuffer();
+}
 
 /** Mesmo desenho do logotipo, pintado de branco: mantém só o recorte do alfa. */
 async function versaoBranca(entrada, saida, largura) {
@@ -147,12 +176,26 @@ async function principal() {
   await fs.mkdir(DESTINO, { recursive: true });
 
   for (const foto of FOTOS) {
-    const entrada = path.join(foto.origem === 'downloads' ? DOWNLOADS : ORIGEM, foto.de);
+    const pasta =
+      foto.origem === 'downloads' ? DOWNLOADS : foto.origem === 'midia' ? DESTINO : ORIGEM;
+    const entrada = path.join(pasta, foto.de);
+
+    /*
+      Arte que ainda não chegou à pasta não derruba a rodada inteira: as outras
+      dezesseis imagens continuam sendo geradas, e o aviso diz qual falta.
+    */
+    if (!(await fs.stat(entrada).catch(() => null))) {
+      console.log('faltou', foto.de);
+      continue;
+    }
+
+    const original = await sharp(entrada).rotate().toBuffer();
+    const fonte = foto.recorte ? await recortar(original, foto.recorte) : original;
+
     for (const largura of foto.larguras) {
       const sufixo = largura === Math.max(...foto.larguras) ? '' : `-${largura}`;
       const saida = path.join(DESTINO, `${foto.para}${sufixo}.webp`);
-      await sharp(entrada)
-        .rotate()
+      await sharp(fonte)
         .resize(largura, null, { fit: 'inside', withoutEnlargement: true })
         .webp({ quality: foto.qualidade })
         .toFile(saida);

@@ -9,6 +9,7 @@ import {
   dadosDePerfil,
   urlAbsoluta,
 } from './lib/seo';
+import { TELEFONES_PUBLICOS } from './site.config';
 import { Home } from './pages/Home';
 import { Area } from './pages/Area';
 import { AreasAtuacao } from './pages/AreasAtuacao';
@@ -18,6 +19,7 @@ import { AtendimentoBrasil, FAQ_ATENDIMENTO_BRASIL } from './pages/AtendimentoBr
 import { ListaArtigos, PaginaArtigo } from './pages/Artigos';
 import { Juridico, type PaginaJuridica } from './pages/Juridico';
 import { MapaDoSite, GRUPOS_DO_MAPA } from './pages/MapaDoSite';
+import { ATUALIZADO_EM as GOLPE_ATUALIZADO_EM, AlertaGolpe, FAQ_GOLPE } from './pages/AlertaGolpe';
 import { ContaEncerrada } from './pages/ContaEncerrada';
 import { SemRegistro } from './pages/SemRegistro';
 import { CalculadoraRescisao, FAQ_RESCISAO, ListaCalculadoras } from './pages/Calculadoras';
@@ -434,6 +436,77 @@ export const ROTAS: Rota[] = [
       ],
     },
     elemento: <Contato />,
+  },
+
+  /*
+    Aviso público de golpe — indexada de propósito.
+
+    Quem recebe a mensagem falsa costuma procurar o nome do escritório no
+    buscador antes de pagar. Se o aviso oficial não estiver no índice, a única
+    coisa que essa busca devolve é o material que o golpista copiou. Por isso
+    esta página entra no sitemap, no rodapé e no mapa do site: ao contrário das
+    landings de campanha, ser encontrada é a função dela.
+  */
+  {
+    caminho: '/alerta-de-golpe/',
+    prioridade: 0.8,
+    seo: {
+      titulo: 'Alerta de golpe do falso advogado | Pedro Montalvão',
+      descricao:
+        'Alerta oficial: criminosos usam o nome e a foto do advogado para cobrar Pix. Confira o WhatsApp oficial, reconheça o golpe e saiba como denunciar.',
+      caminho: '/alerta-de-golpe/',
+      imagem: '/midia/alerta-golpe-cena.png',
+      /* A data sai da própria página: a tela e o buscador contam o mesmo dia. */
+      atualizadoEm: GOLPE_ATUALIZADO_EM,
+      dados: [
+        {
+          '@type': 'WebPage',
+          '@id': urlAbsoluta('/alerta-de-golpe/#aviso'),
+          name: 'Alerta de golpe — Pedro Montalvão Advocacia',
+          description:
+            'Comunicado oficial sobre o uso indevido do nome, da imagem e da identidade visual do escritório, com o único número de contato oficial.',
+          url: urlAbsoluta('/alerta-de-golpe/'),
+          inLanguage: 'pt-BR',
+          datePublished: GOLPE_ATUALIZADO_EM,
+          dateModified: GOLPE_ATUALIZADO_EM,
+          primaryImageOfPage: {
+            '@type': 'ImageObject',
+            url: urlAbsoluta('/midia/alerta-golpe-cena.png'),
+            width: 1536,
+            height: 1024,
+          },
+          /* O aviso é *sobre* o escritório: é o que liga esta página à entidade. */
+          about: { '@id': urlAbsoluta('/#escritorio') },
+          publisher: { '@id': urlAbsoluta('/#escritorio') },
+        },
+        /*
+          Os canais verdadeiros, também em dado estruturado.
+
+          É o mesmo conteúdo do quadro da página, dito na linguagem do
+          buscador: quando alguém procura o telefone do escritório e o
+          resultado aparece com um número ao lado, esse número precisa sair
+          daqui — e não de um anúncio comprado por quem se passa pelo
+          escritório.
+        */
+        {
+          '@type': 'Organization',
+          '@id': urlAbsoluta('/#escritorio'),
+          contactPoint: TELEFONES_PUBLICOS.map((numero) => ({
+            '@type': 'ContactPoint',
+            telephone: `+${numero.e164}`,
+            contactType: 'customer service',
+            areaServed: 'BR',
+            availableLanguage: 'Portuguese',
+          })),
+        },
+        dadosDePerguntas(FAQ_GOLPE),
+        dadosDeNavegacao([
+          { nome: 'Início', caminho: '/' },
+          { nome: 'Alerta de golpe', caminho: '/alerta-de-golpe/' },
+        ]),
+      ],
+    },
+    elemento: <AlertaGolpe />,
   },
 
   {

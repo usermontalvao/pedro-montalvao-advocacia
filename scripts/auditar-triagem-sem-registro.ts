@@ -19,7 +19,6 @@ import {
   passosVisiveis,
   progresso,
   proximoPasso,
-  telefoneFormatado,
   type Respostas,
 } from '../src/lib/triagemSemRegistro';
 
@@ -183,13 +182,12 @@ conferir('contrato em curso não prescreve', aindaTrabalha.alertas.some((a) => a
 
 /* ------------------------------------------------------------ a mensagem */
 
-const texto = mensagemDoWhatsApp(
-  roteiroCompleto,
-  qualificado,
-  { nome: 'Maria Silva', telefone: '(65) 98404-6375', cidade: 'Cuiabá / MT' },
-  { campanha: 'Sem registro — MT', anuncio: 'anúncio A' },
-);
-conferir('mensagem traz o nome', texto.includes('Nome: Maria Silva'));
+const texto = mensagemDoWhatsApp(roteiroCompleto, qualificado, {
+  campanha: 'Sem registro — MT',
+  anuncio: 'anúncio A',
+});
+// Nome e telefone NÃO são perguntados: chegam com a própria conversa.
+conferir('mensagem não pede nome nem telefone', !texto.includes('Nome:') && !texto.includes('WhatsApp:'));
 conferir('mensagem traz as tags', texto.includes('SEM_REGISTRO, QUALIFICADO'));
 conferir('mensagem traz a pontuação', texto.includes('Pontuação:'));
 conferir('mensagem traz a origem do anúncio', texto.includes('anúncio A'));
@@ -198,20 +196,18 @@ conferir('múltipla escolha vira lista legível', texto.includes('Rotina: Tinha 
 conferir('os três grupos aparecem no resumo', ['Rotina:', 'Chefia:', 'Estrutura:'].every((r) => texto.includes(r)));
 conferir('mensagem não vaza a chave crua', !texto.includes('quase_todos_dias') && !texto.includes('salario_fixo'));
 
-const semTermino = mensagemDoWhatsApp(
+const curta = mensagemDoWhatsApp(
   { sem_registro: 'sim', ainda_trabalha: 'sim', empregador: 'privada' },
   aindaTrabalha,
 );
-conferir('sem contato a mensagem não abre linha vazia', !semTermino.includes('\n\n\n'));
+conferir('a mensagem nunca abre linha vazia dupla', !curta.includes('\n\n\n'));
+conferir('a mensagem começa pelo assunto', curta.startsWith('Olá. Respondi o questionário'));
 
 /* ------------------------------------------------------------- máscaras */
 
 conferir('moeda monta da direita', moedaDeDigitos('180000').replace(/ /g, ' ') === 'R$ 1.800,00', moedaDeDigitos('180000'));
 conferir('moeda vazia continua vazia', moedaDeDigitos('') === '');
 conferir('moeda ignora letra', moedaDeDigitos('abc').length === 0);
-conferir('telefone de 11 dígitos', telefoneFormatado('65984046375') === '(65) 98404-6375');
-conferir('telefone de 10 dígitos', telefoneFormatado('6533334444') === '(65) 3333-4444');
-conferir('telefone parcial não quebra', telefoneFormatado('65') === '65');
 
 /* --------------------------------------------------------------- roteiro */
 

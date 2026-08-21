@@ -18,10 +18,17 @@
  *    final é o fim do caminho. É decisão expressa do responsável — o custo de
  *    atender um caso prescrito é maior que o de perder um contato duvidoso.
  *
- * 3. ESTA TRIAGEM PEDE NOME, WHATSAPP E CIDADE, e a outra não pede nada. Lá o
- *    contato chega junto no WhatsApp e perguntar antes seria cobrar dado
- *    pessoal para não usar. Aqui o dado é pedido DEPOIS da qualificação, nunca
- *    antes — e nunca a quem foi desclassificado.
+ * 3. ESTA TRIAGEM TAMBÉM NÃO PEDE NOME NEM TELEFONE. Houve uma versão que
+ *    pedia — nome, WhatsApp e cidade, num formulário na tela final — e ela foi
+ *    removida em 20/08/2026 pelo mesmo motivo da outra campanha: quem toca no
+ *    botão entra no WhatsApp no instante seguinte, e nome e número chegam
+ *    junto, escritos pelo próprio aplicativo. Pedir antes é cobrar três campos
+ *    para receber de novo o que já viria — e três campos no fim do funil é
+ *    onde mais se desiste.
+ *
+ *    O que NÃO chega sozinho pelo WhatsApp é a cidade. Se um dia ela fizer
+ *    falta no atendimento, o lugar dela é como pergunta do roteiro, entre as
+ *    outras, e não como formulário depois do resultado.
  *
  * ------------------------------------------------------------------------
  * REGISTRO DE UMA DECISÃO QUE NÃO É DESCUIDO
@@ -726,43 +733,6 @@ export const FECHOS = {
   },
 } as const;
 
-/* --------------------------------------------------------------- o contato */
-
-export type Contato = {
-  nome: string;
-  telefone: string;
-  cidade: string;
-};
-
-export const CONTATO_VAZIO: Contato = { nome: '', telefone: '', cidade: '' };
-
-/** `(65) 98404-6375`, montado enquanto se digita. */
-export function telefoneFormatado(bruto: string): string {
-  const digitos = bruto.replace(/\D/g, '').slice(0, 11);
-  if (digitos.length <= 2) return digitos;
-  if (digitos.length <= 6) return `(${digitos.slice(0, 2)}) ${digitos.slice(2)}`;
-  if (digitos.length <= 10) {
-    return `(${digitos.slice(0, 2)}) ${digitos.slice(2, 6)}-${digitos.slice(6)}`;
-  }
-  return `(${digitos.slice(0, 2)}) ${digitos.slice(2, 7)}-${digitos.slice(7)}`;
-}
-
-/** O que impede o envio, campo a campo. Vazio quando está tudo certo. */
-export function conferirContato(contato: Contato): Partial<Record<keyof Contato, string>> {
-  const problemas: Partial<Record<keyof Contato, string>> = {};
-
-  if (contato.nome.trim().length < 3) problemas.nome = 'Informe o seu nome completo.';
-
-  const digitos = contato.telefone.replace(/\D/g, '');
-  if (digitos.length < 10 || digitos.length > 11) {
-    problemas.telefone = 'Informe o WhatsApp com DDD.';
-  }
-
-  if (contato.cidade.trim().length < 3) problemas.cidade = 'Informe a cidade e o estado.';
-
-  return problemas;
-}
-
 /* ------------------------------------------------- a mensagem do WhatsApp */
 
 /** De onde o clique veio, quando o anúncio marcou o endereço. */
@@ -783,22 +753,19 @@ export type Origem = {
  * fica visível para quem envia, e é assim de propósito: nada ali envergonha a
  * pessoa, e um resumo escondido em campo invisível seria dado coletado sem
  * ela ver.
+ *
+ * Nome e telefone não aparecem porque não são perguntados: o WhatsApp os
+ * entrega junto com a conversa. Ver a decisão 3 no topo deste arquivo.
  */
 export function mensagemDoWhatsApp(
   respostas: Respostas,
   leitura: Leitura,
-  contato: Contato = CONTATO_VAZIO,
   origem: Origem = {},
 ): string {
   const linhas: string[] = [
     'Olá. Respondi o questionário do site sobre trabalho sem registro em carteira e gostaria de falar sobre o meu caso.',
     '',
   ];
-
-  if (contato.nome.trim()) linhas.push(`Nome: ${contato.nome.trim()}`);
-  if (contato.cidade.trim()) linhas.push(`Cidade/UF: ${contato.cidade.trim()}`);
-  if (contato.telefone.trim()) linhas.push(`WhatsApp: ${contato.telefone.trim()}`);
-  if (linhas.length > 2) linhas.push('');
 
   for (const passo of passosVisiveis(respostas)) {
     const valor = respostas[passo.chave];

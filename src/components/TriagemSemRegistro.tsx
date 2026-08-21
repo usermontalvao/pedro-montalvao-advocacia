@@ -1,19 +1,15 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import {
   ABERTURA,
-  CONTATO_VAZIO,
   FECHOS,
   SEPARADOR,
   avaliar,
   centavosDaMoeda,
-  conferirContato,
   mensagemDoWhatsApp,
   moedaDeDigitos,
   passosVisiveis,
   progresso,
   proximoPasso,
-  telefoneFormatado,
-  type Contato,
   type Leitura,
   type Passo,
   type Respostas,
@@ -38,9 +34,8 @@ import { Link } from '../lib/router';
  *
  * A diferença que mais importa em relação à outra triagem: ESTA DESCLASSIFICA.
  * Quando o desfecho é `desclassificado` a tela final não tem botão de WhatsApp,
- * não pede nome nem telefone, não chama `registrar()` e não dispara `Lead`. O
- * caminho acaba ali — a única coisa que continua disponível é o "voltar", para
- * quem tocou na opção errada.
+ * não chama `registrar()` e não dispara `Lead`. O caminho acaba ali — a única
+ * coisa que continua disponível é o "voltar", para quem tocou na opção errada.
  */
 
 const CHAVE_RASCUNHO = 'pma:triagem-sem-registro';
@@ -64,6 +59,10 @@ export function TriagemSemRegistro() {
   const passo = proximoPasso(respostas);
   const concluida = tela === 'perguntas' && passo === undefined;
   const leitura = useMemo(() => avaliar(respostas), [respostas]);
+  const mensagem = useMemo(
+    () => mensagemDoWhatsApp(respostas, leitura, origem),
+    [respostas, leitura, origem],
+  );
 
   const visiveis = passosVisiveis(respostas);
   const posicao = passo
@@ -129,13 +128,28 @@ export function TriagemSemRegistro() {
         `Lead`, sem lead gravado e, na tela, sem botão. Só o desfecho é medido,
         para que a campanha saiba quantos cliques comprou fora do público.
       */
-      const desfecho = avaliar(seguintes).desfecho;
-      eventoProprio('TriagemFim', { desfecho });
-      if (desfecho === 'desclassificado') return;
+      const leituraFinal = avaliar(seguintes);
+      eventoProprio('TriagemFim', { desfecho: leituraFinal.desfecho });
+      if (leituraFinal.desfecho === 'desclassificado') return;
+
+      /*
+        O lead é gravado aqui, e não no clique do WhatsApp: quem respondeu tudo
+        e não chegou a tocar no verde é justamente o registro que interessa
+        conferir depois. `Contact` continua sendo medido no clique, pelo
+        `RastreamentoMeta`, que escuta todo link do WhatsApp do escritório.
+      */
+      registrar({
+        nome: '',
+        telefone: '',
+        email: '',
+        area: 'Trabalho sem registro em carteira',
+        mensagem: mensagemDoWhatsApp(seguintes, leituraFinal, origem),
+        origem: `campanha sem registro · ${leituraFinal.tags.join(' ')}`,
+      });
 
       evento('Lead', { content_name: 'Questionário trabalho sem registro' });
     },
-    [respostas],
+    [respostas, origem],
   );
 
   /** Desfaz a última resposta — a pessoa clicou rápido e se arrependeu. */
@@ -397,12 +411,7 @@ export function TriagemSemRegistro() {
         ) : null}
 
         {concluida ? (
-          <Fecho
-            leitura={leitura}
-            respostas={respostas}
-            origem={origem}
-            aoEnviar={limparRascunho}
-          />
+          <Fecho leitura={leitura} mensagem={mensagem} aoAbrir={limparRascunho} />
         ) : null}
       </div>
 
@@ -451,33 +460,27 @@ export function TriagemSemRegistro() {
 /**
  * A tela final, nas três saídas.
  *
- * `desclassificado` é a saída que define o fluxo: sem botão, sem formulário e
- * sem nada indo para o CRM. Ela também não usa linguagem de negativa de
- * direito — diz que o caso não se enquadra NOS CRITÉRIOS DESTE ATENDIMENTO, que
- * é o que de fato foi apurado. "Você não tem direito" seria parecer jurídico
- * dado por um formulário a quem nunca foi cliente.
+ * `desclassificado` é a saída que define o fluxo: sem botão e sem nada indo
+ * para o CRM. Ela também não usa linguagem de negativa de direito — diz que o
+ * caso não se enquadra NOS CRITÉRIOS DESTE ATENDIMENTO, que é o que de fato
+ * foi apurado. "Você não tem direito" seria parecer jurídico dado por um
+ * formulário a quem nunca foi cliente.
  *
- * Nas outras duas é UMA tela e um botão: o resultado, os três campos e o verde
- * que já abre a conversa. Havia um passo intermediário antes ("falar com um
- * advogado" abria o formulário, e o formulário revelava outro botão) — três
- * cliques no lugar mais caro do funil, para não informar nada que a pessoa já
- * não soubesse.
+ * Nas outras duas é o resultado e UM botão, que já abre a conversa com todas
+ * as respostas escritas. Houve, entre 20/08/2026 e o mesmo dia, uma versão com
+ * formulário de nome, WhatsApp e cidade antes do botão: três campos no ponto
+ * mais caro do funil para receber o que o WhatsApp entrega sozinho no segundo
+ * seguinte.
  */
 function Fecho({
   leitura,
-  respostas,
-  origem,
-  aoEnviar,
+  mensagem,
+  aoAbrir,
 }: {
   leitura: Leitura;
-  respostas: Respostas;
-  origem: { campanha?: string; anuncio?: string };
-  aoEnviar: () => void;
+  mensagem: string;
+  aoAbrir: () => void;
 }) {
-  const [contato, setContato] = useState<Contato>(CONTATO_VAZIO);
-  const [problemas, setProblemas] = useState<Partial<Record<keyof Contato, string>>>({});
-  const [pronto, setPronto] = useState<string | null>(null);
-
   if (leitura.desfecho === 'desclassificado') {
     const recusa = FECHOS.desclassificado;
     return (
@@ -494,64 +497,12 @@ function Fecho({
 
   const fecho = FECHOS[leitura.desfecho];
 
-  function enviar(submissao: FormEvent) {
-    submissao.preventDefault();
-
-    const encontrados = conferirContato(contato);
-    setProblemas(encontrados);
-    if (Object.keys(encontrados).length > 0) return;
-
-    const limpo: Contato = {
-      nome: contato.nome.trim(),
-      telefone: contato.telefone.trim(),
-      cidade: contato.cidade.trim(),
-    };
-    const mensagem = mensagemDoWhatsApp(respostas, leitura, limpo, origem);
-    const link = linkWhatsApp(mensagem);
-
-    /*
-      Só agora o lead existe: com o desfecho decidido E com o contato na mão.
-      Gravar antes seria guardar meio cadastro, e gravar quem foi
-      desclassificado é o que o responsável pediu para não acontecer — por isso
-      esta função sequer é alcançável naquela saída.
-    */
-    registrar({
-      nome: limpo.nome,
-      telefone: limpo.telefone,
-      email: '',
-      area: 'Trabalho sem registro em carteira',
-      mensagem,
-      origem: `campanha sem registro · ${leitura.tags.join(' ')}`,
-    });
-
-    evento('CompleteRegistration', {
-      content_name: 'Contato trabalho sem registro',
-      status: leitura.desfecho,
-    });
-    evento('Contact', { content_name: 'questionario-sem-registro' });
-
-    aoEnviar();
-
-    /*
-      O WhatsApp abre AQUI, dentro do próprio manipulador do envio e sem nenhum
-      `await` antes: é o que mantém a abertura dentro do gesto do usuário e
-      fora do bloqueador de pop-up. Um passo a mais ("agora clique no botão
-      verde") custava um clique inteiro no fim do funil, que é o lugar mais
-      caro de todos para pedir mais um clique.
-
-      Ainda assim o link continua na tela depois, como plano B: se algum
-      navegador bloquear, a pessoa não fica sem saída.
-    */
-    window.open(link, '_blank', 'noopener,noreferrer');
-    setPronto(link);
-  }
-
   return (
     <div className="tf__bloco tf__bloco--fim">
       <span className="tf__selo">{fecho.selo}</span>
       <h2 className="tf__titulo tf__titulo--fim">{fecho.titulo}</h2>
 
-      {leitura.pontos.length > 0 && !pronto ? (
+      {leitura.pontos.length > 0 ? (
         <ul className="tf__pontos">
           {leitura.pontos.map((ponto) => (
             <li key={ponto}>{ponto}</li>
@@ -559,114 +510,26 @@ function Fecho({
         </ul>
       ) : null}
 
-      {!pronto ? (
-        <form className="tf__contato" onSubmit={enviar} noValidate>
-          <Campo
-            id="tf-nome"
-            rotulo="Nome completo"
-            valor={contato.nome}
-            erro={problemas.nome}
-            autoComplete="name"
-            aoMudar={(texto) => setContato({ ...contato, nome: texto })}
-          />
+      {/*
+        Um <a> de verdade, e não um botão que chama `window.open`: o link abre
+        no toque, sem passar por bloqueador de pop-up, e no celular o próprio
+        sistema entrega a conversa ao aplicativo instalado.
+      */}
+      <a
+        className="tf__zap tf__zap--pulsa"
+        href={linkWhatsApp(mensagem)}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-cta="questionario-sem-registro"
+        onClick={aoAbrir}
+      >
+        <IconeWhatsApp tamanho={20} />
+        {fecho.botao}
+      </a>
 
-          <Campo
-            id="tf-whatsapp"
-            rotulo="WhatsApp"
-            valor={contato.telefone}
-            erro={problemas.telefone}
-            inputMode="tel"
-            autoComplete="tel-national"
-            placeholder="(65) 90000-0000"
-            aoMudar={(texto) => setContato({ ...contato, telefone: telefoneFormatado(texto) })}
-          />
-
-          <Campo
-            id="tf-cidade"
-            rotulo="Cidade / UF"
-            valor={contato.cidade}
-            erro={problemas.cidade}
-            autoComplete="address-level2"
-            placeholder="Cuiabá / MT"
-            aoMudar={(texto) => setContato({ ...contato, cidade: texto })}
-          />
-
-          {/*
-            Verde e com o símbolo do WhatsApp porque é para lá que ele leva. Um
-            botão dourado que abre o WhatsApp promete uma coisa e faz outra; a
-            cor aqui é informação, não decoração.
-          */}
-          <button type="submit" className="tf__zap tf__zap--envio">
-            <IconeWhatsApp tamanho={20} />
-            {fecho.botao}
-          </button>
-
-          <span className="tf__nota">
-            O WhatsApp abre com as suas respostas já escritas. Você confere antes de enviar ·{' '}
-            <Link para="/politica-de-privacidade/">política de privacidade</Link>
-          </span>
-        </form>
-      ) : (
-        <>
-          <p className="tf__apoio">
-            Abrimos a conversa no WhatsApp com as suas respostas já escritas. É só conferir e
-            enviar.
-          </p>
-          <a
-            className="tf__zap"
-            href={pronto}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-cta="questionario-sem-registro"
-          >
-            <IconeWhatsApp tamanho={20} />
-            Não abriu? Toque aqui
-          </a>
-        </>
-      )}
-    </div>
-  );
-}
-
-/**
- * Um campo do formulário de contato.
- *
- * O erro fica FORA do `<label>`, e não é um detalhe de organização: dentro
- * dele, o texto do erro entrava no nome acessível do campo e o leitor de tela
- * anunciava "Nome completo Informe o seu nome completo" a cada foco, para
- * sempre — inclusive depois de corrigido. Do lado de fora ele é `role="alert"`,
- * anunciado uma vez, quando aparece, e ligado ao campo por `aria-describedby`.
- */
-function Campo({
-  id,
-  rotulo,
-  valor,
-  erro,
-  aoMudar,
-  ...resto
-}: {
-  id: string;
-  rotulo: string;
-  valor: string;
-  erro?: string;
-  aoMudar: (texto: string) => void;
-} & Pick<React.InputHTMLAttributes<HTMLInputElement>, 'inputMode' | 'autoComplete' | 'placeholder'>) {
-  return (
-    <div className="tf__linha">
-      <label htmlFor={id}>{rotulo}</label>
-      <input
-        id={id}
-        value={valor}
-        aria-invalid={erro ? true : undefined}
-        aria-describedby={erro ? `${id}-erro` : undefined}
-        onChange={(alteracao) => aoMudar(alteracao.target.value)}
-        {...resto}
-      />
-      {erro ? (
-        <small id={`${id}-erro`} role="alert">
-          {erro}
-        </small>
-      ) : null}
+      <span className="tf__dica">
+        O WhatsApp abre com o resumo das suas respostas já escrito. Você confere antes de enviar.
+      </span>
     </div>
   );
 }

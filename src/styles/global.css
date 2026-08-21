@@ -11897,89 +11897,16 @@ html {
   transform: none;
 }
 
-/* ------------------------------------------------------ formulário final */
-
-.tf__botao--grande {
-  margin-top: clamp(1.5rem, 4vh, 2.1rem);
-  padding: 1rem 2rem;
-  font-size: 0.86rem;
-}
-
-.tf__contato {
-  display: grid;
-  gap: 1.1rem;
-  width: 100%;
-  max-width: 420px;
-  margin-top: clamp(1.5rem, 4vh, 2.1rem);
-}
-
-.tf__contato .tf__botao--grande {
-  margin-top: 0.2rem;
-  justify-content: center;
-}
+/* ------------------------------------------------------------ letra miúda */
 
 /*
-  O verde como <button> de envio.
+  O que sobrou do formulário de contato que existiu aqui: só a linha pequena.
 
-  `.tf__zap` nasceu para um <a>, e botão não herda `font-family` nem perde a
-  borda sozinho — sem estas linhas o texto voltava para a fonte do sistema no
-  meio de uma tela inteira na tipografia da marca.
+  O formulário — nome, WhatsApp e cidade antes do botão verde — foi removido
+  junto com todo o CSS dele (`.tf__contato`, `.tf__linha`, `.tf__zap--envio`,
+  `.tf__botao--grande`). O WhatsApp entrega nome e número sozinho; a tela final
+  hoje é o resultado e um link.
 */
-.tf__zap--envio {
-  width: 100%;
-  margin-top: 0.2rem;
-  border: none;
-  font-family: var(--sans);
-  cursor: pointer;
-}
-
-.tf__linha {
-  display: grid;
-  gap: 0.3rem;
-}
-
-.tf__linha > label {
-  color: var(--texto-claro-suave);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-/* Mesma linha dourada do campo da triagem: um campo só, sem caixa. */
-.tf__linha input {
-  width: 100%;
-  padding: 0.3rem 0 0.5rem;
-  background: transparent;
-  border: none;
-  border-bottom: 2px solid rgba(201, 168, 106, 0.35);
-  border-radius: 0;
-  color: var(--texto-claro);
-  font-family: var(--sans);
-  font-size: 1.15rem;
-  font-weight: 500;
-  transition: border-color var(--transicao);
-}
-
-.tf__linha input::placeholder {
-  color: rgba(169, 164, 154, 0.45);
-  font-weight: 400;
-}
-
-.tf__linha input:focus {
-  outline: none;
-  border-bottom-color: var(--dourado);
-}
-
-.tf__linha input[aria-invalid='true'] {
-  border-bottom-color: #e8a49a;
-}
-
-.tf__linha small {
-  color: #e8a49a;
-  font-size: 0.78rem;
-}
-
 .tf__nota {
   max-width: 46ch;
   margin: 0.9rem 0 0;
@@ -11992,6 +11919,90 @@ html {
   color: var(--dourado);
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+/* --------------------------------------------------- o verde que bate */
+
+/*
+  Batida de coração no botão do WhatsApp: dois pulsos rápidos e uma pausa.
+
+  A pausa é o que faz o efeito funcionar. Uma pulsação contínua vira ruído de
+  fundo e o olho para de registrar em segundos; a batida dupla seguida de
+  repouso é um padrão que o olho reconhece toda vez que se repete — é por isso
+  que o intervalo de 70% a 100% dos quadros está parado em `scale(1)`, e não
+  por economia de quadro.
+*/
+.tf__zap--pulsa {
+  transform-origin: center;
+  animation: tf-batida 1s ease-in-out infinite;
+
+  /*
+    O botão ocupa a largura toda — com um teto, para não virar uma faixa verde
+    de 700px no computador.
+
+    Antes ele era do tamanho do texto, e num telefone de 320px "FALAR COM UM
+    ADVOGADO" não cabia: quebrava em duas linhas e o ícone, centrado contra o
+    bloco inteiro, ficava boiando à esquerda de um texto de duas alturas. Com
+    largura definida o texto tem folga, e o `nowrap` garante que ele nunca mais
+    parta — o que exige, junto, o corpo e o espacejamento menores abaixo.
+  */
+  width: 100%;
+  max-width: 380px;
+  justify-content: center;
+  padding-inline: clamp(0.9rem, 4vw, 2rem);
+  font-size: clamp(0.78rem, 3.4vw, 0.86rem);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+@keyframes tf-batida {
+  0% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.08);
+  }
+  28% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.08);
+  }
+  70% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/*
+  No `:hover` quem responde é a COR, não o movimento.
+
+  `.tf__zap:hover` levanta o botão dois pixels, e essa regra é simplesmente
+  ignorada aqui: uma animação vence a declaração comum da mesma propriedade,
+  então o `transform` do hover nunca chegaria à tela enquanto a batida existir.
+  Em vez de brigar com a cascata, o realce vira um verde mais fundo — e o botão
+  continua respondendo ao mouse.
+*/
+.tf__zap--pulsa:hover {
+  background: linear-gradient(135deg, #17a94f, #1ebe5d);
+  transform: scale(1.08);
+}
+
+/*
+  Nada de piscar para quem pediu menos movimento — e "menos movimento" aqui não
+  é preferência de estilo: é a configuração de quem sente enjoo ou tem crise
+  com animação repetida na tela.
+*/
+@media (prefers-reduced-motion: reduce) {
+  .tf__zap--pulsa {
+    animation: none;
+  }
+
+  .tf__zap--pulsa:hover {
+    transform: none;
+  }
 }
 
 /* --------------------------------------------------------- tela de recusa */
@@ -12017,10 +12028,4 @@ html {
 
 .tf__bloco--negado .tf__apoio {
   max-width: 52ch;
-}
-
-@media (min-width: 820px) {
-  .tf__contato {
-    max-width: 460px;
-  }
 }

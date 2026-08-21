@@ -18,6 +18,13 @@
  *    final é o fim do caminho. É decisão expressa do responsável — o custo de
  *    atender um caso prescrito é maior que o de perder um contato duvidoso.
  *
+ *    E o corte é TUDO OU NADA, não uma soma. Os requisitos do art. 3º da CLT
+ *    são cumulativos: faltando um só, não há vínculo a reconhecer. Por isso
+ *    cada requisito corta no seu próprio passo e não existe nota do tipo
+ *    "preencheu 4 de 5" — um número desses faria três requisitos e meio
+ *    parecerem um caso fraco, quando na verdade são outro instituto jurídico.
+ *    Ver `REQUISITOS`, mais abaixo, antes de mexer em qualquer um deles.
+ *
  * 3. ESTA TRIAGEM TAMBÉM NÃO PEDE NOME NEM TELEFONE. Houve uma versão que
  *    pedia — nome, WhatsApp e cidade, num formulário na tela final — e ela foi
  *    removida em 20/08/2026 pelo mesmo motivo da outra campanha: quem toca no
@@ -70,19 +77,11 @@ export type Passo = {
   pergunta: string;
   /** Linha de apoio, abaixo da pergunta. */
   ajuda?: string;
-  tipo: 'opcoes' | 'multipla' | 'moeda';
+  tipo: 'opcoes';
   opcoes?: Opcao[];
-  placeholder?: string;
   /** Como o campo aparece no resumo enviado ao escritório. */
   rotuloResumo: string;
   somenteQuando?: (respostas: Respostas) => boolean;
-  validar?: (valor: string) => string | null;
-  /**
-   * Em `multipla`: a opção que apaga todas as outras ("Nenhuma dessas").
-   * Sem ela, a pessoa marca "nenhuma" junto com três marcadores e o resumo
-   * chega se contradizendo.
-   */
-  exclusiva?: string;
   /**
    * A resposta encerra o questionário aqui.
    *
@@ -91,9 +90,6 @@ export type Passo = {
    */
   corta?: (respostas: Respostas) => Corte | null;
 };
-
-/** Em `multipla`, as escolhas viram uma string só. */
-export const SEPARADOR = '|';
 
 /* --------------------------------------------------------------- abertura */
 
@@ -248,12 +244,37 @@ export const PASSOS: Passo[] = [
   {
     chave: 'pessoalidade',
     tipo: 'opcoes',
-    pergunta: 'Você trabalhava pessoalmente, sem poder mandar outra pessoa no seu lugar?',
-    rotuloResumo: 'Pessoalidade',
+    pergunta: 'Você podia mandar outra pessoa trabalhar no seu lugar quando quisesse?',
+    ajuda: 'Sem precisar pedir para a empresa.',
+    rotuloResumo: 'Podia mandar outra pessoa',
+    /*
+      A pergunta foi virada do avesso de propósito.
+
+      Antes ela era "você trabalhava pessoalmente, SEM poder mandar outra
+      pessoa?" — uma dupla negativa, em que "sim" queria dizer "não podia". É o
+      tipo de frase que quem está com pressa lê pela metade e responde ao
+      contrário. Perguntada de frente ("podia mandar outra pessoa?"), não há o
+      que interpretar.
+
+      A opção do meio é a que evita o erro caro. Substituir alguém COM
+      autorização da empresa não afasta a pessoalidade — o que a afasta é poder
+      trocar por conta própria, quando quiser. Sem esse degrau, quem já mandou
+      um colega no seu lugar uma vez, avisando o patrão, responderia "sim" e
+      seria desclassificado por engano.
+    */
     opcoes: [
-      { valor: 'sim', rotulo: 'Sim, tinha que ser eu' },
-      { valor: 'nao', rotulo: 'Não, podia mandar outra pessoa' },
+      { valor: 'livremente', rotulo: 'Sim, eu podia mandar quem eu quisesse' },
+      { valor: 'com_autorizacao', rotulo: 'Só se a empresa autorizasse' },
+      { valor: 'nao', rotulo: 'Não, tinha que ser eu' },
     ],
+    corta: (respostas) =>
+      respostas.pessoalidade === 'livremente'
+        ? {
+            motivo:
+              'Quando o trabalho pode ser passado a outra pessoa, escolhida livremente por quem foi contratado, falta a pessoalidade — um dos requisitos que a CLT exige, em conjunto, para reconhecer vínculo de emprego.',
+            tag: 'SEM_PESSOALIDADE',
+          }
+        : null,
   },
   {
     chave: 'onerosidade',
@@ -277,6 +298,14 @@ export const PASSOS: Passo[] = [
       { valor: 'por_servico', rotulo: 'Sim, por serviço ou por produção' },
       { valor: 'nao', rotulo: 'Não recebia' },
     ],
+    corta: (respostas) =>
+      respostas.onerosidade === 'nao'
+        ? {
+            motivo:
+              'A relação de emprego é onerosa: sem pagamento pelo trabalho, falta um dos requisitos que a CLT exige em conjunto.',
+            tag: 'SEM_ONEROSIDADE',
+          }
+        : null,
   },
   {
     chave: 'habitualidade',
@@ -288,6 +317,14 @@ export const PASSOS: Passo[] = [
       { valor: 'sim', rotulo: 'Sim, era frequente' },
       { valor: 'nao', rotulo: 'Não, foi coisa pontual' },
     ],
+    corta: (respostas) =>
+      respostas.habitualidade === 'nao'
+        ? {
+            motivo:
+              'Trabalho eventual, feito de forma isolada, não preenche a habitualidade — um dos requisitos que a CLT exige em conjunto para o vínculo de emprego.',
+            tag: 'SEM_HABITUALIDADE',
+          }
+        : null,
   },
   {
     chave: 'subordinacao',
@@ -298,66 +335,72 @@ export const PASSOS: Passo[] = [
       { valor: 'sim', rotulo: 'Sim' },
       { valor: 'nao', rotulo: 'Não, eu decidia como e quando' },
     ],
+    corta: (respostas) =>
+      respostas.subordinacao === 'nao'
+        ? {
+            motivo:
+              'Quem organiza o próprio trabalho, sem ordens nem controle sobre horário e forma de execução, trabalha de forma autônoma — falta a subordinação, um dos requisitos que a CLT exige em conjunto.',
+            tag: 'SEM_SUBORDINACAO',
+          }
+        : null,
   },
 
   /*
-    Os marcadores do dia a dia, em três perguntas de três — e não em uma de
-    onze.
+    Os indícios do dia a dia, em três perguntas de resposta ÚNICA.
 
-    Uma tela com onze caixas quebra a promessa do formato: mostra de uma vez o
-    tamanho do trabalho, obriga a rolar duas vezes só para achar o botão e é
-    onde se desiste. Quebrada em três, cada tela é uma pergunta que a pessoa
-    reconhece de imediato — horário, chefia, estrutura —, cabe sem rolagem e
-    ainda melhora a resposta: agrupado por tema, ninguém deixa de marcar o que
-    valia para si porque cansou de ler.
+    Passaram por duas formas antes desta. Primeiro uma tela só, com onze
+    caixas: mostrava de uma vez o tamanho do trabalho e exigia duas rolagens
+    para achar o botão. Depois três telas de múltipla escolha, que resolveram o
+    tamanho e criaram outro problema — no meio de um questionário em que toda
+    pergunta anda sozinha ao toque, três telas seguidas passaram a exigir
+    marcar e depois confirmar. O dedo que vinha em ritmo de um toque batia num
+    "Continuar" que ninguém esperava.
 
-    A conta interna é a mesma: os três grupos somam no lugar do antigo campo
-    único (ver `GRUPOS_MARCADORES`).
+    Resposta única resolve os dois: uma tela por tema, um toque, segue. O que
+    se perde é a granularidade de saber exatamente quais indícios existiam; o
+    que se ganha é que a pessoa chega ao fim. Cada alternativa nomeia os
+    indícios que representa, então o resumo que chega ao escritório continua
+    dizendo o que aconteceu — só não em forma de lista.
+
+    A ordem das alternativas é sempre a mesma: mais indícios em cima, nenhum
+    embaixo. É `PESO_INDICIOS`, adiante, que transforma isso em número.
   */
   {
     chave: 'rotina',
-    tipo: 'multipla',
-    pergunta: 'Você tinha hora para trabalhar?',
-    ajuda: 'Marque o que valia no seu caso.',
-    rotuloResumo: 'Rotina',
-    exclusiva: 'nenhuma',
+    tipo: 'opcoes',
+    pergunta: 'Você tinha horário para cumprir?',
+    rotuloResumo: 'Horário',
     opcoes: [
-      { valor: 'horario', rotulo: 'Tinha horário para entrar e sair' },
-      { valor: 'ponto', rotulo: 'Batia ponto' },
-      { valor: 'quase_todos_dias', rotulo: 'Trabalhava todos ou quase todos os dias' },
-      { valor: 'nenhuma', rotulo: 'Nenhuma dessas' },
+      { valor: 'fixo_com_ponto', rotulo: 'Sim, horário fixo e batia ponto' },
+      { valor: 'com_horario', rotulo: 'Sim, tinha horário, mas sem bater ponto' },
+      { valor: 'livre', rotulo: 'Não, eu escolhia quando trabalhar' },
     ],
-    validar: (valor) => (valor ? null : 'Marque uma opção para continuar.'),
   },
   {
     chave: 'chefia',
-    tipo: 'multipla',
-    pergunta: 'Alguém mandava no seu trabalho?',
-    ajuda: 'Marque o que valia no seu caso.',
-    rotuloResumo: 'Chefia',
-    exclusiva: 'nenhuma',
+    tipo: 'opcoes',
+    pergunta: 'Quem organizava o seu trabalho no dia a dia?',
+    rotuloResumo: 'Organização do trabalho',
     opcoes: [
-      { valor: 'chefe', rotulo: 'Recebia ordens de chefe ou supervisor' },
-      { valor: 'faltas', rotulo: 'Precisava justificar faltas' },
-      { valor: 'metas', rotulo: 'Tinha metas para cumprir' },
-      { valor: 'nenhuma', rotulo: 'Nenhuma dessas' },
+      { valor: 'chefe_direto', rotulo: 'Tinha um chefe ou supervisor direto' },
+      { valor: 'instrucoes', rotulo: 'Recebia instruções da empresa, sem chefe fixo' },
+      { valor: 'ninguem', rotulo: 'Ninguém, eu me organizava sozinho' },
     ],
-    validar: (valor) => (valor ? null : 'Marque uma opção para continuar.'),
   },
   {
     chave: 'estrutura',
-    tipo: 'multipla',
-    pergunta: 'O que era da empresa?',
-    ajuda: 'Marque o que valia no seu caso.',
+    tipo: 'opcoes',
+    pergunta: 'O local e as ferramentas eram da empresa?',
     rotuloResumo: 'Estrutura',
-    exclusiva: 'nenhuma',
     opcoes: [
-      { valor: 'dentro', rotulo: 'Trabalhava dentro da empresa' },
-      { valor: 'equipamentos', rotulo: 'Usava ferramentas ou equipamentos da empresa' },
-      { valor: 'uniforme', rotulo: 'Usava uniforme' },
-      { valor: 'nenhuma', rotulo: 'Nenhuma dessas' },
+      {
+        valor: 'tudo_da_empresa',
+        rotulo: 'Sim, trabalhava lá e usava o que era deles',
+        detalhe: 'Local, equipamentos e uniforme',
+      },
+      { valor: 'em_parte', rotulo: 'Em parte, alguma coisa era da empresa' },
+      { valor: 'nada', rotulo: 'Não, era tudo meu' },
     ],
-    validar: (valor) => (valor ? null : 'Marque uma opção para continuar.'),
   },
 
   {
@@ -399,13 +442,33 @@ export const PASSOS: Passo[] = [
 
   {
     chave: 'remuneracao',
-    tipo: 'moeda',
-    pergunta: 'Qual era aproximadamente o seu salário ou remuneração mensal?',
-    ajuda: 'Um valor aproximado já serve.',
-    placeholder: 'R$ 0,00',
+    tipo: 'opcoes',
+    pergunta: 'Quanto você recebia por mês, mais ou menos?',
+    ajuda: 'Uma faixa aproximada já serve.',
     rotuloResumo: 'Remuneração mensal',
-    validar: (valor) =>
-      centavosDaMoeda(valor) > 0 ? null : 'Informe um valor, mesmo que aproximado.',
+    /*
+      Faixas, e não um campo de digitar — pelo mesmo motivo do tempo de saída.
+
+      Quem trabalhou sem registro não tem holerite para conferir, costuma ter
+      recebido valores diferentes a cada mês e, num teclado de celular, digitar
+      "1800" e ver "R$ 18,00" se formando é o tipo de atrito que faz fechar a
+      aba. A faixa é o que a pessoa sabe de cabeça.
+
+      É também o que fecha o roteiro: sem este campo, NENHUMA pergunta pede
+      confirmação — todas as catorze andam sozinhas ao toque.
+
+      Os valores são redondos de propósito. Ancorar no salário mínimo faria a
+      pergunta envelhecer sozinha todo mês de janeiro, e ninguém lembraria de
+      atualizar aqui.
+    */
+    opcoes: [
+      { valor: 'ate_1600', rotulo: 'Até R$ 1.600' },
+      { valor: '1600_a_2500', rotulo: 'De R$ 1.600 a R$ 2.500' },
+      { valor: '2500_a_4000', rotulo: 'De R$ 2.500 a R$ 4.000' },
+      { valor: '4000_a_7000', rotulo: 'De R$ 4.000 a R$ 7.000' },
+      { valor: 'mais_7000', rotulo: 'Mais de R$ 7.000' },
+      { valor: 'variava', rotulo: 'Variava muito de um mês para o outro' },
+    ],
   },
 
   {
@@ -485,38 +548,7 @@ export function progresso(respostas: Respostas): number {
 
 /** O rótulo que a pessoa viu, para repetir no resumo. */
 export function rotuloDaResposta(passo: Passo, valor: string): string {
-  if (passo.tipo === 'multipla') {
-    return valor
-      .split(SEPARADOR)
-      .map((item) => passo.opcoes?.find((opcao) => opcao.valor === item)?.rotulo ?? item)
-      .join(', ');
-  }
-  if (passo.tipo !== 'opcoes') return valor;
   return passo.opcoes?.find((opcao) => opcao.valor === valor)?.rotulo ?? valor;
-}
-
-/* ------------------------------------------------------------------ moeda */
-
-/** O que o campo monetário guarda por trás do texto formatado. */
-export function centavosDaMoeda(valor: string): number {
-  const digitos = valor.replace(/\D/g, '');
-  return digitos ? Number(digitos) : 0;
-}
-
-/**
- * Máscara de digitação, da direita para a esquerda.
- *
- * O campo não tem separador para a pessoa acertar: ela digita `180000` e lê
- * `R$ 1.800,00` se formando. É o formato que erra menos no celular, onde o
- * teclado numérico não tem vírgula garantida.
- */
-export function moedaDeDigitos(bruto: string): string {
-  const digitos = bruto.replace(/\D/g, '').replace(/^0+(?=\d)/, '').slice(0, 11);
-  if (!digitos) return '';
-  return (Number(digitos) / 100).toLocaleString('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-  });
 }
 
 /* --------------------------------------------------------------- a leitura */
@@ -533,65 +565,75 @@ export type Leitura = {
   pontos: string[];
   /** O que o escritório precisa saber antes de responder. */
   alertas: string[];
-  /** 0 a 100 — serve para ordenar a fila, nunca para decidir sozinho. */
-  pontuacao: number;
+  /** Quantos indícios do dia a dia a pessoa reconheceu. Descreve, não classifica. */
+  marcadores: number;
 };
 
 /**
- * Os quatro requisitos do art. 3º da CLT e como cada um se lê nas respostas.
+ * Os requisitos do art. 3º da CLT — e a regra é TODOS OU NENHUM.
  *
- * `presente` existe porque `onerosidade` deixou de ser sim/não: as duas formas
- * de pagamento contam, e só "não recebia" afasta o requisito. Sem o predicado,
- * quem era pago por produção apareceria como se nunca tivesse recebido nada.
+ * "Empregado é toda pessoa física que prestar serviços de natureza não
+ * eventual a empregador, sob a dependência deste e mediante salário." São
+ * requisitos cumulativos: faltando um, não há vínculo a reconhecer — e é por
+ * isso que cada um deles corta o questionário no próprio passo, em vez de
+ * descontar pontos de um total.
+ *
+ * Não existe, e não deve voltar a existir, nota do tipo "preencheu 4 de 5".
+ * Um número assim sugere que três requisitos e meio ainda valem alguma coisa,
+ * e não valem: sem subordinação o caso não é fraco, é outro instituto.
+ *
+ * Sobre o requisito "ser pessoa física": ele é atendido por definição neste
+ * fluxo — quem responde é a própria pessoa que trabalhou. Ter aberto MEI ou
+ * emitido nota fiscal NÃO o afasta; é exatamente a hipótese de pejotização,
+ * que segue para análise manual, não para o corte.
+ *
+ * Esta lista continua existindo depois de os cortes terem sido criados porque
+ * é ela que escreve, na tela final e no resumo, quais requisitos apareceram.
+ * Se um dia um corte for removido daqui, a lista sozinha não desclassifica
+ * ninguém — os dois lugares precisam andar juntos.
  */
 const REQUISITOS: { chave: string; nome: string; presente: (valor: string) => boolean }[] = [
-  { chave: 'pessoalidade', nome: 'pessoalidade', presente: (valor) => valor === 'sim' },
+  { chave: 'pessoalidade', nome: 'pessoalidade', presente: (valor) => valor !== 'livremente' },
   { chave: 'onerosidade', nome: 'onerosidade', presente: (valor) => valor !== 'nao' },
   { chave: 'habitualidade', nome: 'habitualidade', presente: (valor) => valor === 'sim' },
   { chave: 'subordinacao', nome: 'subordinação', presente: (valor) => valor === 'sim' },
 ];
 
-/** As três perguntas que somam marcadores do dia a dia. */
+/** As três perguntas de indício do dia a dia. */
 export const GRUPOS_MARCADORES = ['rotina', 'chefia', 'estrutura'] as const;
 
-/** Quantos marcadores de vínculo a pessoa reconheceu, somando os três grupos. */
-export function contarMarcadores(respostas: Respostas): number {
-  const dosGrupos = GRUPOS_MARCADORES.flatMap((chave) =>
-    (respostas[chave] ?? '').split(SEPARADOR).filter((item) => item && item !== 'nenhuma'),
-  ).length;
-
-  // O salário certo por semana ou por mês era um dos marcadores antes de virar
-  // resposta da pergunta de pagamento. Ele continua contando.
-  return dosGrupos + (respostas.onerosidade === 'salario_fixo' ? 1 : 0);
-}
-
-const PESO_DURACAO: Record<string, number> = {
-  ate_1_mes: 0,
-  '1_a_3_meses': 3,
-  '3_a_6_meses': 5,
-  '6_meses_a_1_ano': 8,
-  mais_1_ano: 10,
+/**
+ * Quanto cada resposta pesa como indício de vínculo: 2, 1 ou 0.
+ *
+ * Isto NÃO é a nota que foi banida daqui. Aquela decidia — dizia se o caso
+ * valia ou não pelo total de pontos. Esta só descreve, e o desfecho nem a
+ * consulta: os requisitos do art. 3º já cortaram antes, um a um, e o que sobra
+ * é o escritório saber se chega uma conversa com muito ou pouco indício antes
+ * de abrir o WhatsApp. O único lugar em que o número muda alguma coisa é o
+ * zero, que é contradição pura e vai para análise manual.
+ */
+const PESO_INDICIOS: Record<string, number> = {
+  fixo_com_ponto: 2,
+  com_horario: 1,
+  livre: 0,
+  chefe_direto: 2,
+  instrucoes: 1,
+  ninguem: 0,
+  tudo_da_empresa: 2,
+  em_parte: 1,
+  nada: 0,
 };
 
-/**
- * A pontuação, e o que ela NÃO é.
- *
- * Ela ordena a fila do atendimento — quem responder com mais marcadores de
- * vínculo aparece antes. Ela não classifica: o desfecho abaixo é decidido por
- * regras nomeadas, uma a uma, e nunca por um número passar de um limiar. Um
- * caso de 40 pontos pode ser excelente com um documento na mão, e nenhuma
- * planilha sabe disso.
- */
-function pontuar(respostas: Respostas): number {
-  const requisitos =
-    REQUISITOS.filter(({ chave, presente }) => respostas[chave] && presente(respostas[chave]))
-      .length * 15;
+/** De 0 a 7 — o quanto o dia a dia relatado se parece com emprego. */
+export function contarMarcadores(respostas: Respostas): number {
+  const dosGrupos = GRUPOS_MARCADORES.reduce(
+    (total, chave) => total + (PESO_INDICIOS[respostas[chave] ?? ''] ?? 0),
+    0,
+  );
 
-  const tratamento = Math.min(contarMarcadores(respostas) * 3, 30);
-
-  const duracao = PESO_DURACAO[respostas.duracao ?? ''] ?? 0;
-
-  return Math.min(requisitos + tratamento + duracao, 100);
+  // O salário certo por semana ou por mês também é indício, e vem da pergunta
+  // de pagamento — que já existia antes destas três.
+  return dosGrupos + (respostas.onerosidade === 'salario_fixo' ? 1 : 0);
 }
 
 /**
@@ -611,19 +653,39 @@ export function avaliar(respostas: Respostas): Leitura {
   if (corte) {
     if (corte.tag) tags.push(corte.tag);
     tags.push('DESCLASSIFICADO');
-    return { desfecho: 'desclassificado', motivo: corte.motivo, tags, pontos: [], alertas, pontuacao: 0 };
+    return {
+      desfecho: 'desclassificado',
+      motivo: corte.motivo,
+      tags,
+      pontos: [],
+      alertas,
+      marcadores: 0,
+    };
   }
 
-  const pontuacao = pontuar(respostas);
+  const marcadores = contarMarcadores(respostas);
   const duvidas: string[] = [];
 
+  /*
+    Chegar aqui já significa que os quatro requisitos apareceram: cada um deles
+    corta o questionário no próprio passo quando falta. Esta conferência existe
+    como rede — se um dia um `corta` for removido por engano, o caso não passa
+    calado como qualificado.
+  */
   const faltantes = REQUISITOS.filter(
     ({ chave, presente }) => respostas[chave] && !presente(respostas[chave]),
   );
   if (faltantes.length > 0) {
-    duvidas.push(
-      `Respostas incompatíveis com vínculo: ${faltantes.map((item) => item.nome).join(', ')}.`,
-    );
+    tags.push('DESCLASSIFICADO');
+    return {
+      desfecho: 'desclassificado',
+      motivo:
+        'Os requisitos do vínculo de emprego precisam aparecer em conjunto, e pelas suas respostas um deles não está presente.',
+      tags,
+      pontos: [],
+      alertas: [`Requisito ausente sem corte no passo: ${faltantes.map((i) => i.nome).join(', ')}.`],
+      marcadores: 0,
+    };
   }
 
   if (respostas.empregador === 'empresa_publica') {
@@ -688,14 +750,13 @@ export function avaliar(respostas: Respostas): Leitura {
 
   alertas.push(...duvidas);
 
-  const presentes = REQUISITOS.filter(
-    ({ chave, presente }) => respostas[chave] && presente(respostas[chave]),
+  /*
+    Só é possível chegar aqui com os quatro presentes, então a frase é sempre a
+    mesma — e é escrita assim, no conjunto, porque é assim que a lei exige.
+  */
+  pontos.push(
+    'Pelas suas respostas aparecem, juntos, os quatro elementos que a CLT exige: pessoalidade, pagamento, habitualidade e subordinação.',
   );
-  if (presentes.length > 0) {
-    pontos.push(
-      `Você indicou ${presentes.map((item) => item.nome).join(', ')} na relação de trabalho.`,
-    );
-  }
   if (respostas.ainda_trabalha === 'sim') {
     pontos.push('O trabalho continua, e por isso o prazo para reclamar ainda não começou a correr.');
   } else if (respostas.tempo_saida && respostas.tempo_saida !== 'nao_sei') {
@@ -707,11 +768,11 @@ export function avaliar(respostas: Respostas): Leitura {
 
   if (duvidas.length > 0) {
     tags.push('ANALISE_MANUAL');
-    return { desfecho: 'analise_manual', tags, pontos, alertas, pontuacao };
+    return { desfecho: 'analise_manual', tags, pontos, alertas, marcadores };
   }
 
   tags.push('QUALIFICADO');
-  return { desfecho: 'qualificado', tags, pontos, alertas, pontuacao };
+  return { desfecho: 'qualificado', tags, pontos, alertas, marcadores };
 }
 
 /* ----------------------------------------------------------- telas finais */
@@ -749,7 +810,7 @@ export type Origem = {
  * conversa e aproveita cada campo já respondido, em vez de perguntar tudo de
  * novo.
  *
- * O bloco final é o que o CRM lê — marcadores, pontuação e observações. Ele
+ * O bloco final é o que o CRM lê — marcadores, requisitos e observações. Ele
  * fica visível para quem envia, e é assim de propósito: nada ali envergonha a
  * pessoa, e um resumo escondido em campo invisível seria dado coletado sem
  * ela ver.
@@ -779,7 +840,8 @@ export function mensagemDoWhatsApp(
     '',
     '--- uso interno do escritório ---',
     `Triagem: ${leitura.tags.join(', ')}`,
-    `Pontuação: ${leitura.pontuacao}/100`,
+    'Requisitos do art. 3º da CLT: os quatro presentes.',
+    `Indícios do dia a dia marcados: ${leitura.marcadores}.`,
   );
 
   for (const alerta of leitura.alertas) linhas.push(`- ${alerta}`);

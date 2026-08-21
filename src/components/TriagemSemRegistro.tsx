@@ -1,12 +1,9 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ABERTURA,
   FECHOS,
-  SEPARADOR,
   avaliar,
-  centavosDaMoeda,
   mensagemDoWhatsApp,
-  moedaDeDigitos,
   passosVisiveis,
   progresso,
   proximoPasso,
@@ -32,6 +29,13 @@ import { Link } from '../lib/router';
  * O roteiro inteiro vive em `lib/triagemSemRegistro`. Aqui só existe o
  * comportamento da tela.
  *
+ * NÃO EXISTE CAMPO DE DIGITAR em lugar nenhum deste fluxo, e isso é regra, não
+ * acaso. Passaram por aqui um campo de data, um de dinheiro e um formulário de
+ * contato; todos saíram. Toda pergunta é uma escolha que avança sozinha ao
+ * toque — quem responde no celular nunca vê o teclado subir, e não há um único
+ * botão de "confirmar" para procurar. Data e salário viraram faixas; nome e
+ * telefone chegam com a própria conversa do WhatsApp.
+ *
  * A diferença que mais importa em relação à outra triagem: ESTA DESCLASSIFICA.
  * Quando o desfecho é `desclassificado` a tela final não tem botão de WhatsApp,
  * não chama `registrar()` e não dispara `Lead`. O caminho acaba ali — a única
@@ -47,13 +51,9 @@ type Tela = 'abertura' | 'perguntas';
 export function TriagemSemRegistro() {
   const [respostas, setRespostas] = useState<Respostas>({});
   const [tela, setTela] = useState<Tela>('abertura');
-  const [rascunho, setRascunho] = useState('');
-  const [marcadas, setMarcadas] = useState<string[]>([]);
-  const [erro, setErro] = useState('');
   const [recuando, setRecuando] = useState(false);
   const [origem] = useState(() => origemDaVisita());
 
-  const campo = useRef<HTMLInputElement | null>(null);
   const montado = useRef(false);
 
   const passo = proximoPasso(respostas);
@@ -95,26 +95,12 @@ export function TriagemSemRegistro() {
     }
   }, [respostas]);
 
-  /*
-    O campo recebe o foco sozinho a cada pergunta nova — no computador a pessoa
-    já sai digitando. No celular NÃO: abrir o teclado por conta própria tapa
-    metade da tela e esconde a pergunta que acabou de aparecer.
-  */
-  useEffect(() => {
-    if (!montado.current || !passo || passo.tipo !== 'moeda') return;
-    if (window.matchMedia('(pointer: coarse)').matches) return;
-    campo.current?.focus();
-  }, [passo]);
-
   /* -------------------------------------------------------------- resposta */
 
   const responder = useCallback(
     (passoAtual: Passo, valor: string) => {
       const seguintes = { ...respostas, [passoAtual.chave]: valor };
 
-      setErro('');
-      setRascunho('');
-      setMarcadas([]);
       setRecuando(false);
       setRespostas(seguintes);
 
@@ -157,9 +143,6 @@ export function TriagemSemRegistro() {
     const respondidos = passosVisiveis(respostas).filter((item) => respostas[item.chave]);
     const ultimo = respondidos[respondidos.length - 1];
 
-    setErro('');
-    setRascunho('');
-    setMarcadas([]);
     setRecuando(true);
 
     if (!ultimo) {
@@ -176,52 +159,6 @@ export function TriagemSemRegistro() {
     setRecuando(false);
     setTela('perguntas');
     eventoProprio('TriagemInicio');
-  }
-
-  /** Marca e desmarca na pergunta de múltipla escolha. */
-  function alternar(passoAtual: Passo, valor: string) {
-    if (erro) setErro('');
-
-    if (valor === passoAtual.exclusiva) {
-      setMarcadas((atuais) => (atuais.includes(valor) ? [] : [valor]));
-      return;
-    }
-
-    setMarcadas((atuais) => {
-      const semExclusiva = atuais.filter((item) => item !== passoAtual.exclusiva);
-      return semExclusiva.includes(valor)
-        ? semExclusiva.filter((item) => item !== valor)
-        : [...semExclusiva, valor];
-    });
-  }
-
-  function enviarMultipla() {
-    if (!passo) return;
-    // A ordem do roteiro, e não a ordem dos toques: o resumo sai sempre igual.
-    const escolhidas = (passo.opcoes ?? [])
-      .filter((opcao) => marcadas.includes(opcao.valor))
-      .map((opcao) => opcao.valor);
-
-    const problema = passo.validar?.(escolhidas.join(SEPARADOR)) ?? null;
-    if (problema) {
-      setErro(problema);
-      return;
-    }
-    responder(passo, escolhidas.join(SEPARADOR));
-  }
-
-  function enviarCampo(submissao: FormEvent) {
-    submissao.preventDefault();
-    if (!passo) return;
-
-    const valor = rascunho.trim();
-    const problema = passo.validar?.(valor) ?? null;
-    if (problema) {
-      setErro(problema);
-      campo.current?.focus();
-      return;
-    }
-    responder(passo, valor);
   }
 
   function limparRascunho() {
@@ -255,21 +192,13 @@ export function TriagemSemRegistro() {
       const opcao = indice >= 0 ? passo.opcoes?.[indice] : undefined;
       if (!opcao) return;
 
-      if (passo.tipo === 'opcoes') {
-        tecla.preventDefault();
-        responder(passo, opcao.valor);
-        return;
-      }
-
-      if (passo.tipo === 'multipla') {
-        tecla.preventDefault();
-        alternar(passo, opcao.valor);
-      }
+      tecla.preventDefault();
+      responder(passo, opcao.valor);
     }
 
     window.addEventListener('keydown', aoTeclar);
     return () => window.removeEventListener('keydown', aoTeclar);
-  }, [tela, passo, marcadas, responder, voltar]);
+  }, [tela, passo, responder, voltar]);
 
   /* ---------------------------------------------------------------- tela */
 
@@ -303,110 +232,29 @@ export function TriagemSemRegistro() {
             <h2 className="tf__pergunta">{passo.pergunta}</h2>
             {passo.ajuda ? <p className="tf__apoio">{passo.ajuda}</p> : null}
 
-            {passo.tipo === 'opcoes' ? (
-              <div
-                className="tf__opcoes"
-                data-denso={(passo.opcoes?.length ?? 0) > 6}
-                role="group"
-                aria-label={passo.pergunta}
-              >
-                {passo.opcoes?.map((opcao, indice) => (
-                  <button
-                    key={opcao.valor}
-                    type="button"
-                    className="tf__opcao"
-                    onClick={() => responder(passo, opcao.valor)}
-                  >
-                    <span className="tf__letra" aria-hidden>
-                      {LETRAS[indice]}
-                    </span>
-                    <span className="tf__rotulo">
-                      {opcao.rotulo}
-                      {opcao.detalhe ? <small>{opcao.detalhe}</small> : null}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            ) : null}
-
-            {passo.tipo === 'multipla' ? (
-              <>
-                <div
-                  className="tf__opcoes"
-                  data-denso={(passo.opcoes?.length ?? 0) > 6}
-                  role="group"
-                  aria-label={passo.pergunta}
+            <div
+              className="tf__opcoes"
+              data-denso={(passo.opcoes?.length ?? 0) > 6}
+              role="group"
+              aria-label={passo.pergunta}
+            >
+              {passo.opcoes?.map((opcao, indice) => (
+                <button
+                  key={opcao.valor}
+                  type="button"
+                  className="tf__opcao"
+                  onClick={() => responder(passo, opcao.valor)}
                 >
-                  {passo.opcoes?.map((opcao, indice) => {
-                    const marcada = marcadas.includes(opcao.valor);
-                    return (
-                      <button
-                        key={opcao.valor}
-                        type="button"
-                        className={`tf__opcao ${marcada ? 'tf__opcao--marcada' : ''}`.trim()}
-                        aria-pressed={marcada}
-                        onClick={() => alternar(passo, opcao.valor)}
-                      >
-                        <span className="tf__letra" aria-hidden>
-                          {marcada ? '✓' : LETRAS[indice]}
-                        </span>
-                        <span className="tf__rotulo">{opcao.rotulo}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-
-                <div className="tf__acao">
-                  <button type="button" className="tf__botao" onClick={enviarMultipla}>
-                    Continuar
-                    <i aria-hidden>✓</i>
-                  </button>
-                  <span className="tf__dica">
-                    {marcadas.length > 0
-                      ? `${marcadas.length} marcada${marcadas.length > 1 ? 's' : ''}`
-                      : 'Pode marcar mais de uma'}
+                  <span className="tf__letra" aria-hidden>
+                    {LETRAS[indice]}
                   </span>
-                </div>
-              </>
-            ) : null}
-
-            {passo.tipo === 'moeda' ? (
-              <form className="tf__campo" onSubmit={enviarCampo} noValidate>
-                <input
-                  ref={campo}
-                  /*
-                    `inputMode` e não `type="number"`: o texto no campo é a
-                    máscara já formada ("R$ 1.800,00"), que um campo numérico
-                    recusaria. O teclado do celular continua sendo o numérico.
-                  */
-                  inputMode="numeric"
-                  value={rascunho}
-                  placeholder={passo.placeholder}
-                  autoComplete="off"
-                  aria-label={passo.pergunta}
-                  onChange={(alteracao) => {
-                    setRascunho(moedaDeDigitos(alteracao.target.value));
-                    if (erro) setErro('');
-                  }}
-                />
-
-                <div className="tf__acao">
-                  <button type="submit" className="tf__botao" disabled={centavosDaMoeda(rascunho) === 0}>
-                    OK
-                    <i aria-hidden>✓</i>
-                  </button>
-                  <span className="tf__dica tf__dica--teclado">
-                    ou aperte <b>Enter ↵</b>
+                  <span className="tf__rotulo">
+                    {opcao.rotulo}
+                    {opcao.detalhe ? <small>{opcao.detalhe}</small> : null}
                   </span>
-                </div>
-              </form>
-            ) : null}
-
-            {erro ? (
-              <p className="tf__erro" role="alert">
-                {erro}
-              </p>
-            ) : null}
+                </button>
+              ))}
+            </div>
           </div>
         ) : null}
 
@@ -415,7 +263,7 @@ export function TriagemSemRegistro() {
         ) : null}
       </div>
 
-      <footer className="tf__pe">
+      <footer className="tf__pe tf__pe--enxuto">
         <div
           className="tf__barra"
           role="progressbar"
@@ -432,11 +280,17 @@ export function TriagemSemRegistro() {
             A identificação e a ressalva ficam em toda tela, não só no fim: a
             página é impulsionada, e o Provimento 205/2021 pede que o caráter
             informativo seja visível — não escondido atrás de mais um clique.
+
+            Por isso este rodapé encolheu em vez de sair. Ele chegou a ocupar
+            9% da altura do celular, com quatro linhas de letra miúda logo
+            abaixo do botão verde — e nada aqui precisa dessa presença. O texto
+            foi cortado ao osso do que a norma pede (quem é o escritório, o
+            número da OAB, o caráter informativo e a ausência de promessa de
+            resultado); o resto era repetição do que a própria tela já diz.
           */}
           <span className="tf__legal">
-            {SITE.nome} · OAB/{SITE.uf} {SITE.oab} · conteúdo informativo (Prov. 205/2021 CFOAB).
-            A triagem não substitui a análise de um advogado nem antecipa resultado ·{' '}
-            <Link para="/politica-de-privacidade/">privacidade</Link>
+            {SITE.nome} · OAB/{SITE.uf} {SITE.oab} · conteúdo informativo, sem promessa de
+            resultado · <Link para="/politica-de-privacidade/">privacidade</Link>
           </span>
 
           {/*

@@ -19,6 +19,7 @@
     "test:seo-calculadoras": "node scripts/auditar-seo-calculadoras.mjs",
     "test:navegacao": "vite build --ssr scripts/auditar-navegacao.ts --outDir .audit-build && node .audit-build/auditar-navegacao.js",
     "test:triagem": "vite build --ssr scripts/auditar-triagem-sem-registro.ts --outDir .audit-build && node .audit-build/auditar-triagem-sem-registro.js",
+    "test:triagem-completa": "vite build --ssr scripts/auditar-triagem-completa.ts --outDir .audit-build && node .audit-build/auditar-triagem-completa.js",
     "publicacao:preparar": "npm run build && npm run test:seo-calculadoras && node scripts/preparar-publicacao.mjs",
     "test:publicacao": "node scripts/auditar-publicacao.mjs"
   },

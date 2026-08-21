@@ -11846,18 +11846,7 @@ html {
    institucionais.
    ========================================================================== */
 
-/* -------------------------------------------------------- múltipla escolha */
-
-.tf__opcao--marcada {
-  background: rgba(201, 168, 106, 0.18);
-  border-color: var(--dourado);
-}
-
-.tf__opcao--marcada .tf__letra {
-  background: var(--dourado);
-  border-color: var(--dourado);
-  color: #241b06;
-}
+/* ---------------------------------------------------------- listas longas */
 
 /*
   A lista longa fica mais densa.
@@ -11877,24 +11866,6 @@ html {
 
 .tf__opcoes[data-denso='true'] .tf__rotulo {
   font-size: 0.94rem;
-}
-
-/* ---------------------------------------------------------------- dinheiro */
-
-/*
-  O campo de dinheiro herda o sublinhado dourado de `.tf__campo input`. O que
-  falta é só o botão parar de convidar enquanto o valor estiver vazio: sem
-  isto, "OK" fica dourado e brilhante sobre um campo em branco e a pessoa toca,
-  vê a mensagem de erro e conclui que a tela travou.
-*/
-.tf__botao:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-
-.tf__botao:disabled:hover {
-  transform: none;
 }
 
 /* ------------------------------------------------------------ letra miúda */
@@ -12002,6 +11973,47 @@ html {
 
   .tf__zap--pulsa:hover {
     transform: none;
+  }
+}
+
+/* ------------------------------------------------------- o rodapé enxuto */
+
+/*
+  O rodapé desta landing é menor que o da outra, e de propósito.
+
+  Ele carrega informação que não pode sair — identificação do escritório,
+  número da OAB e o caráter informativo, que é o que o Provimento 205/2021 pede
+  que esteja visível numa página impulsionada. Mas carregava isso em quatro
+  linhas de 0.63rem ocupando 9% da altura do celular, logo abaixo do CTA: uma
+  parede de letra miúda disputando atenção com o único botão da tela.
+
+  A regra aqui é essa — presente e legível, nunca competindo. Fica em cima da
+  linha de base de 44px do alvo de toque do "voltar", que é o piso real da
+  altura deste rodapé.
+*/
+.tf__pe--enxuto .tf__barra {
+  height: 3px;
+}
+
+.tf__pe--enxuto .tf__pe-linha {
+  gap: 0.75rem;
+  padding: 0.4rem clamp(1.15rem, 5vw, 3rem);
+}
+
+.tf__pe--enxuto .tf__legal {
+  font-size: 0.56rem;
+  line-height: 1.45;
+  color: rgba(169, 164, 154, 0.55);
+}
+
+.tf__pe--enxuto .tf__voltar {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.68rem;
+}
+
+@media (min-width: 820px) {
+  .tf__pe--enxuto .tf__legal {
+    font-size: 0.62rem;
   }
 }
 

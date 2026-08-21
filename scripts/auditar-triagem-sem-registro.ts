@@ -15,7 +15,6 @@ import {
   contarMarcadores,
   corteAtingido,
   mensagemDoWhatsApp,
-  moedaDeDigitos,
   passosVisiveis,
   progresso,
   proximoPasso,
@@ -80,17 +79,17 @@ const roteiroCompleto: Respostas = {
   ainda_trabalha: 'nao',
   tempo_saida: '3_a_6_meses',
   empregador: 'privada',
-  pessoalidade: 'sim',
+  pessoalidade: 'nao',
   onerosidade: 'salario_fixo',
   habitualidade: 'sim',
   subordinacao: 'sim',
-  rotina: 'horario|ponto|quase_todos_dias',
-  chefia: 'chefe|faltas',
-  estrutura: 'dentro|uniforme',
+  rotina: 'fixo_com_ponto',
+  chefia: 'chefe_direto',
+  estrutura: 'tudo_da_empresa',
   pejotizacao: 'nao',
   exclusividade: 'principal',
   duracao: 'mais_1_ano',
-  remuneracao: 'R$ 1.800,00',
+  remuneracao: '1600_a_2500',
   termino: 'demitido',
 };
 
@@ -111,11 +110,18 @@ conferir('roteiro completo não tem próximo passo', proximoPasso(roteiroComplet
 
 const qualificado = avaliar(roteiroCompleto);
 conferir('caso cheio qualifica', qualificado.desfecho === 'qualificado', qualificado.alertas.join(' | '));
-conferir('nenhuma pergunta passa de 4 opções, fora a do empregador',
-  PASSOS.every((p) => p.chave === 'empregador' || p.chave === 'tempo_saida' || (p.opcoes?.length ?? 0) <= 5),
-  PASSOS.filter((p) => (p.opcoes?.length ?? 0) > 5).map((p) => `${p.chave}:${p.opcoes?.length}`).join(', '));
+/*
+  O teto de opções por tela.
+
+  Sete é o máximo que cabe num celular de 375px sem rolagem — foi medido, e é
+  por isso que a pergunta de onze virou três. Quem acrescentar uma alternativa
+  a uma pergunta que já tem sete vai descobrir aqui, e não no anúncio no ar.
+*/
+conferir('nenhuma pergunta passa de 7 opções',
+  PASSOS.every((p) => (p.opcoes?.length ?? 0) <= 7),
+  PASSOS.filter((p) => (p.opcoes?.length ?? 0) > 7).map((p) => `${p.chave}:${p.opcoes?.length}`).join(', '));
 conferir('qualificado tem a tag', qualificado.tags.includes('QUALIFICADO'));
-conferir('qualificado pontua alto', qualificado.pontuacao >= 75, String(qualificado.pontuacao));
+conferir('qualificado conta os indícios', qualificado.marcadores === 7, String(qualificado.marcadores));
 conferir('quinquenal fica no interno', qualificado.alertas.some((a) => a.includes('quinquenal')));
 
 const comPejota = avaliar({ ...roteiroCompleto, pejotizacao: 'sim' });
@@ -123,15 +129,43 @@ conferir('MEI vai para análise manual', comPejota.desfecho === 'analise_manual'
 conferir('MEI ganha a tag de pejotização', comPejota.tags.includes('POSSIVEL_PEJOTIZACAO'));
 conferir('MEI não é desclassificado', !comPejota.tags.includes('DESCLASSIFICADO'));
 
-const semSubordinacao = avaliar({ ...roteiroCompleto, subordinacao: 'nao' });
-conferir('sem subordinação vai a manual', semSubordinacao.desfecho === 'analise_manual');
+/*
+  Os quatro requisitos do art. 3º da CLT são CUMULATIVOS: faltando um, o caso
+  sai do fluxo. Nada de "4 de 5" — é tudo ou nada, e é isto que estas linhas
+  protegem.
+*/
+for (const [chave, valorQueFalta, tag] of [
+  ['pessoalidade', 'livremente', 'SEM_PESSOALIDADE'],
+  ['onerosidade', 'nao', 'SEM_ONEROSIDADE'],
+  ['habitualidade', 'nao', 'SEM_HABITUALIDADE'],
+  ['subordinacao', 'nao', 'SEM_SUBORDINACAO'],
+] as const) {
+  const sem = { ...roteiroCompleto, [chave]: valorQueFalta };
+  const leitura = avaliar(sem);
+  conferir(`sem ${chave} DESCLASSIFICA`, leitura.desfecho === 'desclassificado', leitura.desfecho);
+  conferir(`sem ${chave} leva a tag`, leitura.tags.includes(tag));
+  conferir(`sem ${chave} não oferece botão`, leitura.pontos.length === 0);
+  conferir(`sem ${chave} encerra ali mesmo`, proximoPasso(sem) === undefined);
+  // O corte acontece no próprio passo: nada depois dele continua sendo perguntado.
+  const ateAli: Respostas = {};
+  for (const passo of PASSOS) {
+    if (passo.somenteQuando && !passo.somenteQuando(ateAli)) continue;
+    ateAli[passo.chave] = sem[passo.chave] ?? '';
+    if (passo.chave === chave) break;
+  }
+  conferir(`${chave} corta sem precisar das perguntas seguintes`, avaliar(ateAli).desfecho === 'desclassificado');
+}
+
+// Substituir COM autorização não afasta a pessoalidade.
+const comAutorizacao = avaliar({ ...roteiroCompleto, pessoalidade: 'com_autorizacao' });
+conferir('substituição autorizada não desclassifica', comAutorizacao.desfecho === 'qualificado', comAutorizacao.desfecho);
 
 // Pago por produção NÃO afasta a onerosidade — só "não recebia" afasta.
 const porProducao = avaliar({ ...roteiroCompleto, onerosidade: 'por_servico' });
 conferir('pago por produção continua qualificando', porProducao.desfecho === 'qualificado', porProducao.alertas.join(' | '));
-const semPagamento = avaliar({ ...roteiroCompleto, onerosidade: 'nao' });
-conferir('quem não recebia vai a manual', semPagamento.desfecho === 'analise_manual');
-conferir('quem não recebia perde o requisito', semPagamento.alertas.some((a) => a.includes('onerosidade')));
+
+// E nenhuma nota de corte parcial pode voltar a existir.
+conferir('não há nota de 0 a 100 na leitura', !('pontuacao' in qualificado));
 
 const variasEmpresas = avaliar({ ...roteiroCompleto, exclusividade: 'varias' });
 conferir('vários clientes vai a manual', variasEmpresas.desfecho === 'analise_manual');
@@ -154,28 +188,29 @@ conferir('1 a 2 anos avisa o prazo', prazoCurto.alertas.some((a) => a.includes('
 const nenhumMarcador = avaliar({
   ...roteiroCompleto,
   onerosidade: 'por_servico',
-  rotina: 'nenhuma',
-  chefia: 'nenhuma',
-  estrutura: 'nenhuma',
+  rotina: 'livre',
+  chefia: 'ninguem',
+  estrutura: 'nada',
 });
-conferir('sem marcadores vai a manual', nenhumMarcador.desfecho === 'analise_manual');
+conferir('zero indícios vai a manual', nenhumMarcador.desfecho === 'analise_manual');
 conferir(
-  'sem marcadores conta zero',
-  contarMarcadores({ rotina: 'nenhuma', chefia: 'nenhuma', estrutura: 'nenhuma', onerosidade: 'por_servico' }) === 0,
+  'zero indícios conta zero',
+  contarMarcadores({ rotina: 'livre', chefia: 'ninguem', estrutura: 'nada', onerosidade: 'por_servico' }) === 0,
 );
 
-// A conta dos marcadores soma os três grupos e o salário certo.
-conferir('marcadores somam os três grupos', contarMarcadores(roteiroCompleto) === 8, String(contarMarcadores(roteiroCompleto)));
+// Os pesos: 2 para o indício cheio, 1 para o parcial, 0 para nenhum.
+conferir('indícios cheios somam 6 + salário', contarMarcadores(roteiroCompleto) === 7, String(contarMarcadores(roteiroCompleto)));
 conferir(
-  'grupo em branco não conta',
-  contarMarcadores({ rotina: 'horario', chefia: '', estrutura: '' }) === 1,
+  'indícios parciais somam 3',
+  contarMarcadores({ rotina: 'com_horario', chefia: 'instrucoes', estrutura: 'em_parte' }) === 3,
 );
+conferir('resposta em branco não conta', contarMarcadores({ rotina: '', chefia: '', estrutura: '' }) === 0);
 
 const aindaTrabalha = avaliar({
   sem_registro: 'sim', ainda_trabalha: 'sim', empregador: 'privada',
-  pessoalidade: 'sim', onerosidade: 'salario_fixo', habitualidade: 'sim', subordinacao: 'sim',
-  rotina: 'horario', chefia: 'chefe', estrutura: 'dentro', pejotizacao: 'nao', exclusividade: 'principal',
-  duracao: '6_meses_a_1_ano', remuneracao: 'R$ 2.000,00',
+  pessoalidade: 'nao', onerosidade: 'salario_fixo', habitualidade: 'sim', subordinacao: 'sim',
+  rotina: 'com_horario', chefia: 'instrucoes', estrutura: 'em_parte', pejotizacao: 'nao', exclusividade: 'principal',
+  duracao: '6_meses_a_1_ano', remuneracao: 'ate_1600',
 });
 conferir('contrato em curso qualifica', aindaTrabalha.desfecho === 'qualificado');
 conferir('contrato em curso não prescreve', aindaTrabalha.alertas.some((a) => a.includes('não corre')));
@@ -189,12 +224,16 @@ const texto = mensagemDoWhatsApp(roteiroCompleto, qualificado, {
 // Nome e telefone NÃO são perguntados: chegam com a própria conversa.
 conferir('mensagem não pede nome nem telefone', !texto.includes('Nome:') && !texto.includes('WhatsApp:'));
 conferir('mensagem traz as tags', texto.includes('SEM_REGISTRO, QUALIFICADO'));
-conferir('mensagem traz a pontuação', texto.includes('Pontuação:'));
+conferir('mensagem afirma os quatro requisitos', texto.includes('os quatro presentes'));
+conferir('mensagem não traz nota nenhuma', !/\d+\s*\/\s*100/.test(texto));
 conferir('mensagem traz a origem do anúncio', texto.includes('anúncio A'));
 conferir('mensagem traz a faixa de saída', texto.includes('Saiu há: De 3 a 6 meses'));
-conferir('múltipla escolha vira lista legível', texto.includes('Rotina: Tinha horário para entrar e sair, Batia ponto'));
-conferir('os três grupos aparecem no resumo', ['Rotina:', 'Chefia:', 'Estrutura:'].every((r) => texto.includes(r)));
-conferir('mensagem não vaza a chave crua', !texto.includes('quase_todos_dias') && !texto.includes('salario_fixo'));
+conferir('mensagem traz a faixa de salário', texto.includes('Remuneração mensal: De R$ 1.600 a R$ 2.500'));
+conferir('os três indícios aparecem no resumo',
+  ['Horário: Sim, horário fixo e batia ponto', 'Organização do trabalho: Tinha um chefe', 'Estrutura: Sim, trabalhava lá']
+    .every((r) => texto.includes(r)), texto);
+conferir('mensagem não vaza a chave crua',
+  !texto.includes('fixo_com_ponto') && !texto.includes('salario_fixo') && !texto.includes('chefe_direto'));
 
 const curta = mensagemDoWhatsApp(
   { sem_registro: 'sim', ainda_trabalha: 'sim', empregador: 'privada' },
@@ -203,13 +242,27 @@ const curta = mensagemDoWhatsApp(
 conferir('a mensagem nunca abre linha vazia dupla', !curta.includes('\n\n\n'));
 conferir('a mensagem começa pelo assunto', curta.startsWith('Olá. Respondi o questionário'));
 
-/* ------------------------------------------------------------- máscaras */
-
-conferir('moeda monta da direita', moedaDeDigitos('180000').replace(/ /g, ' ') === 'R$ 1.800,00', moedaDeDigitos('180000'));
-conferir('moeda vazia continua vazia', moedaDeDigitos('') === '');
-conferir('moeda ignora letra', moedaDeDigitos('abc').length === 0);
-
 /* --------------------------------------------------------------- roteiro */
+
+/*
+  NENHUMA pergunta pede que se digite, e nenhuma pede confirmação: o fluxo
+  inteiro é escolha que avança ao toque.
+
+  Já houve aqui um campo de data, um de dinheiro, uma múltipla escolha com
+  "Continuar" e um formulário de contato. Todos saíram, um a um, e é fácil um
+  deles voltar sem que ninguém perceba — a tela continuaria funcionando. Estas
+  duas linhas são o que garante que não volte calado.
+*/
+conferir(
+  'nenhuma pergunta é de digitar',
+  PASSOS.every((p) => p.tipo === 'opcoes'),
+  PASSOS.filter((p) => p.tipo !== 'opcoes').map((p) => `${p.chave}:${p.tipo}`).join(', '),
+);
+conferir(
+  'toda pergunta tem alternativas para tocar',
+  PASSOS.every((p) => (p.opcoes?.length ?? 0) >= 2),
+  PASSOS.filter((p) => (p.opcoes?.length ?? 0) < 2).map((p) => p.chave).join(', '),
+);
 
 conferir('toda chave é única', new Set(PASSOS.map((p) => p.chave)).size === PASSOS.length);
 conferir('todo passo tem rótulo de resumo', PASSOS.every((p) => p.rotuloResumo.length > 0));

@@ -103,10 +103,28 @@ export type Passo = {
 export const ABERTURA = {
   olho: 'Direito do Trabalho',
   titulo: 'Trabalhou sem registro em carteira?',
-  texto:
-    'Responda algumas perguntas e veja se o seu caso pode ser analisado por um advogado trabalhista.',
+  /*
+    A linha de apoio nomeia PERDAS, não o formulário.
+
+    A versão anterior dizia "responda algumas perguntas e veja se o seu caso
+    pode ser analisado" — descrevia o mecanismo da própria tela, que é a única
+    coisa que o visitante já está vendo. Quem chega de um anúncio precisa se
+    reconhecer em dois segundos, e ninguém se reconhece num formulário: se
+    reconhece em férias que não teve e em FGTS que não foi depositado.
+
+    É o mesmo registro da campanha de conta encerrada, cuja abertura funciona
+    justamente por listar situações concretas em vez de explicar o site.
+  */
+  texto: 'Sem férias, sem 13º, sem FGTS, sem INSS — e nada assinado no fim.',
   botao: 'Verificar meu caso',
-  nota: 'Leva cerca de 2 minutos',
+  /* Vai DENTRO do botão: é a objeção número um, e estava em cinza embaixo. */
+  tempo: '2 min',
+  /*
+    A promessa que só pôde ser feita depois de o formulário de contato sair.
+    Cada campo removido virou uma palavra desta linha — e é provavelmente o que
+    mais separa esta página das outras do mesmo anúncio.
+  */
+  garantias: ['Sem digitar', 'Sem documento', 'Sem informar seu nome'],
 };
 
 /* --------------------------------------------------------------- o roteiro */

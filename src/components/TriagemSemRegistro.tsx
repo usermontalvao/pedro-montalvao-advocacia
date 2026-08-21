@@ -213,12 +213,31 @@ export function TriagemSemRegistro() {
             <span className="tf__olho">{ABERTURA.olho}</span>
             <h1 className="tf__titulo">{ABERTURA.titulo}</h1>
             <p className="tf__apoio">{ABERTURA.texto}</p>
+
             <div className="tf__acao">
               <button type="button" className="tf__botao" onClick={comecar} data-cta="triagem-comecar">
                 {ABERTURA.botao}
+                {/*
+                  O tempo entra DENTRO do botão. Ele era uma linha cinza
+                  embaixo, e é o argumento que mais derruba objeção numa
+                  landing de anúncio: o dedo que hesita quer saber em quanto
+                  tempo isso acaba, não depois de clicar.
+                */}
+                <em>{ABERTURA.tempo}</em>
               </button>
-              <span className="tf__dica">{ABERTURA.nota}</span>
             </div>
+
+            {/*
+              As três garantias, que só existem porque os campos saíram. Cada
+              uma corresponde a algo que esta página deixou de pedir — e é o
+              que a distingue de toda landing jurídica que abre um formulário
+              de sete campos antes de dizer qualquer coisa.
+            */}
+            <ul className="tf__garantias">
+              {ABERTURA.garantias.map((garantia) => (
+                <li key={garantia}>{garantia}</li>
+              ))}
+            </ul>
           </div>
         ) : null}
 

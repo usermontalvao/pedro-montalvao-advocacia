@@ -11846,6 +11846,105 @@ html {
    institucionais.
    ========================================================================== */
 
+/* ----------------------------------------------------- abertura e âncora */
+
+/*
+  A ÂNCORA: no celular a pergunta começa sempre na mesma altura.
+
+  Antes cada tela era centrada verticalmente, então o topo da pergunta variava
+  com o tamanho do conteúdo — medido, o salto chegava a 166px entre telas, mais
+  de 20% da altura do aparelho. Ninguém reclama disso; a pessoa só sente que
+  cansa, porque em dezesseis telas o olho reprocura a pergunta dezesseis vezes.
+
+  Com a âncora fixa o texto nasce no mesmo lugar e só as alternativas mudam
+  embaixo. No computador segue centrado — lá sobra espaço e o salto não existe.
+*/
+@media (max-width: 819px) {
+  .tf__tela {
+    padding-top: 3.4rem;
+  }
+
+  .tf__bloco {
+    margin-block: 0;
+  }
+}
+
+/* O tempo, dentro do botão. */
+.tf__botao em {
+  margin-left: 0.2rem;
+  padding-left: 0.6rem;
+  border-left: 1px solid rgba(36, 27, 6, 0.28);
+  font-style: normal;
+  font-weight: 600;
+  opacity: 0.75;
+}
+
+.tf__garantias {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.9rem;
+  margin: clamp(1.1rem, 3vh, 1.5rem) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/*
+  O tique é desenhado, não é fonte de ícone nem emoji: assim ele herda o
+  dourado, não muda de forma entre sistemas e não custa requisição nenhuma.
+*/
+.tf__garantias li {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--texto-claro-suave);
+  font-size: 0.78rem;
+}
+
+.tf__garantias li::before {
+  content: '';
+  width: 9px;
+  height: 5px;
+  border: 1.5px solid var(--dourado);
+  border-top: none;
+  border-right: none;
+  transform: rotate(-45deg) translate(1px, -1px);
+}
+
+/* ------------------------------------------------- a carteira no fundo */
+
+/*
+  Embaixo à direita, e não em cima.
+
+  No topo ela cruzava a manchete e, cortada pelo canto, virava um punhado de
+  linhas soltas — deixava de ser reconhecível como carteira, que é a única
+  razão de ela existir. Embaixo acontecem duas coisas ao mesmo tempo: a
+  silhueta aparece quase inteira, e ela ocupa o vazio que a âncora do texto
+  abriu na metade de baixo da tela.
+
+  Vale para todas as telas do fluxo, não só para a abertura — em todas o
+  conteúdo mora em cima.
+*/
+.campanha__carteira {
+  position: absolute;
+  right: -14%;
+  bottom: 4%;
+  width: min(52vw, 215px);
+  height: auto;
+  color: var(--dourado);
+  opacity: 0.1;
+  transform: rotate(9deg);
+  pointer-events: none;
+}
+
+@media (min-width: 820px) {
+  .campanha__carteira {
+    right: 8%;
+    bottom: 8%;
+    width: 250px;
+    opacity: 0.085;
+  }
+}
+
 /* ---------------------------------------------------------- listas longas */
 
 /*
